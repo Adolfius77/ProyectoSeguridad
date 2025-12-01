@@ -1,3 +1,4 @@
+#PaqueteDTO clase que representa informacion nviada por red en formato json
 import json
 class PaqueteDTO:
     def __init__(self, tipo,contenido, origen=None, destino=None):
