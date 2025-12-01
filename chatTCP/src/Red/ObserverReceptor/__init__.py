@@ -1,0 +1,1 @@
+"""Patrón Observer para receptores"""
