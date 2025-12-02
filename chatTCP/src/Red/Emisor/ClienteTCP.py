@@ -2,6 +2,7 @@
 Cliente TCP para envío de paquetes
 Implementa patrón Observer
 """
+import base64
 import socket
 import json
 import logging
@@ -13,12 +14,14 @@ if TYPE_CHECKING:
 from ..ObserverEmisor.ObservadorEnvios import ObservadorEnvios
 from ...Red.Cifrado.seguridad import GestorSeguridad
 
+
 class ClienteTCP(ObservadorEnvios):
     """
     Cliente TCP que envía paquetes cuando es notificado por la cola de envíos
     """
 
-    def __init__(self, cola: 'ColaEnvios',seguridad: GestorSeguridad,llave_destino, host: str = 'localhost', puerto: int = 5555):
+    def __init__(self, cola: 'ColaEnvios', seguridad: 'GestorSeguridad', llave_destino, host: str = 'localhost',
+                 puerto: int = 5555):
         """
         Inicializa el cliente TCP
 
@@ -27,9 +30,9 @@ class ClienteTCP(ObservadorEnvios):
             host: Host por defecto para conexiones
             puerto: Puerto por defecto para conexiones
         """
-        self.seguridad = seguridad
-        self.lave_destino = llave_destino
         self._cola = cola
+        self.seguridad = seguridad
+        self.llave_destino = llave_destino
         self._host = host
         self._puerto = puerto
         self._logger = logging.getLogger(__name__)
@@ -64,15 +67,23 @@ class ClienteTCP(ObservadorEnvios):
             puerto: Puerto destino
         """
         try:
-            datos_cifrados = self.seguridad.cifrar(json_str,self.llave_publica_destino)
 
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.settimeout(5.0)  # Timeout de 5 segundos
                 sock.connect((host, puerto))
 
+                # cifrar el json este devuelve bytes
+                bytes_cifrados = self.seguridad.cifrar(json_str, self.llave_destino)
+
+                # convertir a base 64 para evitar que viaje como texto seguro sin romper el protocolo
+                mesanje_64 = base64.b64encode(bytes_cifrados).decode('utf-8')
+
+                # agrega el salto de linea
+                mensaje_final = mesanje_64 + '\n'
+
                 # Enviar el paquete (agregar newline para delimitación)
-                mensaje = json_str + '\n'
-                sock.sendall(mensaje.encode('utf-8'))
+
+                sock.sendall(mensaje_final.encode('utf-8'))
 
                 self._logger.info(f"Paquete enviado exitosamente a {host}:{puerto}")
         except socket.timeout:

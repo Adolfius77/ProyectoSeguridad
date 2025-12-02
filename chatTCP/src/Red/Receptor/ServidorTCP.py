@@ -5,6 +5,7 @@ Escucha conexiones entrantes y encola paquetes recibidos
 import socket
 import threading
 import logging
+import base64
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
@@ -16,7 +17,7 @@ class ServidorTCP:
     Servidor TCP que escucha conexiones entrantes y recibe paquetes JSON
     """
 
-    def __init__(self, cola: 'ColaRecibos', puerto: int = 5555, host: str = '0.0.0.0'):
+    def __init__(self, cola: 'ColaRecibos', seguridad: 'GestorSeguridad', puerto: int = 5555, host: str = '0.0.0.0'):
         """
         Inicializa el servidor TCP
 
@@ -25,6 +26,7 @@ class ServidorTCP:
             puerto: Puerto donde escuchar conexiones
             host: Host donde escuchar (0.0.0.0 para todas las interfaces)
         """
+        self.seguridad = seguridad
         self._cola = cola
         self._puerto = puerto
         self._host = host
@@ -121,15 +123,21 @@ class ServidorTCP:
                 buffer.append(chunk)
 
                 # Si encontramos newline, tenemos un mensaje completo
-                if '\n' in chunk:
-                    break
+                if '\n' in chunk: break
+
 
             # Unir todo el buffer y limpiar
-            mensaje = ''.join(buffer).strip()
+            mensaje_b64 = ''.join(buffer).strip()
 
-            if mensaje:
-                self._logger.info(f"Paquete recibido: {mensaje[:100]}...")
-                self._cola.encolar(mensaje)
+            if mensaje_b64:
+                try:
+                    bytes_cifrados = base64.b64decode(mensaje_b64)
+                    json_str = self.seguridad.desifrar(bytes_cifrados)
+
+                    self._logger.info(f"paquete descifrado: {json_str[:50]}...")
+                    self._cola.encolar(json_str)
+                except Exception as e:
+                    self._logger.error(f"Error de criptografia: {e}")
             else:
                 self._logger.warning("Mensaje vacío recibido")
 
