@@ -11,14 +11,14 @@ if TYPE_CHECKING:
     from .ColaEnvios import ColaEnvios
 
 from ..ObserverEmisor.ObservadorEnvios import ObservadorEnvios
-
+from ...Red.Cifrado.seguridad import GestorSeguridad
 
 class ClienteTCP(ObservadorEnvios):
     """
     Cliente TCP que envía paquetes cuando es notificado por la cola de envíos
     """
 
-    def __init__(self, cola: 'ColaEnvios', host: str = 'localhost', puerto: int = 5555):
+    def __init__(self, cola: 'ColaEnvios',seguridad: GestorSeguridad,llave_destino, host: str = 'localhost', puerto: int = 5555):
         """
         Inicializa el cliente TCP
 
@@ -27,6 +27,8 @@ class ClienteTCP(ObservadorEnvios):
             host: Host por defecto para conexiones
             puerto: Puerto por defecto para conexiones
         """
+        self.seguridad = seguridad
+        self.lave_destino = llave_destino
         self._cola = cola
         self._host = host
         self._puerto = puerto
@@ -62,6 +64,8 @@ class ClienteTCP(ObservadorEnvios):
             puerto: Puerto destino
         """
         try:
+            datos_cifrados = self.seguridad.cifrar(json_str,self.llave_publica_destino)
+
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.settimeout(5.0)  # Timeout de 5 segundos
                 sock.connect((host, puerto))
