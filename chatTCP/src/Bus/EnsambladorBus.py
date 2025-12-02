@@ -13,6 +13,7 @@ from ..Red.Receptor.ColaRecibos import ColaRecibos
 from ..Red.Receptor.ServidorTCP import ServidorTCP
 from ..Red.Receptor.Receptor import Receptor
 from ...config.config_bus import ConfigBus
+from ..Red.Cifrado.seguridad import GestorSeguridad
 
 
 class EnsambladorBus:
@@ -32,11 +33,15 @@ class EnsambladorBus:
         self._servidor: Optional[ServidorTCP] = None
         self._logger = logging.getLogger(__name__)
 
+        self.seguridad = GestorSeguridad()
+
         # Configurar logging
         logging.basicConfig(
             level=getattr(logging, self._config.LOG_LEVEL),
             format=self._config.LOG_FORMAT
         )
+        self.cola_envios = None
+        self.cola_recibos = None
 
     def ensamblar(self) -> EventBus:
         """
@@ -54,14 +59,17 @@ class EnsambladorBus:
         # 2. Crear cliente TCP (observador de la cola de envíos)
         cliente_tcp = ClienteTCP(
             cola=cola_envios,
+            seguridad=self.seguridad,
+            llave_destino=self.seguridad.public_key,
             host=self._config.HOST,
             puerto=self._config.PUERTO_BUS
         )
-        cola_envios.agregar_observador(cliente_tcp)
+        self.cola_envios.agregar_observador(cliente_tcp)
+
         self._logger.info("Cliente TCP creado y conectado a cola de envíos")
 
         # 3. Crear emisor
-        emisor = Emisor(cola_envios)
+        emisor = Emisor(self.cola_envios)
         self._logger.info("Emisor creado")
 
         # 4. Crear EventBus con el emisor
@@ -72,7 +80,7 @@ class EnsambladorBus:
         self._logger.info("EventBus creado")
 
         # 5. Crear cola de recibos
-        cola_recibos = ColaRecibos()
+        self.cola_recibos = ColaRecibos()
         self._logger.info("Cola de recibos creada")
 
         # 6. Crear publicador de eventos (receptor que publica al EventBus)
@@ -85,14 +93,15 @@ class EnsambladorBus:
 
         # 7. Crear receptor y conectarlo con el publicador
         receptor = Receptor()
-        receptor.set_cola(cola_recibos)
+        receptor.set_cola(self.cola_recibos)
         receptor.set_receptor(publicador)
-        cola_recibos.agregar_observador(receptor)
+        self.cola_recibos.agregar_observador(receptor)
         self._logger.info("Receptor creado y conectado")
 
         # 8. Crear servidor TCP (escucha en puerto de entrada)
         self._servidor = ServidorTCP(
-            cola=cola_recibos,
+            cola=self.cola_recibos,
+            seguridad=self.seguridad,
             puerto=self._config.PUERTO_ENTRADA,
             host='0.0.0.0'  # Escuchar en todas las interfaces
         )
