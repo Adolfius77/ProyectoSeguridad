@@ -18,6 +18,10 @@ class ServidorCentral:
         self.cola_envios = ColaEnvios()
         self.seguridad = GestorSeguridad()
 
+        with open("server_public.pem", "wb") as f:
+            f.write(self.seguridad.obtener_publica_bytes())
+        print("llave publica guardada en 'server_public.pem'")
+
         # Mapa de usuarios conectados
         self.usuarios_conectados = {}
 
