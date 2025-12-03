@@ -2,6 +2,7 @@ import threading
 import json
 import time
 import os
+import sys
 from ..DTOs.PaqueteDTO import PaqueteDTO
 from ...Red.Emisor.ClienteTCP import ClienteTCP
 from ...Red.Receptor.ServidorTCP import ServidorTCP
@@ -9,16 +10,17 @@ from ...Red.Cifrado.seguridad import GestorSeguridad
 from ...Red.Receptor.ColaRecibos import ColaRecibos
 from ...Red.Emisor.ColaEnvios import ColaEnvios
 
-
 class LogicaCliente:
     def __init__(self):
         self.seguridad = GestorSeguridad()
         self.colaRecibos = ColaRecibos()
         self.cola_envios = ColaEnvios()
 
-        self.host_servidor = "localhost"
+        # Configuración de red (Asegúrate que coincida con la IP del servidor)
+        self.host_servidor = "localhost" 
         self.puerto_servidor = 5000
 
+        # Iniciar servidor de escucha propio (puerto=0 para automático)
         self.mi_servidor = ServidorTCP(self.colaRecibos, self.seguridad, puerto=0, host="0.0.0.0")
         self.mi_servidor.iniciar()
 
@@ -26,20 +28,45 @@ class LogicaCliente:
         self.mi_puerto = self.mi_servidor.get_puerto()
         self.mi_host = "localhost"
 
+        # --- SECCIÓN DE CARGA DE LLAVE (SOLUCIÓN DE RUTAS) ---
         llave_servidor = None
         try:
-            if os.path.exists("server_public.pem"):
-                with open("server_public.pem", "rb") as f:
+            # 1. Calculamos la ruta absoluta de este archivo (LogicaCliente.py)
+            ruta_actual = os.path.dirname(os.path.abspath(__file__))
+            
+            # 2. Subimos 3 niveles para llegar a la raíz del proyecto (chatTCP/)
+            # Estructura: chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py
+            ruta_raiz = os.path.abspath(os.path.join(ruta_actual, "..", "..", ".."))
+            
+            # 3. Construimos la ruta al archivo .pem
+            ruta_pem = os.path.join(ruta_raiz, "server_public.pem")
+            
+            print(f"Buscando llave en: {ruta_pem}") # Debug para ver dónde busca
+
+            if os.path.exists(ruta_pem):
+                with open(ruta_pem, "rb") as f:
                     llave_bytes = f.read()
                     llave_servidor = self.seguridad.importar_publica(llave_bytes)
+                    print("LogicaCliente: Llave del servidor cargada EXITOSAMENTE.")
             else:
-                print(
-                    "ADVERTENCIA: No se encontro 'server_public.pem'. El cliente no podra cifrar mensajes hacia el servidor.")
-        except Exception as e:
-            print(f"Error al cargar la llave publica del servidor: {e}")
+                # Intento de respaldo: buscar en la carpeta actual de ejecución
+                if os.path.exists("server_public.pem"):
+                    with open("server_public.pem", "rb") as f:
+                        llave_bytes = f.read()
+                        llave_servidor = self.seguridad.importar_publica(llave_bytes)
+                        print("LogicaCliente: Llave cargada desde carpeta actual.")
+                else:
+                    print("\n" + "="*50)
+                    print("ERROR CRÍTICO: No se encontró 'server_public.pem'")
+                    print(f"Se buscó en: {ruta_pem}")
+                    print("Asegúrate de ejecutar primero 'python server_main.py'")
+                    print("="*50 + "\n")
 
-        self.cliente_tcp = ClienteTCP(self.cola_envios, self.seguridad, llave_servidor, self.host_servidor,
-                                      self.puerto_servidor)
+        except Exception as e:
+            print(f"Error al cargar la llave pública del servidor: {e}")
+
+        # Inicializamos el cliente TCP con la llave cargada
+        self.cliente_tcp = ClienteTCP(self.cola_envios, self.seguridad, llave_servidor, self.host_servidor, self.puerto_servidor)
 
         self.usuario_actual = None
         self.callback_mensaje = None
@@ -86,9 +113,8 @@ class LogicaCliente:
             puerto_destino=self.puerto_servidor
         )
 
-
         if self.cliente_tcp.llave_destino is None:
-            print(f"ERROR: No se puede enviar el paquete '{tipo}'. Falta la llave pública del servidor.")
+            print(f"ERROR BLOQUEANTE: No se puede enviar '{tipo}'. La llave del servidor no se cargó.")
             return
 
         self.cola_envios.encolar(paquete)
@@ -103,6 +129,5 @@ class LogicaCliente:
                         self.callback_mensaje(paquete)
             time.sleep(0.1)
 
-
-# Instancia global para ser usada por las interfaces gráficas
+# Instancia global
 gestor_cliente = LogicaCliente()
