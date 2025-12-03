@@ -51,6 +51,14 @@ class ServidorCentral:
                 exito = repositorioUsuarios.guardar(contenido['usuario'], contenido['password'])
                 respuesta = "REGISTRO_OK" if exito else "REGISTRO_FAIL"
                 logging.info(f"Registro {contenido['usuario']}: {respuesta}")
+                
+               
+                puerto_cliente = contenido.get('puerto_escucha')
+                public_key_pem = contenido.get('public_key')
+                
+                if puerto_cliente and public_key_pem:
+                    # Enviamos la respuesta de vuelta
+                    self._responder(paquete.host, puerto_cliente, respuesta, "Resultado Registro", public_key_pem)
 
             elif tipo == "LOGIN":
                 user = contenido['usuario']

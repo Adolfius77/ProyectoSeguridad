@@ -4,30 +4,40 @@ import re
 import sys
 import os
 import subprocess 
+import logging
 
-# --- AJUSTE DE RUTAS ---
+# Configuración de Logs para ver errores en consola
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# --- AJUSTE DE RUTAS E IMPORTACIONES ---
+# Agregamos la ruta raíz del proyecto para poder importar los módulos
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
 
 # --- CALLBACK DE RESPUESTA ---
+# Esta función se ejecuta cuando el Servidor responde
 def manejar_respuesta_registro(paquete):
+    print(f"DEBUG: Llegó respuesta del servidor: {paquete.tipo}")
     if paquete.tipo == "REGISTRO_OK":
         def exito():
             messagebox.showinfo("Registro Exitoso", "¡Usuario creado correctamente!\nVolviendo al inicio de sesión...")
             
-            # 1. Cerramos la ventana de registro
+            # 1. Cerramos la ventana de registro actual
             ventana_registro.destroy()
             
-            # 2. Abrimos la ventana de inicio de sesión
+            # 2. Calculamos la ruta de la ventana de login
             ruta_login = os.path.join(os.path.dirname(__file__), "interfazInicioSesion.py")
+            
+            # 3. Abrimos la ventana de login como un proceso nuevo
             subprocess.Popen([sys.executable, ruta_login])
             
+        # Usamos .after para interactuar con la interfaz gráfica de forma segura desde el hilo de red
         ventana_registro.after(0, exito)
         
     elif paquete.tipo == "REGISTRO_FAIL":
         ventana_registro.after(0, lambda: messagebox.showerror("Error", "El usuario ya existe o hubo un error en el servidor."))
 
-# --- VALIDACIONES VISUALES (Igual que antes) ---
+# --- VALIDACIONES VISUALES ---
 def validar_contrasena_fuerte(contrasena):
     if len(contrasena) < 6: return False, "La contraseña debe tener al menos 6 caracteres"
     if not re.search(r'[a-z]', contrasena): return False, "La contraseña debe contener letras minúsculas"
@@ -75,13 +85,14 @@ def validar_registro():
 
     # --- ENVÍO AL SERVIDOR ---
     try:
+        # Configuramos qué hacer cuando llegue la respuesta
         gestor_cliente.set_callback(manejar_respuesta_registro)
         print(f"Enviando registro para: {nombre}")
         gestor_cliente.registrar(nombre, contrasena)
     except Exception as e:
         messagebox.showerror("Error de Conexión", f"No se pudo conectar: {e}")
 
-# --- INTERFAZ GRÁFICA (Igual que antes) ---
+# --- INTERFAZ GRÁFICA ---
 ventana_registro = tk.Tk()
 ventana_registro.title("Registro de Usuario")
 ancho_ventana = 800

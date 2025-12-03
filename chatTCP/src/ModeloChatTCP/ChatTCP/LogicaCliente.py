@@ -28,7 +28,6 @@ class LogicaCliente:
         self.mi_puerto = self.mi_servidor.get_puerto()
         self.mi_host = "localhost"
 
-        # --- SECCIÓN DE CARGA DE LLAVE (SOLUCIÓN DE RUTAS) ---
         llave_servidor = None
         try:
             # 1. Calculamos la ruta absoluta de este archivo (LogicaCliente.py)
@@ -67,6 +66,8 @@ class LogicaCliente:
 
         # Inicializamos el cliente TCP con la llave cargada
         self.cliente_tcp = ClienteTCP(self.cola_envios, self.seguridad, llave_servidor, self.host_servidor, self.puerto_servidor)
+        #mando a llamar al observador no se me olvide maldito
+        self.cola_envios.agregar_observador(self.cliente_tcp)
 
         self.usuario_actual = None
         self.callback_mensaje = None
@@ -79,7 +80,14 @@ class LogicaCliente:
 
     def registrar(self, usuario, password):
         """Envia solicitud de registro"""
-        contenido = {"usuario": usuario, "password": password}
+        public_key_pem = self.seguridad.obtener_publica_bytes().decode('utf-8')
+        
+        contenido = {
+            "usuario": usuario, 
+            "password": password,
+            "puerto_escucha": self.mi_puerto, 
+            "public_key": public_key_pem      
+        }
         self._enviar_paquete("REGISTRO", contenido)
 
     def login(self, usuario, password):
