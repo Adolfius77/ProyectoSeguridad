@@ -8,8 +8,11 @@ import logging
 import base64
 from typing import TYPE_CHECKING, Optional
 
+from src.Red.Cifrado.seguridad import GestorSeguridad
+
 if TYPE_CHECKING:
     from .ColaRecibos import ColaRecibos
+    
 
 
 class ServidorTCP:
@@ -26,6 +29,7 @@ class ServidorTCP:
             puerto: Puerto donde escuchar conexiones
             host: Host donde escuchar (0.0.0.0 para todas las interfaces)
         """
+        
         self.seguridad = seguridad
         self._cola = cola
         self._puerto = puerto
@@ -47,6 +51,7 @@ class ServidorTCP:
             self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self._socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self._socket.bind((self._host, self._puerto))
+            self._puerto = self._socket.getsockname()[1]
             self._socket.listen(5)
             self._ejecutando = True
 

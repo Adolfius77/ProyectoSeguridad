@@ -16,11 +16,11 @@ class LogicaCliente:
         self.colaRecibos = ColaRecibos()
         self.cola_envios = ColaEnvios()
 
-        # Configuración de red (Asegúrate que coincida con la IP del servidor)
+    
         self.host_servidor = "localhost" 
         self.puerto_servidor = 5000
 
-        # Iniciar servidor de escucha propio (puerto=0 para automático)
+       
         self.mi_servidor = ServidorTCP(self.colaRecibos, self.seguridad, puerto=0, host="0.0.0.0")
         self.mi_servidor.iniciar()
 
@@ -30,17 +30,15 @@ class LogicaCliente:
 
         llave_servidor = None
         try:
-            # 1. Calculamos la ruta absoluta de este archivo (LogicaCliente.py)
+           
             ruta_actual = os.path.dirname(os.path.abspath(__file__))
-            
-            # 2. Subimos 3 niveles para llegar a la raíz del proyecto (chatTCP/)
-            # Estructura: chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py
+          
             ruta_raiz = os.path.abspath(os.path.join(ruta_actual, "..", "..", ".."))
             
-            # 3. Construimos la ruta al archivo .pem
+        
             ruta_pem = os.path.join(ruta_raiz, "server_public.pem")
             
-            print(f"Buscando llave en: {ruta_pem}") # Debug para ver dónde busca
+            print(f"Buscando llave en: {ruta_pem}") 
 
             if os.path.exists(ruta_pem):
                 with open(ruta_pem, "rb") as f:
@@ -48,7 +46,7 @@ class LogicaCliente:
                     llave_servidor = self.seguridad.importar_publica(llave_bytes)
                     print("LogicaCliente: Llave del servidor cargada EXITOSAMENTE.")
             else:
-                # Intento de respaldo: buscar en la carpeta actual de ejecución
+                
                 if os.path.exists("server_public.pem"):
                     with open("server_public.pem", "rb") as f:
                         llave_bytes = f.read()
