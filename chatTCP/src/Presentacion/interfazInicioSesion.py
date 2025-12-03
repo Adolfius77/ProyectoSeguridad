@@ -6,9 +6,22 @@ import sys
 import os
 from datetime import datetime, timedelta
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
+
 # Variables globales para el bloqueo temporal
 intentos_fallidos = 0
 tiempo_bloqueo = None
+
+def manejar_respuesta_servidor(paquete):
+    global intentos_fallidos
+    
+    if paquete.tipo == "LOGIN_OK":
+        ventana.after(0, lambda: messagebox.showinfo("Login Correcto", f"¡Bienvenido {paquete.contenido}!"))
+    elif paquete.tipo == "ERROR":
+        intentos_fallidos += 1
+        ventana.after(0, lambda: messagebox.showerror("Error del Servidor", f"Fallo al entrar: {paquete.contenido}"))
 
 #Validaciones
 # Validar datos
@@ -34,22 +47,14 @@ def validar_login():
         messagebox.showerror("Cuenta Bloqueada", f"Demasiados intentos fallidos. Espera {segundos_restantes} segundos")
         return
 
-    # Prueba de login
-    usuario_correcto = "admin"
-    contrasena_correcta = "1234"
+    try:
 
-    if usuario == usuario_correcto and contrasena == contrasena_correcta:
-        messagebox.showinfo("Login Correcto", "¡Bienvenido al sistema!")
-        intentos_fallidos = 0
-        tiempo_bloqueo = None
-    else:
-        intentos_fallidos += 1
-        if intentos_fallidos >= 3:
-            tiempo_bloqueo = datetime.now() + timedelta(seconds=30)
-            messagebox.showerror("Error", "Usuario o contraseña incorrectos\n\nCuenta bloqueada por 30 segundos")
-        else:
-            intentos_restantes = 3 - intentos_fallidos
-            messagebox.showerror("Error", f"Usuario o contraseña incorrectos\n\nIntentos restantes: {intentos_restantes}")
+        gestor_cliente.set_callback(manejar_respuesta_servidor)
+        print(f"Enviando login para: {usuario}")
+        gestor_cliente.login(usuario, contrasena)
+        
+    except Exception as e:
+        messagebox.showerror("Error de Conexión", f"No se pudo conectar con el servicio de lógica: {e}")
 
 
 #Configuración de la ventana 
