@@ -89,41 +89,29 @@ class LogicaCliente:
         self._enviar_paquete("REGISTRO", contenido)
 
     def login(self, usuario, password):
-        """Envia solicitud de login"""
         self.usuario_actual = usuario
-        public_key_pem = self.seguridad.obtener_publica_bytes().decode('utf-8')
 
-        contenido = {
-            "usuario": usuario,
-            "password": password,
-            "puerto_escucha": self.mi_puerto,
-            "public_key": public_key_pem,
-        }
-        self._enviar_paquete("LOGIN", contenido)
+        temas_susbcirpcion =[
+            "CHAT_GLOBAL",
+            f"MENSAJE_PRIVADO_{usuario}"
+        ]
+        self._enviar_paquete(
+            tipo = "INICIAR_CONEXION",
+            contenido=temas_susbcirpcion,
+            destino="BUS"
+
+        )
 
     def enviar_mensaje(self, mensaje, destino="TODOS"):
-        """Envia un mensaje de chat"""
+        if destino == "TODOS":
+            tipo_evento = "CHAT_GLOBAL"
+        else:
+            tipo_evento =  f"MENSAJE_PRIVADO_{destino}"   
         contenido = {
             "mensaje": mensaje,
             "remitente": self.usuario_actual
         }
-        self._enviar_paquete("MENSAJE", contenido, destino=destino)
-
-    def _enviar_paquete(self, tipo, contenido, destino="SERVIDOR"):
-        paquete = PaqueteDTO(
-            tipo=tipo,
-            contenido=contenido,
-            origen=self.usuario_actual,
-            destino=destino,
-            host=self.host_servidor,
-            puerto_destino=self.puerto_servidor
-        )
-
-        if self.cliente_tcp.llave_destino is None:
-            print(f"ERROR BLOQUEANTE: No se puede enviar '{tipo}'. La llave del servidor no se cargó.")
-            return
-
-        self.cola_envios.encolar(paquete)
+        self._enviar_paquete(tipo_evento, contenido, destino="BUS")
 
     def _procesar_recepcion(self):
         """Escucha la cola de recibos y actúa"""
