@@ -1,6 +1,7 @@
 """
 Servidor TCP para recepción de paquetes
 Escucha conexiones entrantes y encola paquetes recibidos
+Descifrado dual con respaldo automático: Híbrido (RSA+Fernet) → RSA fallback
 """
 import socket
 import threading
@@ -8,28 +9,49 @@ import logging
 import base64
 from typing import TYPE_CHECKING, Optional
 
-from src.Red.Cifrado.seguridad import GestorSeguridad
+from ..Cifrado.seguridad import GestorSeguridad
 
 if TYPE_CHECKING:
     from .ColaRecibos import ColaRecibos
-    
+
 
 
 class ServidorTCP:
     """
     Servidor TCP que escucha conexiones entrantes y recibe paquetes JSON
+
+    Sistema de descifrado dual redundante (siempre cifrado, sin opción de desactivar):
+    1. Intenta descifrado HÍBRIDO (RSA + Fernet) - Soporta cualquier tamaño
+    2. Si falla, intenta descifrado RSA puro como RESPALDO - Solo mensajes <190 bytes
+    3. NUNCA acepta mensajes sin cifrar
+
+    Ventajas:
+    - Alta seguridad por defecto
+    - Tolerancia a fallos
+    - Compatible con ClienteTCP dual
+    - No hay opción de comunicación insegura
     """
 
-    def __init__(self, cola: 'ColaRecibos', seguridad: 'GestorSeguridad', puerto: int = 5555, host: str = '0.0.0.0'):
+    def __init__(self,
+                 cola: 'ColaRecibos',
+                 seguridad: 'GestorSeguridad',
+                 puerto: int = 5555,
+                 host: str = '0.0.0.0'):
         """
-        Inicializa el servidor TCP
+        Inicializa el servidor TCP con descifrado dual obligatorio
 
         Args:
             cola: Cola de recibos donde se encolarán los paquetes
+            seguridad: Gestor de seguridad (REQUERIDO)
             puerto: Puerto donde escuchar conexiones
             host: Host donde escuchar (0.0.0.0 para todas las interfaces)
+
+        Raises:
+            ValueError: Si falta GestorSeguridad
         """
-        
+        if not seguridad:
+            raise ValueError("GestorSeguridad es REQUERIDO - sin cifrado no está permitido")
+
         self.seguridad = seguridad
         self._cola = cola
         self._puerto = puerto
@@ -114,6 +136,7 @@ class ServidorTCP:
     def _recibir_paquete(self, cliente_socket: socket.socket) -> None:
         """
         Recibe un paquete de un cliente y lo encola
+        Descifra con sistema dual redundante
 
         Args:
             cliente_socket: Socket del cliente conectado
@@ -128,21 +151,21 @@ class ServidorTCP:
                 buffer.append(chunk)
 
                 # Si encontramos newline, tenemos un mensaje completo
-                if '\n' in chunk: break
-
+                if '\n' in chunk:
+                    break
 
             # Unir todo el buffer y limpiar
-            mensaje_b64 = ''.join(buffer).strip()
+            mensaje_recibido = ''.join(buffer).strip()
 
-            if mensaje_b64:
-                try:
-                    bytes_cifrados = base64.b64decode(mensaje_b64)
-                    json_str = self.seguridad.desifrar(bytes_cifrados)
+            if mensaje_recibido:
+                # Descifrar con sistema dual redundante
+                json_str, modo_usado = self._descifrar_mensaje_dual(mensaje_recibido)
 
-                    self._logger.info(f"paquete descifrado: {json_str[:50]}...")
+                if json_str:
+                    self._logger.info(f"Paquete recibido [{modo_usado}]: {json_str[:50]}...")
                     self._cola.encolar(json_str)
-                except Exception as e:
-                    self._logger.error(f"Error de criptografia: {e}")
+                else:
+                    self._logger.error("RECHAZO DE PAQUETE: No se pudo descifrar")
             else:
                 self._logger.warning("Mensaje vacío recibido")
 
@@ -153,6 +176,67 @@ class ServidorTCP:
                 cliente_socket.close()
             except Exception as e:
                 self._logger.error(f"Error al cerrar socket del cliente: {e}")
+
+    def _descifrar_mensaje_dual(self, mensaje: str) -> tuple:
+        """
+        Descifra un mensaje con sistema dual redundante:
+        1. Intenta descifrado HÍBRIDO (RSA + Fernet)
+        2. Si falla, intenta descifrado RSA puro como respaldo
+        3. Si ambos fallan, retorna (None, 'NINGUNO')
+
+        Args:
+            mensaje: Mensaje cifrado en base64 a descifrar
+
+        Returns:
+            tuple: (mensaje_descifrado, modo_usado) o (None, 'NINGUNO') si falla
+
+        Proceso de descifrado híbrido (seguridad.py):
+            1. Decodifica de base64 a bytes
+            2. Separa por b':::'
+            3. Descifra llave Fernet con RSA privada
+            4. Descifra mensaje con llave Fernet
+            5. Retorna JSON en texto plano
+        """
+        # INTENTO 1: Descifrado híbrido (preferido)
+        try:
+            self._logger.debug("Intentando descifrado híbrido RSA+Fernet...")
+            bytes_cifrados = base64.b64decode(mensaje)
+
+            # Proceso interno de seguridad.py:
+            # - Separa: partes = bytes_cifrados.split(b':::')
+            # - key_fernet_cifrada = partes[0]
+            # - datos_cifrados = partes[1]
+            # - Descifra llave: key_fernet = private_key.decrypt(key_fernet_cifrada)
+            # - Descifra mensaje: texto_plano = Fernet(key_fernet).decrypt(datos_cifrados)
+            texto_plano = self.seguridad.desifrar(bytes_cifrados)
+
+            return (texto_plano, 'HIBRIDO')
+
+        except Exception as e_hibrido:
+            self._logger.warning(f"Descifrado híbrido falló: {e_hibrido}, intentando RSA puro...")
+
+            # INTENTO 2: Descifrado RSA puro (respaldo)
+            try:
+                from cryptography.hazmat.primitives.asymmetric import padding
+                from cryptography.hazmat.primitives import hashes
+
+                bytes_cifrados = base64.b64decode(mensaje)
+                texto_plano = self.seguridad.private_key.decrypt(
+                    bytes_cifrados,
+                    padding.OAEP(
+                        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                        algorithm=hashes.SHA256(),
+                        label=None
+                    )
+                )
+                self._logger.info("Usando RSA puro como respaldo para descifrado")
+                return (texto_plano.decode('utf-8'), 'RSA')
+
+            except Exception as e_rsa:
+                # Ambos métodos fallaron - RECHAZAR PAQUETE
+                error_msg = f"RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: {e_hibrido}, RSA: {e_rsa}"
+                self._logger.error(error_msg)
+                return (None, 'NINGUNO')
 
     def esta_ejecutando(self) -> bool:
         """
