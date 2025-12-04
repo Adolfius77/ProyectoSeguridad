@@ -1,3 +1,4 @@
+
 """
 Servicio de dominio para la lógica del chat
 """
