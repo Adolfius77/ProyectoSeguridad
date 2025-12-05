@@ -9,18 +9,15 @@ class Controlador:
         self.modelo = modeloChatTCP
 
     def iniciarSesion(self, nombreUsuario, contrasena):
-        """
-        La vista llama al controlador,
-        y el controlador usa la función del modelo.
-        """
         self.modelo.iniciar_sesion(nombreUsuario, contrasena)
 
     def registrarUsuario(self, nombreUsuario, contrasena):
-        """
-        Delegar la acción al modelo.
-        """
         self.modelo.registrar_usuario(nombreUsuario, contrasena)
 
     #metodo de menu users
     def abrir_chat_controlador(self,usuarioOP):
         self.modelo.mostrar_chat(usuarioOP)
+
+    def enviar_mensaje(self, mensaje_texto, usuario_destino):
+        if mensaje_texto and usuario_destino:
+            self.modelo.enviar_mensaje(mensaje_texto, usuario_destino)

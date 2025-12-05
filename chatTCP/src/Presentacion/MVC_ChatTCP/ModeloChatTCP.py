@@ -2,7 +2,7 @@
 SE CONECTA CON LA CARPETA MODELOCHATTCP
 AQUI VA LA LOGICA DE VALIDACIONES, REGLAS DE NEGOCIO, ETC
 """
-
+from chatTCP.src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
 from chatTCP.src.Presentacion.Observadores.IPublicadorNuevoMensaje import IPublicadorNuevoMensaje
 from chatTCP.src.Presentacion.Observadores.INotificadorNuevoMensaje import INotificadorNuevoMensaje
 from chatTCP.src.Presentacion.ObjetosPresentacion.UsuarioOP import UsuariosOP
@@ -16,15 +16,14 @@ class ModeloChatTCP(IPublicadorNuevoMensaje):
         self._observadores = []
 
     def iniciar_sesion(self, nombre_usuario, contrasena):
-        print(f"[Modelo] Iniciando sesión para: {nombre_usuario}")
-        # Aquí irían validaciones y luego lógica de red:
-        # self.logicaChatTCP.enviar_paquete(...)
-        # self.logicaChatTCP.autenticar(...)
+       gestor_cliente.login(nombre_usuario, contrasena)
 
     def registrar_usuario(self, nombre_usuario, contrasena):
-        print(f"[Modelo] Registrando usuario: {nombre_usuario}")
-        # Aquí va la lógica real de registro
-        # self.logicaChatTCP.registrar(...)
+        gestor_cliente.registrar(nombre_usuario, contrasena)
+
+    def enviar_mensaje(self, mensaje,destinatario):
+        gestor_cliente.enviar_mensaje(mensaje, destinatario)
+
 
 
     def mostrar_chat(self, usuarioOP):

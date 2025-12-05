@@ -3,7 +3,6 @@ import time
 import os
 import sys
 
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
 
 from src.PaqueteDTO.PaqueteDTO import PaqueteDTO
@@ -67,10 +66,7 @@ class LogicaCliente:
             print("[LogicaCliente] Ensamblando red con arquitectura...")
             self.emisor = self.ensamblador.ensamblar(self.receptor_interno, config)
 
-
             time.sleep(0.5)
-
-
 
             if self.ensamblador._servidor:
                 self.mi_puerto = self.ensamblador._servidor.get_puerto()
@@ -167,7 +163,11 @@ class LogicaCliente:
 
         print("[LogicaCliente] ADVERTENCIA: No se encontró 'server_public.pem'. La conexión fallará.")
         return None
-
+    #Ya quedo el metodo jack para que lo uses pa
+    def obtener_usarios(self):
+        if not self._validar_conexion(): return
+        print("solicitando lista de usuarios al servidor...")
+        self._enviar_paquete("SOLICITAR_USUARIOS", {})
 
 # Instancia global
 gestor_cliente = LogicaCliente()

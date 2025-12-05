@@ -66,7 +66,7 @@ class GestorSeguridad:
         """Descifrado Híbrido"""
         try:
             # 1. Separar
-            partes = paquete_bytes.split(b':::')
+            partes = paquete_bytes.split(b':::',1)
             if len(partes) != 2:
                 return "{Error: Formato corrupto}"
 
