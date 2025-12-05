@@ -5,7 +5,10 @@ En presentación el usuario solo envía un String (mensaje simple).
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional
+
 from chatTCP.src.ModeloChatTCP.DTOs.UsuarioDTO import UsuarioDTO
+from chatTCP.src.Presentacion.ObjetosPresentacion import UsuarioOP
+
 
 
 @dataclass
@@ -22,7 +25,9 @@ class MensajeDTO:
     nombreUsuario: str
     contenidoMensaje: str
     fechaHora: datetime = field(default_factory=datetime.now)
-    usuario: Optional[UsuarioDTO] = None
+    usuarioDestino: Optional[UsuarioOP] = None #usuario a quien se le envia
+    usuarioOrigen: Optional[UsuarioDTO] = None
+
 
     def __str__(self):
         return f"[{self.fechaHora.strftime('%H:%M:%S')}] {self.nombreUsuario}: {self.contenidoMensaje}"

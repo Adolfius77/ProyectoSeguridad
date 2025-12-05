@@ -2,5 +2,5 @@
 # como parametros tiene un Ireceptor, Iemisor, el modelo ModeloChatTCP de MVC_ChatTCP
 class LogicaChatTCP:
 
-    #enviar mensaje a lo mejor se cambian atributos de la clase
+    # enviar mensaje a lo mejor se cambian atributos de la clase
 

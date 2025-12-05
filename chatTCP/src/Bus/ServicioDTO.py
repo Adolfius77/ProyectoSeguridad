@@ -10,6 +10,7 @@ class ServicioDTO:
     """
     Representa un endpoint de red con host, puerto y llave pública RSA
     """
+    id: int                   # ← ID entero
     host: str
     puerto: int
     llave_publica: Optional[bytes] = None  # Llave pública RSA en formato PEM
@@ -17,31 +18,19 @@ class ServicioDTO:
     def __str__(self) -> str:
         """
         Representación en string del servicio
-
-        Returns:
-            String en formato host:puerto
         """
         return f"{self.host}:{self.puerto}"
 
     def __eq__(self, other) -> bool:
         """
-        Compara dos servicios por host y puerto
-
-        Args:
-            other: Otro servicio a comparar
-
-        Returns:
-            True si son iguales, False en caso contrario
+        Compara dos servicios por ID (único)
         """
         if not isinstance(other, ServicioDTO):
             return False
-        return self.host == other.host and self.puerto == other.puerto
+        return self.id == other.id
 
     def __hash__(self) -> int:
         """
-        Genera hash del servicio para uso en conjuntos y diccionarios
-
-        Returns:
-            Hash basado en host y puerto
+        Hash basado únicamente en el ID
         """
-        return hash((self.host, self.puerto))
+        return hash(self.id)
