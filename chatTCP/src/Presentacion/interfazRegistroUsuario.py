@@ -1,18 +1,19 @@
-import tkinter as tk
-from tkinter import messagebox
 import sys
 import os
+import tkinter as tk
+from tkinter import messagebox
 import subprocess
 import logging
 
-# Configuración de Logs para ver errores en consola
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# --- AJUSTE DE RUTAS E IMPORTACIONES ---
-# Agregamos la ruta raíz del proyecto para poder importar los módulos
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
-from src.Presentacion.MVC_ChatTCP.Validaciones import ValidadorUsuario, ValidacionError
+chat_root = os.path.dirname(os.path.dirname(current_dir))
+
+proyecto_root = os.path.dirname(chat_root)
+
+
+sys.path.insert(0, proyecto_root)
+sys.path.insert(0, chat_root)
 
 # --- CALLBACK DE RESPUESTA ---
 # Esta función se ejecuta cuando el Servidor responde

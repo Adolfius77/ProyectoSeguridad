@@ -1,95 +1,116 @@
 import threading
 import time
 import os
+import sys
+
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
+
 from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
-from ...Red.Emisor.ClienteTCP import ClienteTCP
-from ...Red.Receptor.ServidorTCP import ServidorTCP
-from ...Red.Cifrado.seguridad import GestorSeguridad
-from ...Red.Receptor.ColaRecibos import ColaRecibos
-from ...Red.Emisor.ColaEnvios import ColaEnvios
+from chatTCP.src.Red.EnsambladorRed import EnsambladorRed, ConfigRed
+from chatTCP.src.ComponenteReceptor.IReceptor import IReceptor
+from chatTCP.src.Red.Cifrado.seguridad import GestorSeguridad
+
+
+class ReceptorCliente(IReceptor):
+    """
+    Adaptador que recibe eventos de la red (via Ensamblador)
+    y los pasa a la Interfaz Gráfica.
+    Cumple la función que tendría el PublicadorEventos en el lado del servidor/bus.
+    """
+
+    def __init__(self):
+        self.callback = None
+
+    def set_callback(self, funcion):
+        self.callback = funcion
+
+    def recibir_cambio(self, paquete: PaqueteDTO) -> None:
+        """Método de la interfaz IReceptor llamado por la capa de Red"""
+        if self.callback:
+            try:
+
+                self.callback(paquete)
+            except Exception as e:
+                print(f"[ReceptorCliente] Error en callback de UI: {e}")
+        else:
+            print(f"[ReceptorCliente] Paquete recibido sin callback configurado: {paquete.tipo}")
+
 
 class LogicaCliente:
     def __init__(self):
-        self.seguridad = GestorSeguridad()
-        self.colaRecibos = ColaRecibos()
-        self.cola_envios = ColaEnvios()
+        # 1. Obtener la instancia Singleton del Ensamblador
+        self.ensamblador = EnsambladorRed.obtener_instancia()
+        self.gestor_seguridad = GestorSeguridad()  # Usamos gestor auxiliar para cargar llave pem
 
-    
-        self.host_servidor = "localhost" 
+        # 2. Configurar puertos y hosts
+        self.host_servidor = "localhost"
         self.puerto_servidor = 5000
 
-       
-        self.mi_servidor = ServidorTCP(self.colaRecibos, self.seguridad, puerto=0, host="0.0.0.0")
-        self.mi_servidor.iniciar()
+        # 3. Cargar llave pública del servidor (Indispensable para ConfigRed)
+        llave_servidor = self._cargar_llave_servidor()
 
-        time.sleep(0.5)
-        self.mi_puerto = self.mi_servidor.get_puerto()
-        self.mi_host = "localhost"
+        # 4. Configurar la Red usando la clase ConfigRed
+        # Puerto escucha 0 = puerto aleatorio dinámico
+        config = ConfigRed(
+            host_escucha="0.0.0.0",
+            puerto_escucha=0,
+            host_destino=self.host_servidor,
+            puerto_destino=self.puerto_servidor,
+            llave_publica_destino=llave_servidor
+        )
 
-        llave_servidor = None
+        # 5. Instanciar nuestro adaptador de recepción
+        self.receptor_interno = ReceptorCliente()
+
         try:
-           
-            ruta_actual = os.path.dirname(os.path.abspath(__file__))
-          
-            ruta_raiz = os.path.abspath(os.path.join(ruta_actual, "..", "..", ".."))
-            
-        
-            ruta_pem = os.path.join(ruta_raiz, "server_public.pem")
-            
-            print(f"Buscando llave en: {ruta_pem}") 
+            print("[LogicaCliente] Ensamblando red con arquitectura...")
+            self.emisor = self.ensamblador.ensamblar(self.receptor_interno, config)
 
-            if os.path.exists(ruta_pem):
-                with open(ruta_pem, "rb") as f:
-                    llave_bytes = f.read()
-                    llave_servidor = self.seguridad.importar_publica(llave_bytes)
-                    print("LogicaCliente: Llave del servidor cargada EXITOSAMENTE.")
+
+            time.sleep(0.5)
+
+
+
+            if self.ensamblador._servidor:
+                self.mi_puerto = self.ensamblador._servidor.get_puerto()
+                print(f"[LogicaCliente] Red ensamblada. Escuchando en puerto: {self.mi_puerto}")
             else:
-                
-                if os.path.exists("server_public.pem"):
-                    with open("server_public.pem", "rb") as f:
-                        llave_bytes = f.read()
-                        llave_servidor = self.seguridad.importar_publica(llave_bytes)
-                        print("LogicaCliente: Llave cargada desde carpeta actual.")
-                else:
-                    print("\n" + "="*50)
-                    print("ERROR CRÍTICO: No se encontró 'server_public.pem'")
-                    print(f"Se buscó en: {ruta_pem}")
-                    print("Asegúrate de ejecutar primero 'python server_main.py'")
-                    print("="*50 + "\n")
+                raise Exception("El servidor interno no se inició correctamente")
 
         except Exception as e:
-            print(f"Error al cargar la llave pública del servidor: {e}")
-
-        # Inicializamos el cliente TCP con la llave cargada
-        self.cliente_tcp = ClienteTCP(self.cola_envios, self.seguridad, llave_servidor, self.host_servidor, self.puerto_servidor)
-        #mando a llamar al observador no se me olvide maldito
-        self.cola_envios.agregar_observador(self.cliente_tcp)
+            print(f"[LogicaCliente] ERROR CRÍTICO al ensamblar red: {e}")
+            self.emisor = None
+            self.mi_puerto = 0
 
         self.usuario_actual = None
-        self.callback_mensaje = None
-
-        # Hilo para procesar recibos (mensajes entrantes)
-        threading.Thread(target=self._procesar_recepcion, daemon=True).start()
 
     def set_callback(self, funcion):
-        self.callback_mensaje = funcion
+        """Conecta la UI con el receptor interno"""
+        print(f"[LogicaCliente] Conectando UI al Receptor de Red")
+        self.receptor_interno.set_callback(funcion)
 
     def registrar(self, usuario, password):
         """Envia solicitud de registro"""
-        public_key_pem = self.seguridad.obtener_publica_bytes().decode('utf-8')
-        
+        if not self._validar_conexion(): return
+
+        # Obtenemos nuestra llave pública del ensamblador
+        public_key_pem = self.ensamblador.obtener_llave_publica().decode('utf-8')
+
         contenido = {
-            "usuario": usuario, 
+            "usuario": usuario,
             "password": password,
-            "puerto_escucha": self.mi_puerto, 
-            "public_key": public_key_pem      
+            "puerto_escucha": self.mi_puerto,
+            "public_key": public_key_pem
         }
         self._enviar_paquete("REGISTRO", contenido)
 
     def login(self, usuario, password):
         """Envia solicitud de login"""
+        if not self._validar_conexion(): return
+
         self.usuario_actual = usuario
-        public_key_pem = self.seguridad.obtener_publica_bytes().decode('utf-8')
+        public_key_pem = self.ensamblador.obtener_llave_publica().decode('utf-8')
 
         contenido = {
             "usuario": usuario,
@@ -101,6 +122,8 @@ class LogicaCliente:
 
     def enviar_mensaje(self, mensaje, destino="TODOS"):
         """Envia un mensaje de chat"""
+        if not self._validar_conexion(): return
+
         contenido = {
             "mensaje": mensaje,
             "remitente": self.usuario_actual
@@ -111,27 +134,40 @@ class LogicaCliente:
         paquete = PaqueteDTO(
             tipo=tipo,
             contenido=contenido,
-            origen=self.usuario_actual,
+            origen=self.usuario_actual if self.usuario_actual else "ANONIMO",
             destino=destino,
             host=self.host_servidor,
             puerto_destino=self.puerto_servidor
         )
+        # Usamos la interfaz IEmisor proporcionada por el ensamblador
+        self.emisor.enviar_cambio(paquete)
 
-        if self.cliente_tcp.llave_destino is None:
-            print(f"ERROR BLOQUEANTE: No se puede enviar '{tipo}'. La llave del servidor no se cargó.")
-            return
+    def _validar_conexion(self):
+        if self.emisor is None:
+            print("[ERROR] Red no ensamblada correctamente.")
+            return False
+        return True
 
-        self.cola_envios.encolar(paquete)
+    def _cargar_llave_servidor(self):
+        """Lógica auxiliar para encontrar el .pem del servidor"""
+        rutas = [
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "server_public.pem"),
+            "server_public.pem"
+        ]
 
-    def _procesar_recepcion(self):
-        """Escucha la cola de recibos y actúa"""
-        while True:
-            if not self.colaRecibos.esta_vacia():
-                paquete = self.colaRecibos.desencolar()
-                if paquete:
-                    if self.callback_mensaje:
-                        self.callback_mensaje(paquete)
-            time.sleep(0.1)
+        for ruta in rutas:
+            ruta_abs = os.path.abspath(ruta)
+            if os.path.exists(ruta_abs):
+                try:
+                    with open(ruta_abs, "rb") as f:
+                        print(f"[LogicaCliente] Llave servidor cargada de: {ruta_abs}")
+                        return self.gestor_seguridad.importar_publica(f.read())
+                except Exception as e:
+                    print(f"[LogicaCliente] Error leyendo llave: {e}")
+
+        print("[LogicaCliente] ADVERTENCIA: No se encontró 'server_public.pem'. La conexión fallará.")
+        return None
+
 
 # Instancia global
 gestor_cliente = LogicaCliente()

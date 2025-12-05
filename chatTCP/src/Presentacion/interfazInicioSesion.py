@@ -1,15 +1,22 @@
-
+import sys
+import os
 import tkinter as tk
 from tkinter import messagebox
 import subprocess
-import sys
-import os
 from datetime import datetime, timedelta
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+current_dir = os.path.dirname(os.path.abspath(__file__))
+chat_root = os.path.dirname(os.path.dirname(current_dir))
+proyecto_root = os.path.dirname(chat_root)
 
-from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
-from src.Presentacion.MVC_ChatTCP.Validaciones import ValidadorUsuario, ValidacionError
+sys.path.insert(0, proyecto_root)  
+sys.path.insert(0, chat_root)      
+
+
+
+from chatTCP.src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
+from chatTCP.src.Presentacion.MVC_ChatTCP.Validaciones import ValidadorUsuario, ValidacionError
+
 
 # Variables globales para el bloqueo temporal
 intentos_fallidos = 0
