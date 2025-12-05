@@ -34,7 +34,7 @@ class ReceptorLogicaServidor(IReceptor):
         self.ensamblador = ensamblador
 
     @property
-    def clliente_tcp(self):
+    def cliente_tcp(self):
         return self.ensamblador._cliente_tcp
 
     @property
