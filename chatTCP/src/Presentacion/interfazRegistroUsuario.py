@@ -88,7 +88,7 @@ y_pos = int((ventana_registro.winfo_screenheight() / 2) - (alto_ventana / 2))
 ventana_registro.geometry(f"{ancho_ventana}x{alto_ventana}+{x_pos}+{y_pos}")
 ventana_registro.configure(bg="#afbfeb")
 
-panel_central = tk.Frame(ventana_registro, bg="#ffffff", width=400, height=280)
+panel_central = tk.Frame(ventana_registro, bg="#ffffff", width=400, height=330)
 panel_central.place(relx=0.5, rely=0.55, anchor=tk.CENTER)
 panel_central.pack_propagate(False)
 
