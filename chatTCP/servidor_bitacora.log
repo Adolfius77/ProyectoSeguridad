@@ -83,3 +83,45 @@
 2025-12-05 15:20:21,509 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
 2025-12-05 15:20:21,509 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
 2025-12-05 15:20:21,509 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 15:38:01,126 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000016A2FC0>
+2025-12-05 15:38:01,126 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 15:38:01,126 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017CC290>
+2025-12-05 15:38:01,126 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000017CC680>
+2025-12-05 15:38:01,127 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 15:38:54,282 - SERVER - Conexión aceptada de ('127.0.0.1', 52954)
+2025-12-05 15:38:54,283 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 15:38:54,283 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 15:38:54,283 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 15:44:10,060 - SERVER - Deteniendo servidor TCP...
+2025-12-05 15:44:10,061 - SERVER - Servidor TCP detenido
+2025-12-05 15:44:24,413 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000017FBE60>
+2025-12-05 15:44:24,413 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 15:44:24,414 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017FBC20>
+2025-12-05 15:44:24,414 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000000182C050>
+2025-12-05 15:44:24,415 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 15:44:40,411 - SERVER - Conexión aceptada de ('127.0.0.1', 23185)
+2025-12-05 15:44:40,412 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 15:44:40,413 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 15:44:40,413 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 15:51:29,487 - SERVER - Deteniendo servidor TCP...
+2025-12-05 15:51:29,488 - SERVER - Servidor TCP detenido
+2025-12-05 15:51:38,108 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x0000000001800200>
+2025-12-05 15:51:38,109 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 15:51:38,109 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017CBF80>
+2025-12-05 15:51:38,109 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000018003E0>
+2025-12-05 15:51:38,110 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 15:51:58,276 - SERVER - Conexión aceptada de ('127.0.0.1', 26539)
+2025-12-05 15:51:58,277 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 15:51:58,278 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 15:51:58,278 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 15:59:25,961 - SERVER - Deteniendo servidor TCP...
+2025-12-05 15:59:25,961 - SERVER - Servidor TCP detenido
+2025-12-05 15:59:32,586 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000018208C0>
+2025-12-05 15:59:32,586 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 15:59:32,586 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x0000000001820680>
+2025-12-05 15:59:32,586 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000018209B0>
+2025-12-05 15:59:32,587 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 16:00:02,202 - SERVER - Conexión aceptada de ('127.0.0.1', 63123)
+2025-12-05 16:00:02,204 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 16:00:02,204 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 16:00:02,204 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar

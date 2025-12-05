@@ -3,9 +3,8 @@ import os
 import time
 import logging
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(current_dir)
-sys.path.insert(0, project_root)
+current_dir = os.path.dirname(os.path.abspath(__file__)) # Carpeta chatTCP
+sys.path.insert(0, os.path.dirname(current_dir)) # Root del proyecto
 sys.path.insert(0, current_dir)
 
 from chatTCP.src.Bus.EventBus import EventBus
@@ -16,9 +15,11 @@ from chatTCP.src.Red.Cifrado.seguridad import GestorSeguridad
 from chatTCP.src.Datos.repositorio import repositorioUsuarios
 from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
-# loggin para la bitacora
+
+# Logging
+log_path = os.path.join(current_dir, 'servidor_bitacora.log')
 logging.basicConfig(
-    filename='servidor_bitacora.log',
+    filename=log_path,
     level=logging.INFO,
     format='%(asctime)s - SERVER - %(message)s'
 )
@@ -75,10 +76,12 @@ class ReceptorLogicaServidor(IReceptor):
         if repositorioUsuarios.validar(user, datos['password']):
             conectados = self.event_bus.servicios_por_evento.get("MENSAJE", [])
 
-            if len(conectados) >= 5:
+            # Ejemplo de limite de usuarios
+            if len(conectados) >= 50:
                 self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], "ERROR",
                                                "Servidor Lleno")
                 return
+            
             llave_publica_user = datos['public_key'].encode('utf-8') if isinstance(datos['public_key'], str) else datos['public_key']
 
             nuevo_servicio = ServicioDTO(
@@ -156,14 +159,28 @@ class ServidorBusApp:
         self.event_bus = EventBus()
         self.seguridad = GestorSeguridad()
 
-        self.ensamblador._gestor_seguridad = self.seguridad
+       
+        archivo_privada = "server_private.pem"
+        archivo_publica = "server_public.pem"
 
-        # 2. Guardar llave pública del servidor (Handshake inicial)
-        with open("server_public.pem", "wb") as f:
+        
+        if os.path.exists(archivo_privada):
+            print("[Seguridad] Cargando llave privada existente...")
+            if self.seguridad.cargar_privada_desde_archivo(archivo_privada):
+                print("[Seguridad] Llaves cargadas correctamente.")
+            else:
+                print("[Seguridad] Error cargando llave, generando nuevas...")
+                self.seguridad.guardar_privada(archivo_privada)
+        else:
+            print("[Seguridad] Generando nuevas llaves de servidor...")
+            self.seguridad.guardar_privada(archivo_privada)
+
+        with open(archivo_publica, "wb") as f:
             f.write(self.seguridad.obtener_publica_bytes())
 
+        self.ensamblador._gestor_seguridad = self.seguridad
+
         # 3. Configuración de Red
-        # Usamos nuestra propia llave como placeholder inicial para el emisor
         config = ConfigRed(
             host_escucha="0.0.0.0",
             puerto_escucha=5000,
@@ -178,7 +195,7 @@ class ServidorBusApp:
         # 5. Ensamblar todo (Red -> ReceptorLogica)
         self.ensamblador.ensamblar(self.receptor_logica, config)
 
-        # 6. Inyectar el emisor al EventBus (para que el bus tenga referencia, aunque usemos la lógica manual)
+        # 6. Inyectar el emisor al EventBus
         self.event_bus.set_emisor(self.ensamblador.obtener_emisor())
         self.event_bus.set_llave_publica_propia(self.seguridad.obtener_publica_bytes())
 

@@ -3,7 +3,10 @@ import time
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+chat_root = os.path.abspath(os.path.join(current_dir, '..', '..', '..'))
+sys.path.insert(0, chat_root)
 
 from src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 from src.Red.EnsambladorRed import EnsambladorRed, ConfigRed
