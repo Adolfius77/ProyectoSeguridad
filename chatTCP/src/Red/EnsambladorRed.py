@@ -3,6 +3,7 @@ Ensamblador de componentes de red con patrón Singleton.
 Ensambla toda la infraestructura de red TCP con cifrado.
 """
 from typing import Optional
+from dataclasses import dataclass
 from ..ComponenteReceptor.IReceptor import IReceptor
 from ..ComponenteEmisor.IEmisor import IEmisor
 from .Emisor.ColaEnvios import ColaEnvios

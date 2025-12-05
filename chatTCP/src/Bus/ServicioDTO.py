@@ -2,15 +2,17 @@
 DTO para representar un servicio de red (endpoint)
 """
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
 class ServicioDTO:
     """
-    Representa un endpoint de red con host y puerto
+    Representa un endpoint de red con host, puerto y llave pública RSA
     """
     host: str
     puerto: int
+    llave_publica: Optional[bytes] = None  # Llave pública RSA en formato PEM
 
     def __str__(self) -> str:
         """
