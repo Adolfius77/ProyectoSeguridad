@@ -15,3 +15,28 @@
 2025-12-04 21:48:23,914 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
 2025-12-04 21:48:23,914 - SERVER - procesando el paquete pa: REGISTRO de ANONIMO
 2025-12-04 21:48:23,914 - SERVER - error en la logica del servidor'ReceptorLogicaServidor' object has no attribute '_procesar_registro'
+2025-12-05 14:57:08,872 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x000000001DD53E00>
+2025-12-05 14:57:08,872 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 14:57:08,872 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x000000001DD53920>
+2025-12-05 14:57:08,872 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000001DD53EC0>
+2025-12-05 14:57:08,873 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 14:57:20,399 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x000000001DD847A0>
+2025-12-05 14:57:20,399 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 14:57:20,399 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x000000001DD845F0>
+2025-12-05 14:57:20,399 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000001DD84920>
+2025-12-05 14:57:20,400 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 14:58:03,119 - SERVER - Conexión aceptada de ('127.0.0.1', 53215)
+2025-12-05 14:58:03,122 - SERVER - Paquete recibido [HIBRIDO]: {Error de descifrado}...
+2025-12-05 14:58:03,122 - SERVER - Paquete recibido encolado: {Error de descifrado}...
+2025-12-05 14:58:03,122 - SERVER - Error al deserializar paquete: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-12-05 14:58:03,122 - SERVER - Error al notificar observador <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000001DD53EC0>: No se pudo deserializar el paquete: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-12-05 14:58:11,627 - SERVER - Conexión aceptada de ('127.0.0.1', 53220)
+2025-12-05 14:58:11,629 - SERVER - Paquete recibido [HIBRIDO]: {Error de descifrado}...
+2025-12-05 14:58:11,629 - SERVER - Paquete recibido encolado: {Error de descifrado}...
+2025-12-05 14:58:11,629 - SERVER - Error al deserializar paquete: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-12-05 14:58:11,629 - SERVER - Error al notificar observador <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000001DD53EC0>: No se pudo deserializar el paquete: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-12-05 14:58:13,678 - SERVER - Conexión aceptada de ('127.0.0.1', 53222)
+2025-12-05 14:58:13,678 - SERVER - Paquete recibido [HIBRIDO]: {Error de descifrado}...
+2025-12-05 14:58:13,679 - SERVER - Paquete recibido encolado: {Error de descifrado}...
+2025-12-05 14:58:13,679 - SERVER - Error al deserializar paquete: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-12-05 14:58:13,679 - SERVER - Error al notificar observador <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000001DD53EC0>: No se pudo deserializar el paquete: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
