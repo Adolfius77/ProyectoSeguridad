@@ -40,3 +40,22 @@
 2025-12-05 14:58:13,679 - SERVER - Paquete recibido encolado: {Error de descifrado}...
 2025-12-05 14:58:13,679 - SERVER - Error al deserializar paquete: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
 2025-12-05 14:58:13,679 - SERVER - Error al notificar observador <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000001DD53EC0>: No se pudo deserializar el paquete: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-12-05 15:07:12,825 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x000000001DDA0710>
+2025-12-05 15:07:12,825 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 15:07:12,825 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x000000001DDA0380>
+2025-12-05 15:07:12,826 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000001DDA0800>
+2025-12-05 15:07:12,826 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 15:07:41,452 - SERVER - Conexión aceptada de ('127.0.0.1', 54198)
+2025-12-05 15:07:41,454 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 15:07:41,454 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 15:07:41,454 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 15:07:55,380 - SERVER - Conexión aceptada de ('127.0.0.1', 54206)
+2025-12-05 15:07:55,400 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 15:07:55,400 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 15:07:55,400 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 15:07:59,143 - SERVER - Conexión aceptada de ('127.0.0.1', 54210)
+2025-12-05 15:07:59,144 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 15:07:59,144 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 15:07:59,144 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 15:08:41,050 - SERVER - Deteniendo servidor TCP...
+2025-12-05 15:08:41,050 - SERVER - Servidor TCP detenido
