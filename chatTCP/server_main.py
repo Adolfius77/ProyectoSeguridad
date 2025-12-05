@@ -3,8 +3,9 @@ import os
 import time
 import logging
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(current_dir)
+# --- Configuración de rutas ABSOLUTAS ---
+current_dir = os.path.dirname(os.path.abspath(__file__)) # Carpeta chatTCP
+project_root = os.path.dirname(current_dir) # Raíz del proyecto
 sys.path.insert(0, project_root)
 sys.path.insert(0, current_dir)
 
@@ -16,17 +17,16 @@ from chatTCP.src.Red.Cifrado.seguridad import GestorSeguridad
 from chatTCP.src.Datos.repositorio import repositorioUsuarios
 from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
-# loggin para la bitacora
+# Logging
+log_path = os.path.join(current_dir, 'servidor_bitacora.log')
 logging.basicConfig(
-    filename='servidor_bitacora.log',
+    filename=log_path,
     level=logging.INFO,
     format='%(asctime)s - SERVER - %(message)s'
 )
-# salida en la consola
 console = logging.StreamHandler()
 console.setLevel(logging.INFO)
 logging.getLogger('').addHandler(console)
-
 
 class ReceptorLogicaServidor(IReceptor):
     def __init__(self, event_bus, ensamblador):
@@ -44,7 +44,7 @@ class ReceptorLogicaServidor(IReceptor):
     def recibir_cambio(self, paquete: PaqueteDTO) -> None:
         try:
             tipo = paquete.tipo
-            logging.info(f"procesando el paquete pa: {tipo} de {paquete.origen}")
+            logging.info(f"Procesando paquete: {tipo} de {paquete.origen}")
 
             if tipo == "REGISTRO":
                 self._procesar_registro(paquete)
@@ -52,10 +52,11 @@ class ReceptorLogicaServidor(IReceptor):
                 self._procesar_login(paquete)
             elif tipo == "MENSAJE":
                 self._procesar_mensaje(paquete)
-            elif tipo == "DESCONEXION":
-                pass
+            elif tipo == "SOLICITAR_USUARIOS":
+                 self._broadcast_lista_usuarios()
+
         except Exception as e:
-            logging.error(f"error en la logica del servidor{e}")
+            logging.error(f"Error en logica servidor: {e}")
 
     def _procesar_registro(self, paquete):
         datos = paquete.contenido
@@ -64,21 +65,18 @@ class ReceptorLogicaServidor(IReceptor):
 
         exito = repositorioUsuarios.guardar(user, pwd)
         tipo_resp = "REGISTRO_OK" if exito else "REGISTRO_FAIL"
-        msj = "usuario creado correctamente" if exito else "este usuario ya existe"
-
+        msj = "Usuario creado correctamente" if exito else "El usuario ya existe"
+        
+        logging.info(f"Intento registro {user}: {tipo_resp}")
         self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], tipo_resp, msj)
 
     def _procesar_login(self, paquete):
         datos = paquete.contenido
         user = datos['usuario']
+        
+        logging.info(f"Intento login {user}")
 
         if repositorioUsuarios.validar(user, datos['password']):
-            conectados = self.event_bus.servicios_por_evento.get("MENSAJE", [])
-
-            if len(conectados) >= 5:
-                self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], "ERROR",
-                                               "Servidor Lleno")
-                return
             llave_publica_user = datos['public_key'].encode('utf-8') if isinstance(datos['public_key'], str) else datos['public_key']
 
             nuevo_servicio = ServicioDTO(
@@ -90,13 +88,10 @@ class ReceptorLogicaServidor(IReceptor):
             self.event_bus.registrar_servicio("MENSAJE", nuevo_servicio)
             self.event_bus.registrar_servicio("LISTA_USUARIOS", nuevo_servicio)
 
-            logging.info(f"Usuario {user} registrado en el eventbus")
-
             self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], "LOGIN_OK", user)
             self._broadcast_lista_usuarios()
         else:
-            self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], "ERROR",
-                                           "Credenciales Incorrectas")
+            self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], "ERROR", "Credenciales Incorrectas")
 
     def _procesar_mensaje(self, paquete):
         destino = paquete.destino
@@ -106,16 +101,14 @@ class ReceptorLogicaServidor(IReceptor):
             for servicio in subcriptores:
                 if servicio.puerto == paquete.puerto_origen and servicio.host == paquete.host:
                     continue
-                self._enviar_paquete_seguro(servicio, "MENSAJE", paquete.contenido, origen=paquete.origen,
-                                            destino="TODOS")
+                self._enviar_paquete_seguro(servicio, "MENSAJE", paquete.contenido, origen=paquete.origen, destino="TODOS")
         else:
-            for servicio in subcriptores:
-                self._enviar_paquete_seguro(servicio, "MENSAJE", paquete.contenido, origen=paquete.origen,
-                                            destino=destino)
+            
+            pass
 
     def _broadcast_lista_usuarios(self):
         subcriptores = self.event_bus.servicios_por_evento.get("LISTA_USUARIOS", [])
-        lista_nombres = ["usuarios conectados....."]
+        lista_nombres = ["Usuarios conectados..."] 
         for servicio in subcriptores:
             self._enviar_paquete_seguro(servicio, "LISTA_USUARIOS", lista_nombres, origen="SERVIDOR", destino="TODOS")
 
@@ -123,10 +116,8 @@ class ReceptorLogicaServidor(IReceptor):
         try:
             llave = self.seguridad.importar_publica(public_key_pem.encode('utf-8'))
             self.cliente_tcp.llave_destino = llave
-            paquete = PaqueteDTO(tipo, contenido, origen="SERVIDOR", destino="CLIENTE", host=host,
-                                 puerto_destino=puerto)
+            paquete = PaqueteDTO(tipo, contenido, origen="SERVIDOR", destino="CLIENTE", host=host, puerto_destino=puerto)
             self.ensamblador.obtener_emisor().enviar_cambio(paquete)
-
         except Exception as e:
             logging.error(f"Error respondiendo directo: {e}")
 
@@ -134,15 +125,7 @@ class ReceptorLogicaServidor(IReceptor):
         try:
             llave_destino_obj = self.seguridad.importar_publica(servicio_dto.llave_publica)
             self.cliente_tcp.llave_destino = llave_destino_obj
-
-            paquete = PaqueteDTO(
-                tipo=tipo,
-                contenido=contenido,
-                origen=origen,
-                destino=destino,
-                host=servicio_dto.host,
-                puerto_destino=servicio_dto.puerto
-            )
+            paquete = PaqueteDTO(tipo, contenido, origen=origen, destino=destino, host=servicio_dto.host, puerto_destino=servicio_dto.puerto)
             self.ensamblador.obtener_emisor().enviar_cambio(paquete)
         except Exception as e:
             logging.error(f"Error enviando paquete seguro: {e}")
@@ -151,45 +134,45 @@ class ReceptorLogicaServidor(IReceptor):
 class ServidorBusApp:
     def iniciar(self):
         print("=== SERVIDOR EVENT BUS INICIADO (Puerto 5000) ===")
+        print(f"Directorio base: {current_dir}")
 
         self.ensamblador = EnsambladorRed.obtener_instancia()
         self.event_bus = EventBus()
         self.seguridad = GestorSeguridad()
 
+        
+        ruta_privada = os.path.join(current_dir, "server_private.pem")
+        ruta_publica = os.path.join(current_dir, "server_public.pem")
+
+      
+        
+        with open(ruta_publica, "wb") as f:
+            f.write(self.seguridad.obtener_publica_bytes())
+        
+        print(f"[Seguridad] Llave pública actualizada en: {ruta_publica}")
+      
+
         self.ensamblador._gestor_seguridad = self.seguridad
 
-        # 2. Guardar llave pública del servidor (Handshake inicial)
-        with open("server_public.pem", "wb") as f:
-            f.write(self.seguridad.obtener_publica_bytes())
-
-        # 3. Configuración de Red
-        # Usamos nuestra propia llave como placeholder inicial para el emisor
         config = ConfigRed(
             host_escucha="0.0.0.0",
-            puerto_escucha=5000,
+            puerto_escucha=5555,
             host_destino="localhost",
-            puerto_destino=5000,
+            puerto_destino=5555,
             llave_publica_destino=self.seguridad.public_key
         )
 
-        # 4. Crear el Receptor Lógico (Controlador) e inyectar dependencias
         self.receptor_logica = ReceptorLogicaServidor(self.event_bus, self.ensamblador)
-
-        # 5. Ensamblar todo (Red -> ReceptorLogica)
         self.ensamblador.ensamblar(self.receptor_logica, config)
-
-        # 6. Inyectar el emisor al EventBus (para que el bus tenga referencia, aunque usemos la lógica manual)
         self.event_bus.set_emisor(self.ensamblador.obtener_emisor())
         self.event_bus.set_llave_publica_propia(self.seguridad.obtener_publica_bytes())
 
-        # Bucle de vida
         try:
             while True:
                 time.sleep(1)
         except KeyboardInterrupt:
             print("\nDeteniendo servidor...")
             self.ensamblador.detener()
-
 
 if __name__ == "__main__":
     app = ServidorBusApp()
