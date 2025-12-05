@@ -154,6 +154,7 @@ class ServidorTCP:
                 if '\n' in chunk:
                     break
 
+
             # Unir todo el buffer y limpiar
             mensaje_recibido = ''.join(buffer).strip()
 

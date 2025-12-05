@@ -164,7 +164,7 @@ class LogicaCliente:
         print("[LogicaCliente] ADVERTENCIA: No se encontró 'server_public.pem'. La conexión fallará.")
         return None
     #Ya quedo el metodo jack para que lo uses pa
-    def obtener_usarios(self):
+    def obtener_usuarios(self):
         if not self._validar_conexion(): return
         print("solicitando lista de usuarios al servidor...")
         self._enviar_paquete("SOLICITAR_USUARIOS", {})

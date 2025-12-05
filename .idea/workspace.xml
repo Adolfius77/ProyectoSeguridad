@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0003296-c351-4cb5-a0fa-f6ae1887d0f8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ProyectoSeguridad.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ProyectoSeguridad.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatTCP/server_public.pem" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/server_public.pem" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatTCP/src/Datos/repositorio.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Datos/repositorio.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaChatTCP.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaChatTCP.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/Presentacion/MVC_ChatTCP/Controlador.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Presentacion/MVC_ChatTCP/Controlador.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/Presentacion/MVC_ChatTCP/ModeloChatTCP.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Presentacion/MVC_ChatTCP/ModeloChatTCP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/Presentacion/interfazInicioSesion.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Presentacion/interfazInicioSesion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/Red/Cifrado/seguridad.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Red/Cifrado/seguridad.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatTCP/src/PaqueteDTO/PaqueteDTO.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/PaqueteDTO/PaqueteDTO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatTCP/src/Red/Receptor/ServidorTCP.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Red/Receptor/ServidorTCP.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatTCP/usuarios.json" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/usuarios.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -183,8 +180,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.interfazInicioSesion" />
-        <item itemvalue="Python.server_main" />
         <item itemvalue="Python.interfazRegistroUsuario" />
+        <item itemvalue="Python.server_main" />
         <item itemvalue="Python.InfzMenuUsuarios" />
         <item itemvalue="Python.main" />
       </list>
@@ -207,7 +204,7 @@
       <option name="presentableId" value="Default" />
       <updated>1764904108643</updated>
       <workItem from="1764904110285" duration="7256000" />
-      <workItem from="1764926093407" duration="3648000" />
+      <workItem from="1764926093407" duration="5076000" />
     </task>
     <servers />
   </component>
@@ -226,9 +223,9 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazRegistroUsuario.coverage" NAME="interfazRegistroUsuario Coverage Results" MODIFIED="1764926339248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazRegistroUsuario.coverage" NAME="interfazRegistroUsuario Coverage Results" MODIFIED="1764931050869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
     <SUITE FILE_PATH="coverage/ProyectoSeguridad$InfzMenuUsuarios.coverage" NAME="InfzMenuUsuarios Coverage Results" MODIFIED="1764926252755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$server_main.coverage" NAME="server_main Coverage Results" MODIFIED="1764926605291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$server_main.coverage" NAME="server_main Coverage Results" MODIFIED="1764930969117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP" />
     <SUITE FILE_PATH="coverage/ProyectoSeguridad$main.coverage" NAME="main Coverage Results" MODIFIED="1764904783178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src" />
     <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazInicioSesion.coverage" NAME="interfazInicioSesion Coverage Results" MODIFIED="1764926614442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
   </component>
