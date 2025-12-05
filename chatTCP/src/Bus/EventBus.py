@@ -1,6 +1,7 @@
 from chatTCP.src.Bus.ServicioDTO import ServicioDTO
 from chatTCP.src.Bus.GeneradorId import GeneradorId
 from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
+from chatTCP.src.ModeloChatTCP.Entidades.TipoEventos import TiposEvento
 
 class EventBus:
     def __init__(self):
@@ -70,7 +71,7 @@ class EventBus:
         self._normalizar_paquete(paquete)
 
         # Caso especial: un nuevo servicio se está registrando
-        if paquete.tipo == "INICIAR_CONEXION":
+        if paquete.tipo == TiposEvento.iniciarConexion.value:
             servicio = ServicioDTO(
                 id=self.generador_id.generar(),
                 puerto=paquete.puerto_origen,

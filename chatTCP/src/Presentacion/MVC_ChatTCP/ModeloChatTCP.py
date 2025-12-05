@@ -63,16 +63,6 @@ class ModeloChatTCP(IPublicadorNuevoMensaje):
         print(f"[Modelo] Enviando mensaje grupal: {contenido}")
         self.logicaChatTCP.enviarMensajeGrupal(contenido)
 
-    def unirse_chat(self, nombre_chat: str) -> None:
-        """
-        Solicita unirse a un chat grupal.
-
-        Args:
-            nombre_chat: Nombre del chat al que unirse
-        """
-        print(f"[Modelo] Uniéndose al chat: {nombre_chat}")
-        self.logicaChatTCP.enviarUnirseGrupal(nombre_chat)
-
     def registrar_en_eventbus(self, host_bus: str, puerto_bus: int) -> None:
         """
         Registra el usuario en el EventBus.

@@ -37,12 +37,6 @@ class Controlador:
         """
         self.modelo.enviar_mensaje_grupal(contenido)
 
-    def unirse_chat(self, nombre_chat: str) -> None:
-        """
-        Delega la acción de unirse a un chat.
-        """
-        self.modelo.unirse_chat(nombre_chat)
-
     def registrar_en_eventbus(self, host_bus: str, puerto_bus: int) -> None:
         """
         Delega el registro en EventBus.
