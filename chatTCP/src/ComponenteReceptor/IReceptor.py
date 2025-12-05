@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..ModeloChatTCP.DTOs.PaqueteDTO import PaqueteDTO
+    from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
 
 class IReceptor(ABC):

@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
+from src.Presentacion.MVC_ChatTCP.Validaciones import ValidadorUsuario, ValidacionError
 
 # Variables globales para el bloqueo temporal
 intentos_fallidos = 0
@@ -23,23 +24,12 @@ def manejar_respuesta_servidor(paquete):
         intentos_fallidos += 1
         ventana.after(0, lambda: messagebox.showerror("Error del Servidor", f"Fallo al entrar: {paquete.contenido}"))
 
-#Validaciones
-# Validar datos
+# Validar datos de login
 def validar_login():
     global intentos_fallidos, tiempo_bloqueo
-    
+
     usuario = entry_usuario.get().strip()
     contrasena = entry_contrasena.get()
-
-    # Validar que los campos no estén vacíos
-    if not usuario or not contrasena:
-        messagebox.showerror("Error", "Por favor, completa todos los campos")
-        return
-
-    # Validar espacios en blanco
-    if not usuario or usuario.isspace():
-        messagebox.showerror("Error", "El usuario no puede estar vacío o contener solo espacios")
-        return
 
     # Bloqueo temporal por varios intentos fallidos
     if tiempo_bloqueo and datetime.now() < tiempo_bloqueo:
@@ -47,12 +37,19 @@ def validar_login():
         messagebox.showerror("Cuenta Bloqueada", f"Demasiados intentos fallidos. Espera {segundos_restantes} segundos")
         return
 
+    # Validar usando el módulo de validaciones
     try:
+        ValidadorUsuario.validar_login(usuario, contrasena)
+    except ValidacionError as e:
+        messagebox.showerror("Error", str(e))
+        return
 
+    # Proceder con el login
+    try:
         gestor_cliente.set_callback(manejar_respuesta_servidor)
         print(f"Enviando login para: {usuario}")
         gestor_cliente.login(usuario, contrasena)
-        
+
     except Exception as e:
         messagebox.showerror("Error de Conexión", f"No se pudo conectar con el servicio de lógica: {e}")
 

@@ -1,9 +1,7 @@
 import threading
-import json
 import time
 import os
-import sys
-from ..DTOs.PaqueteDTO import PaqueteDTO
+from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 from ...Red.Emisor.ClienteTCP import ClienteTCP
 from ...Red.Receptor.ServidorTCP import ServidorTCP
 from ...Red.Cifrado.seguridad import GestorSeguridad

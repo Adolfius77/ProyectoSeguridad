@@ -1,9 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
-import re
 import sys
 import os
-import subprocess 
+import subprocess
 import logging
 
 # Configuración de Logs para ver errores en consola
@@ -13,6 +12,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 # Agregamos la ruta raíz del proyecto para poder importar los módulos
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
+from src.Presentacion.MVC_ChatTCP.Validaciones import ValidadorUsuario, ValidacionError
 
 # --- CALLBACK DE RESPUESTA ---
 # Esta función se ejecuta cuando el Servidor responde
@@ -37,51 +37,25 @@ def manejar_respuesta_registro(paquete):
     elif paquete.tipo == "REGISTRO_FAIL":
         ventana_registro.after(0, lambda: messagebox.showerror("Error", "El usuario ya existe o hubo un error en el servidor."))
 
-# --- VALIDACIONES VISUALES ---
-def validar_contrasena_fuerte(contrasena):
-    if len(contrasena) < 6: return False, "La contraseña debe tener al menos 6 caracteres"
-    if not re.search(r'[a-z]', contrasena): return False, "La contraseña debe contener letras minúsculas"
-    if not re.search(r'[A-Z]', contrasena): return False, "La contraseña debe contener letras mayúsculas"
-    if not re.search(r'[0-9]', contrasena): return False, "La contraseña debe contener números"
-    return True, "Contraseña fuerte"
-
-def validar_usuario_valido(usuario):
-    if not re.match(r'^[a-zA-Z0-9_-]+$', usuario): return False
-    return True
-
+# --- VALIDACIÓN DE REGISTRO ---
 def validar_registro():
     nombre = entry_nombre.get().strip()
     contrasena = entry_contrasena.get()
     contrasena_confirmar = entry_contrasena_confirmar.get()
 
-    if not nombre or not contrasena or not contrasena_confirmar:
-        messagebox.showerror("Error", "Por favor, completa todos los campos")
-        return
+    # Validar usando el módulo de validaciones centralizado
+    try:
+        es_fuerte, mensaje = ValidadorUsuario.validar_registro(nombre, contrasena, contrasena_confirmar)
 
-    if nombre.isspace():
-        messagebox.showerror("Error", "El usuario no puede contener solo espacios")
-        return
-        
-    if contrasena.isspace() or contrasena_confirmar.isspace():
-        messagebox.showerror("Error", "La contraseña no puede contener solo espacios")
-        return
+        # Si la contraseña no es fuerte, preguntar si desea continuar
+        if not es_fuerte:
+            continuar = messagebox.askyesno("Advertencia", f"Contraseña débil: {mensaje}\n\n¿Deseas continuar de todas formas?")
+            if not continuar:
+                return
 
-    if len(nombre) < 3 or len(nombre) > 20:
-        messagebox.showerror("Error", "El usuario debe tener entre 3 y 20 caracteres")
+    except ValidacionError as e:
+        messagebox.showerror("Error", str(e))
         return
-
-    if not validar_usuario_valido(nombre):
-        messagebox.showerror("Error", "El usuario solo puede contener letras, números, guiones y guiones bajos")
-        return
-
-    if contrasena != contrasena_confirmar:
-        messagebox.showerror("Error", "Las contraseñas no coinciden")
-        return
-
-    es_fuerte, mensaje = validar_contrasena_fuerte(contrasena)
-    if not es_fuerte:
-        continuar = messagebox.askyesno("Advertencia", f"Contraseña débil: {mensaje}\n\n¿Deseas continuar de todas formas?")
-        if not continuar: return
 
     # --- ENVÍO AL SERVIDOR ---
     try:

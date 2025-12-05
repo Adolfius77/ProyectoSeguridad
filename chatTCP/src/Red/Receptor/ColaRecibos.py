@@ -8,10 +8,10 @@ import logging
 
 if TYPE_CHECKING:
     from ..ObserverReceptor.ObservadorRecibos import ObservadorRecibos
-    from ...ModeloChatTCP.DTOs.PaqueteDTO import PaqueteDTO
+    from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
 from ..ObserverReceptor.ObservableRecibos import ObservableRecibos
-from ...ModeloChatTCP.DTOs.PaqueteDTO import PaqueteDTO
+from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
 
 class ColaRecibos(ObservableRecibos):

@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .ColaEnvios import ColaEnvios
-    from ...ModeloChatTCP.DTOs.PaqueteDTO import PaqueteDTO
+    from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
 from ...ComponenteEmisor.IEmisor import IEmisor
 

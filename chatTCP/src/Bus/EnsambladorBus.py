@@ -153,6 +153,12 @@ class EnsambladorBus:
         # 6. Configurar el emisor en el EventBus
         self._event_bus.set_emisor(self._emisor)
 
+        # 7. Obtener y configurar la llave pública propia en el EventBus
+        llave_publica = self._ensamblador_red.obtener_llave_publica()
+        if llave_publica:
+            self._event_bus.set_llave_publica_propia(llave_publica)
+            print(f"[EnsambladorBus] Llave pública configurada en EventBus ({len(llave_publica)} bytes)")
+
         print(f"[EnsambladorBus] Bus ensamblado - Puerto entrada: {config.puerto_entrada}, Puerto bus: {config.puerto_bus}")
 
         return self._event_bus

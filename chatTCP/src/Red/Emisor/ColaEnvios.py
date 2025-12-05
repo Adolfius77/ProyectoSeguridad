@@ -8,7 +8,7 @@ import logging
 
 if TYPE_CHECKING:
     from ..ObserverEmisor.ObservadorEnvios import ObservadorEnvios
-    from ...ModeloChatTCP.DTOs.PaqueteDTO import PaqueteDTO
+    from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
 from ..ObserverEmisor.ObservableEnvios import ObservableEnvios
 

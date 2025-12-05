@@ -6,7 +6,7 @@ from src.Red.Emisor.ClienteTCP import ClienteTCP
 from src.Red.Emisor.ColaEnvios import ColaEnvios
 from src.Red.Cifrado.seguridad import GestorSeguridad
 from src.Datos.repositorio import repositorioUsuarios
-from src.ModeloChatTCP.DTOs.PaqueteDTO import PaqueteDTO
+from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
 # Configuración Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - SERVER - %(message)s')
