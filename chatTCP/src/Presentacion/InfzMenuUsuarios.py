@@ -222,7 +222,9 @@ if __name__ == "__main__":
         UsuariosOP("Juan Pérez", "Mensaje MUY largo que debe ajustarse al ancho flexible de la ventana.", "#F54242", 3),
         UsuariosOP("María López", "¿Estás conectado?", "#4287F5", 1),
         UsuariosOP("Carlos Ruiz", "Último mensaje...", "#2ECC71", 0),
-        UsuariosOP("Lucía Gómez", "Imagen enviada", "#AF52DE", 5)
+        UsuariosOP("Lucía Gómez", "Imagen enviada", "#AF52DE", 5),
+        UsuariosOP("francis bevintong","abreme we","#AF52DE",10),
+        UsuariosOP("Alan ruiz (conde de la jungla)","no te voy a gankear","#AF52DE",2)
     ]
 
     vista = VistaListaUsuarios(root, usuarios, abrir_chat)

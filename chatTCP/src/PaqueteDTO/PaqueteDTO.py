@@ -13,15 +13,15 @@ class PaqueteDTO:
     """
 
     def __init__(
-        self,
-        tipo: str,
-        contenido: Any,
-        origen: Optional[str] = None,
-        destino: Optional[str] = None,
-        host: Optional[str] = None,
-        puerto_origen: Optional[int] = None,
-        puerto_destino: Optional[int] = None,
-        llave_publica_origen: Optional[bytes] = None
+            self,
+            tipo: str,
+            contenido: Any,
+            origen: Optional[str] = None,
+            destino: Optional[str] = None,
+            host: Optional[str] = None,
+            puerto_origen: Optional[int] = None,
+            puerto_destino: Optional[int] = None,
+            llave_publica_origen: Optional[bytes] = None
     ):
         """
         Inicializa un paquete de red
@@ -112,4 +112,3 @@ class PaqueteDTO:
             String con representación completa
         """
         return self.__str__()
-    

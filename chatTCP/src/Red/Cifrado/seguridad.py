@@ -1,4 +1,5 @@
 import hashlib
+import os
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.fernet import Fernet
@@ -6,9 +7,33 @@ from cryptography.fernet import Fernet
 
 class GestorSeguridad:
     def __init__(self):
-        # Generar claves RSA al iniciar
+        # Generar claves RSA al iniciar por defecto
         self.private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
         self.public_key = self.private_key.public_key()
+
+    def guardar_privada(self, archivo):
+        """Guarda la llave privada en un archivo"""
+        pem = self.private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption()
+        )
+        with open(archivo, 'wb') as f:
+            f.write(pem)
+
+    def cargar_privada_desde_archivo(self, archivo):
+        """Carga una llave privada existente"""
+        try:
+            with open(archivo, "rb") as key_file:
+                self.private_key = serialization.load_pem_private_key(
+                    key_file.read(),
+                    password=None
+                )
+                self.public_key = self.private_key.public_key()
+            return True
+        except Exception as e:
+            print(f"Error cargando llave privada: {e}")
+            return False
 
     def obtener_publica_bytes(self):
         """Exporta la llave pública a formato PEM (bytes)"""
@@ -66,9 +91,10 @@ class GestorSeguridad:
         """Descifrado Híbrido"""
         try:
             # 1. Separar
-            partes = paquete_bytes.split(b':::')
+            partes = paquete_bytes.split(b':::', 1)
             if len(partes) != 2:
-                return "{Error: Formato corrupto}"
+                # Retornamos None para indicar error limpio
+                return None
 
             key_fernet_cifrada = partes[0]
             datos_cifrados = partes[1]
@@ -91,7 +117,7 @@ class GestorSeguridad:
 
         except Exception as e:
             print(f"Error al descifrar: {e}")
-            return "{Error de descifrado}"
+            return None
 
     @staticmethod
     def hash_password(password):

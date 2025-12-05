@@ -5,58 +5,87 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0003296-c351-4cb5-a0fa-f6ae1887d0f8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatTCP/server_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/server_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/server_public.pem" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/server_public.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/usuarios.json" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/usuarios.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Adolfius77"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Adolfius77&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Adolfius77/ProyectoSeguridad.git",
-    "accountId": "3b71618a-f083-43ec-b1ef-2cb7a0c11a34"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Adolfius77/ProyectoSeguridad.git&quot;,
+    &quot;accountId&quot;: &quot;3b71618a-f083-43ec-b1ef-2cb7a0c11a34&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="36PNB8ZL9ktPTjsbmDpTfgGHyqr" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.interfazInicioSesion.executor": "Run",
-    "Python.interfazRegistroUsuario.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.server_main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "adolfoBranchTocoCocinar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.InfzMenuUsuarios.executor&quot;: &quot;Run&quot;,
+    &quot;Python.interfazInicioSesion.executor&quot;: &quot;Run&quot;,
+    &quot;Python.interfazRegistroUsuario.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.server_main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;adolfoBranchMejorada&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Python.interfazRegistroUsuario">
+}</component>
+  <component name="RunManager" selected="Python.InfzMenuUsuarios">
+    <configuration name="InfzMenuUsuarios" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ProyectoSeguridad" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/chatTCP/src/Presentacion" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/chatTCP/src/Presentacion/InfzMenuUsuarios.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="interfazInicioSesion" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ProyectoSeguridad" />
       <option name="ENV_FILES" value="" />
@@ -151,8 +180,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.interfazRegistroUsuario" />
+        <item itemvalue="Python.InfzMenuUsuarios" />
         <item itemvalue="Python.interfazInicioSesion" />
+        <item itemvalue="Python.interfazRegistroUsuario" />
         <item itemvalue="Python.server_main" />
         <item itemvalue="Python.main" />
       </list>
@@ -175,16 +205,30 @@
       <option name="presentableId" value="Default" />
       <updated>1764904108643</updated>
       <workItem from="1764904110285" duration="7256000" />
+      <workItem from="1764926093407" duration="5707000" />
+      <workItem from="1764970380277" duration="1163000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazRegistroUsuario.coverage" NAME="interfazRegistroUsuario Coverage Results" MODIFIED="1764910088464" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$server_main.coverage" NAME="server_main Coverage Results" MODIFIED="1764909997058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazRegistroUsuario.coverage" NAME="interfazRegistroUsuario Coverage Results" MODIFIED="1764931050869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$InfzMenuUsuarios.coverage" NAME="InfzMenuUsuarios Coverage Results" MODIFIED="1764931819483" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$server_main.coverage" NAME="server_main Coverage Results" MODIFIED="1764930969117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP" />
     <SUITE FILE_PATH="coverage/ProyectoSeguridad$main.coverage" NAME="main Coverage Results" MODIFIED="1764904783178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src" />
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazInicioSesion.coverage" NAME="interfazInicioSesion Coverage Results" MODIFIED="1764910072731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazInicioSesion.coverage" NAME="interfazInicioSesion Coverage Results" MODIFIED="1764931229241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
   </component>
 </project>

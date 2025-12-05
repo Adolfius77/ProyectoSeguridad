@@ -9,37 +9,40 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 chat_root = os.path.dirname(os.path.dirname(current_dir))
 proyecto_root = os.path.dirname(chat_root)
 
-sys.path.insert(0, proyecto_root)  
-sys.path.insert(0, chat_root)      
+sys.path.insert(0, proyecto_root)
+sys.path.insert(0, chat_root)
 
 from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
 from src.Presentacion.MVC_ChatTCP.Validaciones import ValidadorUsuario, ValidacionError, GestorIntentosLogin
 
 gestor_intentos = GestorIntentosLogin(max_intentos=3, espera_segundos=15)
 
+
 def manejar_respuesta_servidor(paquete):
     """Callback para manejar la respuesta asíncrona del servidor"""
     if paquete.tipo == "LOGIN_OK":
-        gestor_intentos.registrar_exito() # Limpiamos fallos si entra
+        gestor_intentos.registrar_exito()  # Limpiamos fallos si entra
         ventana.after(0, lambda: accion_exito(paquete.contenido))
-        
+
     elif paquete.tipo == "ERROR":
-        bloqueado = gestor_intentos.registrar_fallo() # Registramos el error
-        
+        bloqueado = gestor_intentos.registrar_fallo()  # Registramos el error
+
         msg_error = f"Error: {paquete.contenido}"
         if bloqueado:
             msg_error += "\n\n¡Has excedido los intentos! Bloqueo temporal activado."
-            
+
         ventana.after(0, lambda: messagebox.showerror("Login Fallido", msg_error))
+
 
 def accion_exito(usuario):
     messagebox.showinfo("Login Correcto", f"¡Bienvenido {usuario}!")
     ventana.destroy()
     # Aquí iría la lógica para abrir la ventana principal del chat
 
+
 def validar_login():
     """Valida inputs y estado del bloqueo antes de enviar a red"""
-    
+
     # 1. Verificar si estamos bloqueados (Lógica delegada al Gestor)
     puede_pasar, mensaje_bloqueo = gestor_intentos.puede_intentar()
     if not puede_pasar:
@@ -65,6 +68,7 @@ def validar_login():
     except Exception as e:
         messagebox.showerror("Error de Conexión", f"No se pudo conectar: {e}")
 
+
 # --- Configuración de la ventana (Sin cambios visuales) ---
 ventana = tk.Tk()
 ventana.title("Inicio de Sesión")
@@ -83,23 +87,26 @@ panel_central.pack_propagate(False)
 # Widgets
 tk.Label(ventana, text="Inicio de Sesión", font=("Verdana", 20, "bold"), bg="#afbfeb", fg="#4C4FFF").pack(pady=30)
 
-tk.Label(panel_central, text="Usuario:", font=("Verdana", 12, "bold"), bg="#ffffff").pack(pady=(20,5))
+tk.Label(panel_central, text="Usuario:", font=("Verdana", 12, "bold"), bg="#ffffff").pack(pady=(20, 5))
 entry_usuario = tk.Entry(panel_central, bg="#f0f0f0", bd=2, relief="sunken", font=("Verdana", 11))
 entry_usuario.pack(pady=5, padx=50, fill='x')
 
-tk.Label(panel_central, text="Contraseña:", font=("Verdana", 12, "bold"), bg="#ffffff").pack(pady=(15,5))
+tk.Label(panel_central, text="Contraseña:", font=("Verdana", 12, "bold"), bg="#ffffff").pack(pady=(15, 5))
 entry_contrasena = tk.Entry(panel_central, show="*", bg="#f0f0f0", bd=2, relief="sunken", font=("Verdana", 11))
 entry_contrasena.pack(pady=5, padx=50, fill='x')
 
-btn_login = tk.Button(panel_central, text="Ingresar", command=validar_login,font=("Verdana", 12), bg="#4C4FFF", fg="#ffffff", bd=0, cursor="hand2")
+btn_login = tk.Button(panel_central, text="Ingresar", command=validar_login, font=("Verdana", 12), bg="#4C4FFF",
+                      fg="#ffffff", bd=0, cursor="hand2")
 btn_login.pack(pady=(25, 10), ipadx=30)
+
 
 def abrir_registro(event):
     ventana.destroy()
     ruta_registro = os.path.join(os.path.dirname(__file__), "interfazRegistroUsuario.py")
     subprocess.Popen([sys.executable, ruta_registro])
 
-lbl_registro = tk.Label(panel_central, text="¿No tienes cuenta? Regístrate", 
+
+lbl_registro = tk.Label(panel_central, text="¿No tienes cuenta? Regístrate",
                         fg="#3498DB", bg="white", cursor="hand2", font=("Verdana", 9, "underline"))
 lbl_registro.pack(side=tk.BOTTOM, pady=20)
 lbl_registro.bind("<Button-1>", abrir_registro)
