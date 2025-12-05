@@ -20,3 +20,7 @@ class Controlador:
         Delegar la acción al modelo.
         """
         self.modelo.registrar_usuario(nombreUsuario, contrasena)
+
+    #metodo de menu users
+    def abrir_chat_controlador(self,usuarioOP):
+        self.modelo.mostrar_chat(usuarioOP)
