@@ -38,7 +38,8 @@ class MensajeDTO:
             "nombreUsuario": self.nombreUsuario,
             "contenidoMensaje": self.contenidoMensaje,
             "fechaHora": self.fechaHora.isoformat(),
-            "usuario": str(self.usuario) if self.usuario else None
-            "usuarioDestino": self.usuarioDestino.to_dict(),
-            "usuarioOrigen": self.usuarioOrigen.to_dict()
+
+            # Solo se serializan si existen
+            "usuarioDestino": self.usuarioDestino.to_dict() if self.usuarioDestino else None,
+            "usuarioOrigen": self.usuarioOrigen.to_dict() if self.usuarioOrigen else None
         }
