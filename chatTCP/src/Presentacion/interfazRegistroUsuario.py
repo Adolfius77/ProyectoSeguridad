@@ -3,10 +3,15 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 import subprocess
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - CLIENTE - %(levelname)s - %(message)s'
+)
 
-
+# --- Configuración de rutas ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
-chat_root = os.path.dirname(os.path.dirname(current_dir)) # chatTCP
+chat_root = os.path.dirname(os.path.dirname(current_dir))
 proyecto_root = os.path.dirname(chat_root)
 
 sys.path.insert(0, proyecto_root)
@@ -15,12 +20,13 @@ sys.path.insert(0, chat_root)
 from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
 from src.Presentacion.MVC_ChatTCP.Validaciones import ValidadorUsuario, ValidacionError
 
+# --- LOGICA DE RESPUESTA DEL SERVIDOR ---
 def manejar_respuesta_registro(paquete):
     print(f"[UI Registro] Respuesta recibida: {paquete.tipo}")
     if paquete.tipo == "REGISTRO_OK":
         ventana_registro.after(0, accion_registro_exitoso)
     elif paquete.tipo == "REGISTRO_FAIL" or paquete.tipo == "ERROR":
-        mensaje = paquete.contenido if isinstance(paquete.contenido, str) else "Error al registrar."
+        mensaje = paquete.contenido if isinstance(paquete.contenido, str) else "Error al registrar usuario."
         ventana_registro.after(0, lambda: messagebox.showerror("Error de Registro", mensaje))
 
 def accion_registro_exitoso():
@@ -33,11 +39,18 @@ def volver_al_login(event=None):
     subprocess.Popen([sys.executable, ruta_login])
 
 def solicitar_registro():
-   
+    # --- VALIDACIÓN DE CONEXIÓN ---
     if gestor_cliente.emisor is None:
-        messagebox.showerror("Error Crítico", "No hay conexión con el sistema de red.\n\nVerifica:\n1. Que el servidor esté corriendo.\n2. Que el archivo 'server_public.pem' exista en la carpeta chatTCP.")
+        messagebox.showerror(
+            "Error de Conexión", 
+            "El cliente no está conectado al servidor.\n\n"
+            "Causas posibles:\n"
+            "1. El servidor no está ejecutándose.\n"
+            "2. No se encontró 'server_public.pem'.\n\n"
+            "Por favor inicia el servidor y reinicia esta ventana."
+        )
         return
- 
+    # ------------------------------
 
     nombre = entry_nombre.get().strip()
     contrasena = entry_contrasena.get()
@@ -46,7 +59,10 @@ def solicitar_registro():
     try:
         es_fuerte, mensaje_pass = ValidadorUsuario.validar_registro(nombre, contrasena, confirmacion)
         if not es_fuerte:
-            confirmar = messagebox.askyesno("Seguridad", f"{mensaje_pass}\n\n¿Deseas registrarte igual?")
+            confirmar = messagebox.askyesno(
+                "Seguridad", 
+                f"{mensaje_pass}\n\n¿Deseas registrarte de todos modos?"
+            )
             if not confirmar: return
 
     except ValidacionError as e:

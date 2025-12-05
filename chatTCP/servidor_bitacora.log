@@ -125,3 +125,69 @@
 2025-12-05 16:00:02,204 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
 2025-12-05 16:00:02,204 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
 2025-12-05 16:00:02,204 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 16:01:09,104 - SERVER - Conexión aceptada de ('127.0.0.1', 32940)
+2025-12-05 16:01:09,105 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 16:01:09,105 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 16:01:09,105 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 16:08:16,315 - SERVER - Deteniendo servidor TCP...
+2025-12-05 16:08:16,315 - SERVER - Servidor TCP detenido
+2025-12-05 16:08:29,196 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000017CC110>
+2025-12-05 16:08:29,196 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 16:08:29,196 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x0000000001679DF0>
+2025-12-05 16:08:29,196 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000017CC2C0>
+2025-12-05 16:08:29,197 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 16:09:00,194 - SERVER - Conexión aceptada de ('127.0.0.1', 34203)
+2025-12-05 16:09:00,196 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 16:09:00,196 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 16:09:00,196 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 16:11:46,169 - SERVER - Deteniendo servidor TCP...
+2025-12-05 16:11:46,170 - SERVER - Servidor TCP detenido
+2025-12-05 16:11:48,508 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x000000000186C110>
+2025-12-05 16:11:48,509 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 16:11:48,509 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x0000000001719DF0>
+2025-12-05 16:11:48,509 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000000186C2C0>
+2025-12-05 16:11:48,510 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 16:12:27,015 - SERVER - Conexión aceptada de ('127.0.0.1', 8062)
+2025-12-05 16:12:27,017 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 16:12:27,017 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 16:12:27,017 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 16:14:41,629 - SERVER - Deteniendo servidor TCP...
+2025-12-05 16:14:41,629 - SERVER - Servidor TCP detenido
+2025-12-05 16:14:47,045 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x000000000186C0E0>
+2025-12-05 16:14:47,045 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 16:14:47,045 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x0000000001719DF0>
+2025-12-05 16:14:47,045 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000000186C230>
+2025-12-05 16:14:47,046 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-05 16:15:08,789 - SERVER - Conexión aceptada de ('127.0.0.1', 25631)
+2025-12-05 16:15:08,790 - SERVER - Descifrado híbrido falló: [Errno 22] Invalid argument, intentando RSA puro...
+2025-12-05 16:15:08,791 - SERVER - RECHAZO - FALLO TOTAL DE DESCIFRADO - Híbrido: [Errno 22] Invalid argument, RSA: Ciphertext length must be equal to key size.
+2025-12-05 16:15:08,791 - SERVER - RECHAZO DE PAQUETE: No se pudo descifrar
+2025-12-05 16:18:57,678 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000018BC110>
+2025-12-05 16:18:57,678 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 16:18:57,678 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x0000000001769DF0>
+2025-12-05 16:18:57,678 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000018BC2C0>
+2025-12-05 16:18:57,679 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 16:19:58,331 - SERVER - Conexión aceptada de ('127.0.0.1', 37199)
+2025-12-05 16:19:58,333 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "REGISTRO", "contenido": {"usuario": "fel...
+2025-12-05 16:19:58,333 - SERVER - Paquete recibido encolado: {"tipo": "REGISTRO", "contenido": {"usuario": "felipe", "password": "juan123", "puerto_escucha": 371...
+2025-12-05 16:19:58,333 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 16:19:58,334 - SERVER - Procesando paquete: REGISTRO de ANONIMO
+2025-12-05 16:19:58,359 - SERVER - Intento registro felipe: REGISTRO_OK
+2025-12-05 16:19:58,359 - SERVER - Enviando paquete: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 16:19:58,360 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 16:19:58,360 - SERVER - Enviando paquete a 127.0.0.1:37188
+2025-12-05 16:19:58,380 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:37188
+2025-12-05 16:20:33,730 - SERVER - Conexión aceptada de ('127.0.0.1', 23800)
+2025-12-05 16:20:33,732 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "felipe...
+2025-12-05 16:20:33,732 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "felipe", "password": "juan123", "puerto_escucha": 23783,...
+2025-12-05 16:20:33,732 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=felipe, destino=SERVIDOR)
+2025-12-05 16:20:33,732 - SERVER - Procesando paquete: LOGIN de felipe
+2025-12-05 16:20:33,732 - SERVER - Intento login felipe
+2025-12-05 16:20:33,796 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 16:20:33,797 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 16:20:33,797 - SERVER - Enviando paquete a 127.0.0.1:23783
+2025-12-05 16:20:33,798 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:23783
+2025-12-05 16:20:33,798 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 16:20:33,798 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 16:20:33,798 - SERVER - Enviando paquete a 127.0.0.1:23783
+2025-12-05 16:20:33,798 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:23783

@@ -7,6 +7,11 @@
     <list default="true" id="b0003296-c351-4cb5-a0fa-f6ae1887d0f8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatTCP/server_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/server_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatTCP/server_public.pem" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/server_public.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatTCP/servidor_bitacora.log" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/servidor_bitacora.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatTCP/src/Presentacion/interfazRegistroUsuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Presentacion/interfazRegistroUsuario.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatTCP/usuarios.json" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/usuarios.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
