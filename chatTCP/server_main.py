@@ -1,20 +1,19 @@
+import sys
+import os
 import time
 import logging
-import os
-import sys
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+sys.path.insert(0, project_root)
+sys.path.insert(0, current_dir)
 
 from chatTCP.src.Bus.EventBus import EventBus
 from chatTCP.src.Bus.ServicioDTO import ServicioDTO
 from chatTCP.src.ComponenteReceptor.IReceptor import IReceptor
-from chatTCP.src.Red import ConfigRed, EnsambladorRed
-from src.Red.Receptor.ServidorTCP import ServidorTCP
-from src.Red.Receptor.ColaRecibos import ColaRecibos
-from src.Red.Emisor.ClienteTCP import ClienteTCP
-from src.Red.Emisor.ColaEnvios import ColaEnvios
-from src.Red.Cifrado.seguridad import GestorSeguridad
-from src.Datos.repositorio import repositorioUsuarios
+from chatTCP.src.Red.EnsambladorRed import EnsambladorRed, ConfigRed
+from chatTCP.src.Red.Cifrado.seguridad import GestorSeguridad
+from chatTCP.src.Datos.repositorio import repositorioUsuarios
 from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
 
