@@ -15,6 +15,9 @@ class ModeloChatTCP(IPublicadorNuevoMensaje):
         # Lista de observadores para el patrón Observer
         self._observadores = []
 
+        # Configurar la referencia de LogicaChatTCP a este ModeloChatTCP
+        self.logicaChatTCP.set_modelo_chat_tcp(self)
+
     def iniciar_sesion(self, nombre_usuario, contrasena):
         print(f"[Modelo] Iniciando sesión para: {nombre_usuario}")
         # Aquí irían validaciones y luego lógica de red:
@@ -36,6 +39,57 @@ class ModeloChatTCP(IPublicadorNuevoMensaje):
         """
         print(f"[Modelo] Abriendo chat con: {usuarioOP.nombre}")
         # Aquí va la lógica para abrir el chat
+
+    # ========== Métodos de envío de mensajes ==========
+
+    def enviar_mensaje_privado(self, usuario_destino: UsuariosOP, contenido: str) -> None:
+        """
+        Envía un mensaje privado a un usuario específico.
+
+        Args:
+            usuario_destino: UsuarioOP del destinatario
+            contenido: Texto del mensaje a enviar
+        """
+        print(f"[Modelo] Enviando mensaje privado a {usuario_destino.nombre}: {contenido}")
+        self.logicaChatTCP.enviarMensajePrivado(usuario_destino, contenido)
+
+    def enviar_mensaje_grupal(self, contenido: str) -> None:
+        """
+        Envía un mensaje grupal (broadcast) a todos los usuarios.
+
+        Args:
+            contenido: Texto del mensaje a enviar
+        """
+        print(f"[Modelo] Enviando mensaje grupal: {contenido}")
+        self.logicaChatTCP.enviarMensajeGrupal(contenido)
+
+    def unirse_chat(self, nombre_chat: str) -> None:
+        """
+        Solicita unirse a un chat grupal.
+
+        Args:
+            nombre_chat: Nombre del chat al que unirse
+        """
+        print(f"[Modelo] Uniéndose al chat: {nombre_chat}")
+        self.logicaChatTCP.enviarUnirseGrupal(nombre_chat)
+
+    def registrar_en_eventbus(self, host_bus: str, puerto_bus: int) -> None:
+        """
+        Registra el usuario en el EventBus.
+
+        Args:
+            host_bus: Host del EventBus
+            puerto_bus: Puerto del EventBus
+        """
+        print(f"[Modelo] Registrándose en EventBus: {host_bus}:{puerto_bus}")
+        self.logicaChatTCP.registrarseEnEventBus(host_bus, puerto_bus)
+
+    def desconectar(self) -> None:
+        """
+        Envía notificación de desconexión.
+        """
+        print("[Modelo] Desconectando usuario")
+        self.logicaChatTCP.desconectar()
 
     # ========== Métodos de IPublicadorNuevoMensaje ==========
 

@@ -32,16 +32,13 @@ class MensajeDTO:
     def __str__(self):
         return f"[{self.fechaHora.strftime('%H:%M:%S')}] {self.nombreUsuario}: {self.contenidoMensaje}"
 
-    def to_dict(self):
-        """
-        Convierte el mensaje a un diccionario para serialización.
 
-        Returns:
-            dict con los datos del mensaje
-        """
+    def to_dict(self):
         return {
             "nombreUsuario": self.nombreUsuario,
             "contenidoMensaje": self.contenidoMensaje,
             "fechaHora": self.fechaHora.isoformat(),
             "usuario": str(self.usuario) if self.usuario else None
+            "usuarioDestino": self.usuarioDestino.to_dict(),
+            "usuarioOrigen": self.usuarioOrigen.to_dict()
         }
