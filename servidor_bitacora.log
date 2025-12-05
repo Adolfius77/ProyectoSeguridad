@@ -1,0 +1,12 @@
+2025-12-04 22:32:19,545 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000018078C0>
+2025-12-04 22:32:19,545 - SERVER - Cola de recibos establecida en Receptor
+2025-12-04 22:32:19,545 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x0000000001807680>
+2025-12-04 22:32:19,545 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000018079E0>
+2025-12-04 22:32:19,546 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000
+2025-12-04 22:32:27,435 - SERVER - Deteniendo servidor TCP...
+2025-12-04 22:32:27,435 - SERVER - Servidor TCP detenido
+2025-12-04 22:32:34,157 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x0000000001783AA0>
+2025-12-04 22:32:34,157 - SERVER - Cola de recibos establecida en Receptor
+2025-12-04 22:32:34,157 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x0000000001783860>
+2025-12-04 22:32:34,157 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x0000000001783C20>
+2025-12-04 22:32:34,158 - SERVER - Servidor TCP iniciado en 0.0.0.0:5000

@@ -1,109 +1,117 @@
-import tkinter as tk
-from tkinter import messagebox
 import sys
 import os
+import tkinter as tk
+from tkinter import messagebox
 import subprocess
-import logging
 
-# Configuración de Logs para ver errores en consola
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+# --- Configuración de rutas ---
+current_dir = os.path.dirname(os.path.abspath(__file__))
+chat_root = os.path.dirname(os.path.dirname(current_dir))
+proyecto_root = os.path.dirname(chat_root)
 
-# --- AJUSTE DE RUTAS E IMPORTACIONES ---
-# Agregamos la ruta raíz del proyecto para poder importar los módulos
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+sys.path.insert(0, proyecto_root)
+sys.path.insert(0, chat_root)
+
 from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
 from src.Presentacion.MVC_ChatTCP.Validaciones import ValidadorUsuario, ValidacionError
 
-# --- CALLBACK DE RESPUESTA ---
-# Esta función se ejecuta cuando el Servidor responde
+# --- LOGICA DE RESPUESTA DEL SERVIDOR ---
 def manejar_respuesta_registro(paquete):
-    print(f"DEBUG: Llegó respuesta del servidor: {paquete.tipo}")
+    """
+    Callback ejecutado por el hilo de red.
+    Usa .after para actualizar la GUI de forma segura.
+    """
+    print(f"[UI Registro] Respuesta recibida: {paquete.tipo}")
+    
     if paquete.tipo == "REGISTRO_OK":
-        def exito():
-            messagebox.showinfo("Registro Exitoso", "¡Usuario creado correctamente!\nVolviendo al inicio de sesión...")
-            
-            # 1. Cerramos la ventana de registro actual
-            ventana_registro.destroy()
-            
-            # 2. Calculamos la ruta de la ventana de login
-            ruta_login = os.path.join(os.path.dirname(__file__), "interfazInicioSesion.py")
-            
-            # 3. Abrimos la ventana de login como un proceso nuevo
-            subprocess.Popen([sys.executable, ruta_login])
-            
-        # Usamos .after para interactuar con la interfaz gráfica de forma segura desde el hilo de red
-        ventana_registro.after(0, exito)
+        # Programamos la transición en el hilo principal
+        ventana_registro.after(0, accion_registro_exitoso)
         
-    elif paquete.tipo == "REGISTRO_FAIL":
-        ventana_registro.after(0, lambda: messagebox.showerror("Error", "El usuario ya existe o hubo un error en el servidor."))
+    elif paquete.tipo == "REGISTRO_FAIL" or paquete.tipo == "ERROR":
+        # Mostramos el error
+        mensaje = paquete.contenido if isinstance(paquete.contenido, str) else "Error al registrar usuario."
+        ventana_registro.after(0, lambda: messagebox.showerror("Error de Registro", mensaje))
 
-# --- VALIDACIÓN DE REGISTRO ---
-def validar_registro():
+def accion_registro_exitoso():
+    """Notifica éxito y cambia de pantalla"""
+    messagebox.showinfo("Registro Exitoso", "¡Cuenta creada correctamente!\nAhora puedes iniciar sesión.")
+    volver_al_login()
+
+# --- NAVEGACIÓN ---
+def volver_al_login(event=None):
+    """Cierra registro y abre login"""
+    ventana_registro.destroy()
+    ruta_login = os.path.join(os.path.dirname(__file__), "interfazInicioSesion.py")
+    subprocess.Popen([sys.executable, ruta_login])
+
+# --- LÓGICA DE VALIDACIÓN Y ENVÍO ---
+def solicitar_registro():
     nombre = entry_nombre.get().strip()
     contrasena = entry_contrasena.get()
-    contrasena_confirmar = entry_contrasena_confirmar.get()
+    confirmacion = entry_contrasena_confirmar.get()
 
-    # Validar usando el módulo de validaciones centralizado
     try:
-        es_fuerte, mensaje = ValidadorUsuario.validar_registro(nombre, contrasena, contrasena_confirmar)
-
-        # Si la contraseña no es fuerte, preguntar si desea continuar
+        es_fuerte, mensaje_pass = ValidadorUsuario.validar_registro(nombre, contrasena, confirmacion)
+        
+        # Si la contraseña es válida pero débil, pedimos confirmación visual
         if not es_fuerte:
-            continuar = messagebox.askyesno("Advertencia", f"Contraseña débil: {mensaje}\n\n¿Deseas continuar de todas formas?")
-            if not continuar:
+            confirmar = messagebox.askyesno(
+                "Seguridad de Contraseña", 
+                f"{mensaje_pass}\n\n¿Deseas registrarte de todos modos?"
+            )
+            if not confirmar:
                 return
 
     except ValidacionError as e:
-        messagebox.showerror("Error", str(e))
+        messagebox.showerror("Datos Inválidos", str(e))
         return
 
-    # --- ENVÍO AL SERVIDOR ---
     try:
-        # Configuramos qué hacer cuando llegue la respuesta
         gestor_cliente.set_callback(manejar_respuesta_registro)
-        print(f"Enviando registro para: {nombre}")
+        print(f"[UI] Enviando solicitud de registro para: {nombre}")
         gestor_cliente.registrar(nombre, contrasena)
+        
     except Exception as e:
-        messagebox.showerror("Error de Conexión", f"No se pudo conectar: {e}")
+        messagebox.showerror("Error de Conexión", f"No se pudo conectar con el servidor: {e}")
 
 # --- INTERFAZ GRÁFICA ---
 ventana_registro = tk.Tk()
-ventana_registro.title("Registro de Usuario")
+ventana_registro.title("Registro de Usuario - ChatTCP")
+ventana_registro.resizable(False, False)
+
 ancho_ventana = 800
 alto_ventana = 500
-ancho_pantalla = ventana_registro.winfo_screenwidth()
-alto_pantalla = ventana_registro.winfo_screenheight()
-ventana_registro.resizable(False, False)
-x_pos = int((ancho_pantalla / 2) - (ancho_ventana / 2))
-y_pos = int((alto_pantalla / 2) - (alto_ventana / 2))
+x_pos = int((ventana_registro.winfo_screenwidth() / 2) - (ancho_ventana / 2))
+y_pos = int((ventana_registro.winfo_screenheight() / 2) - (alto_ventana / 2))
 ventana_registro.geometry(f"{ancho_ventana}x{alto_ventana}+{x_pos}+{y_pos}")
 ventana_registro.configure(bg="#afbfeb")
 
-panel_central = tk.Frame(ventana_registro, bg="#ffffff", width=400, height=300)
-panel_central.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+panel_central = tk.Frame(ventana_registro, bg="#ffffff", width=400, height=280)
+panel_central.place(relx=0.5, rely=0.55, anchor=tk.CENTER)
+panel_central.pack_propagate(False)
 
-lbl_titulo = tk.Label(ventana_registro, text="Registro de Usuario", font=("Verdana", 20, "bold"), bg="#afbfeb", fg="#4C4FFF")
-lbl_titulo.pack(pady=30)
+# Widgets
+tk.Label(ventana_registro, text="Crear Nueva Cuenta", font=("Verdana", 20, "bold"), bg="#afbfeb", fg="#4C4FFF").pack(pady=30)
 
-lbl_nombre = tk.Label(panel_central, text="Nombre de Usuario:", font=("Verdana", 12, "bold"), bg="#ffffff")
-lbl_nombre.pack(pady=15, padx=80)
 
-entry_nombre = tk.Entry(panel_central, bg="#f0f0f0", bd=2, relief="sunken", font=("Verdana", 11))
-entry_nombre.pack(pady=5, padx=80)
+tk.Label(panel_central, text="Usuario:", font=("Verdana", 10, "bold"), bg="#ffffff").pack(pady=(25,5))
+entry_nombre = tk.Entry(panel_central, bg="#f0f0f0", relief="sunken", font=("Verdana", 11))
+entry_nombre.pack(pady=5, padx=50, fill='x')
 
-lbl_contrasena = tk.Label(panel_central, text="Contraseña:", font=("Verdana", 12, "bold"), bg="#ffffff")
-lbl_contrasena.pack(pady=30, padx=80)
+tk.Label(panel_central, text="Contraseña:", font=("Verdana", 10, "bold"), bg="#ffffff").pack(pady=(10,5))
+entry_contrasena = tk.Entry(panel_central, show="*", bg="#f0f0f0", relief="sunken", font=("Verdana", 11))
+entry_contrasena.pack(pady=5, padx=50, fill='x')
 
-entry_contrasena = tk.Entry(panel_central, show="*", bg="#f0f0f0", bd=2, relief="sunken", font=("Verdana", 11))
-entry_contrasena.pack(pady=5, padx=80)
+tk.Label(panel_central, text="Confirmar Contraseña:", font=("Verdana", 10, "bold"), bg="#ffffff").pack(pady=(10,5))
+entry_contrasena_confirmar = tk.Entry(panel_central, show="*", bg="#f0f0f0", relief="sunken", font=("Verdana", 11))
+entry_contrasena_confirmar.pack(pady=5, padx=50, fill='x')
 
-lbl_contrasena_confirmar = tk.Label(panel_central, text="Confirmar Contraseña:", font=("Verdana", 12, "bold"), bg="#ffffff")
-lbl_contrasena_confirmar.pack(pady=15, padx=80)
 
-entry_contrasena_confirmar = tk.Entry(panel_central, show="*", bg="#f0f0f0", bd=2, relief="sunken", font=("Verdana", 11))
-entry_contrasena_confirmar.pack(pady=5, padx=80)
+btn_registrar = tk.Button(panel_central, text="Registrarse", command=solicitar_registro, font=("Verdana", 12), bg="#4C4FFF", fg="#ffffff", cursor="hand2", bd=0)
+btn_registrar.pack(pady=(20, 0), ipadx=30, ipady=2)
 
-btn_registrar = tk.Button(panel_central, text="Registrar", command=validar_registro, font=("Verdana", 12), bg="#4C4FFF", fg="#ffffff", bd=0, padx=10, pady=5)
-btn_registrar.pack(pady=(20, 10))
+lbl_volver = tk.Label(panel_central, text="¿Ya tienes cuenta? Inicia Sesión", fg="#3498DB", bg="white", cursor="hand2", font=("Verdana", 9, "underline"))
+lbl_volver.pack(side=tk.BOTTOM, pady=15)
+lbl_volver.bind("<Button-1>", volver_al_login)
 
 ventana_registro.mainloop()
