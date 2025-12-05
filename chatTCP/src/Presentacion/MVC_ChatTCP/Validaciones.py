@@ -6,12 +6,49 @@ para centralizar la lógica de validación y permitir reutilización.
 """
 import re
 from typing import Tuple
+from datetime import datetime, timedelta
 
 
 class ValidacionError(Exception):
     """Excepción personalizada para errores de validación"""
     pass
 
+class GestorIntentosLogin:
+    """
+    Controla la lógica de intentos fallidos y bloqueos temporales.
+    Mueve el estado (variables globales) fuera de la vista.
+    """
+    def __init__(self, max_intentos: int = 3, espera_segundos: int = 30):
+        self.intentos_fallidos = 0
+        self.tiempo_bloqueo = None
+        self.MAX_INTENTOS = max_intentos
+        self.TIEMPO_ESPERA = timedelta(seconds=espera_segundos)
+
+    def puede_intentar(self) -> Tuple[bool, str]:
+        """
+        Verifica si el usuario tiene permitido intentar hacer login.
+        Returns: (True/False, Mensaje de error si está bloqueado)
+        """
+        if self.tiempo_bloqueo and datetime.now() < self.tiempo_bloqueo:
+            segundos = int((self.tiempo_bloqueo - datetime.now()).total_seconds())
+            return False, f"Sistema bloqueado temporalmente. Espera {segundos} segundos."
+        return True, ""
+
+    def registrar_fallo(self) -> bool:
+        """
+        Incrementa fallos. Retorna True si se acaba de activar el bloqueo.
+        """
+        self.intentos_fallidos += 1
+        if self.intentos_fallidos >= self.MAX_INTENTOS:
+            self.tiempo_bloqueo = datetime.now() + self.TIEMPO_ESPERA
+            self.intentos_fallidos = 0  # Reiniciamos contador para el siguiente ciclo tras el bloqueo
+            return True
+        return False
+
+    def registrar_exito(self):
+        """Limpia el historial de fallos tras un login exitoso"""
+        self.intentos_fallidos = 0
+        self.tiempo_bloqueo = None
 
 class ValidadorUsuario:
     """

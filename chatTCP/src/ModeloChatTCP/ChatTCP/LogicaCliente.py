@@ -6,10 +6,10 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
 
-from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
-from chatTCP.src.Red.EnsambladorRed import EnsambladorRed, ConfigRed
-from chatTCP.src.ComponenteReceptor.IReceptor import IReceptor
-from chatTCP.src.Red.Cifrado.seguridad import GestorSeguridad
+from src.PaqueteDTO.PaqueteDTO import PaqueteDTO
+from src.Red.EnsambladorRed import EnsambladorRed, ConfigRed
+from src.ComponenteReceptor.IReceptor import IReceptor
+from src.Red.Cifrado.seguridad import GestorSeguridad
 
 
 class ReceptorCliente(IReceptor):
