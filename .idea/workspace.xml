@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b0003296-c351-4cb5-a0fa-f6ae1887d0f8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/Presentacion/InfzMenuUsuarios.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Presentacion/InfzMenuUsuarios.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatTCP/server_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/server_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +53,7 @@
     "Python.server_main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "adolfoBranchMejorada",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -206,6 +206,7 @@
       <updated>1764904108643</updated>
       <workItem from="1764904110285" duration="7256000" />
       <workItem from="1764926093407" duration="5707000" />
+      <workItem from="1764970380277" duration="1163000" />
     </task>
     <servers />
   </component>
