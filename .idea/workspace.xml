@@ -6,18 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="b0003296-c351-4cb5-a0fa-f6ae1887d0f8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/server_public.pem" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/server_public.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/Datos/repositorio.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Datos/repositorio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaChatTCP.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaChatTCP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/ModeloChatTCP/ChatTCP/LogicaCliente.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/PaqueteDTO/PaqueteDTO.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/PaqueteDTO/PaqueteDTO.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/src/Red/Receptor/ServidorTCP.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Red/Receptor/ServidorTCP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/usuarios.json" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/usuarios.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatTCP/src/Presentacion/InfzMenuUsuarios.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/src/Presentacion/InfzMenuUsuarios.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -61,7 +62,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Python.interfazInicioSesion">
+  <component name="RunManager" selected="Python.InfzMenuUsuarios">
     <configuration name="InfzMenuUsuarios" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ProyectoSeguridad" />
       <option name="ENV_FILES" value="" />
@@ -179,10 +180,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.InfzMenuUsuarios" />
         <item itemvalue="Python.interfazInicioSesion" />
         <item itemvalue="Python.interfazRegistroUsuario" />
         <item itemvalue="Python.server_main" />
-        <item itemvalue="Python.InfzMenuUsuarios" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -204,7 +205,7 @@
       <option name="presentableId" value="Default" />
       <updated>1764904108643</updated>
       <workItem from="1764904110285" duration="7256000" />
-      <workItem from="1764926093407" duration="5076000" />
+      <workItem from="1764926093407" duration="5707000" />
     </task>
     <servers />
   </component>
@@ -224,9 +225,9 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazRegistroUsuario.coverage" NAME="interfazRegistroUsuario Coverage Results" MODIFIED="1764931050869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$InfzMenuUsuarios.coverage" NAME="InfzMenuUsuarios Coverage Results" MODIFIED="1764926252755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$InfzMenuUsuarios.coverage" NAME="InfzMenuUsuarios Coverage Results" MODIFIED="1764931819483" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
     <SUITE FILE_PATH="coverage/ProyectoSeguridad$server_main.coverage" NAME="server_main Coverage Results" MODIFIED="1764930969117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP" />
     <SUITE FILE_PATH="coverage/ProyectoSeguridad$main.coverage" NAME="main Coverage Results" MODIFIED="1764904783178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src" />
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazInicioSesion.coverage" NAME="interfazInicioSesion Coverage Results" MODIFIED="1764926614442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazInicioSesion.coverage" NAME="interfazInicioSesion Coverage Results" MODIFIED="1764931229241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
   </component>
 </project>
