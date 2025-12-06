@@ -34,6 +34,7 @@ class ReceptorLogicaServidor(IReceptor):
         self.ensamblador = ensamblador
         self.usuarios_conectados  = {}
 
+    #se usa para convertir un metodo de clase en un atributo estionado el property
     @property
     def cliente_tcp(self):
         return self.ensamblador._cliente_tcp
