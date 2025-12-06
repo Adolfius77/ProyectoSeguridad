@@ -32,7 +32,9 @@ class ReceptorLogicaServidor(IReceptor):
     def __init__(self, event_bus, ensamblador):
         self.event_bus = event_bus
         self.ensamblador = ensamblador
+        self.usuarios_conectados  = {}
 
+    #se usa para convertir un metodo de clase en un atributo estionado el property
     @property
     def cliente_tcp(self):
         return self.ensamblador._cliente_tcp
@@ -66,7 +68,8 @@ class ReceptorLogicaServidor(IReceptor):
         exito = repositorioUsuarios.guardar(user, pwd)
         tipo_resp = "REGISTRO_OK" if exito else "REGISTRO_FAIL"
         msj = "Usuario creado correctamente" if exito else "El usuario ya existe"
-        
+
+
         logging.info(f"Intento registro {user}: {tipo_resp}")
         self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], tipo_resp, msj)
 
@@ -84,6 +87,7 @@ class ReceptorLogicaServidor(IReceptor):
                 puerto=datos['puerto_escucha'],
                 llave_publica=llave_publica_user
             )
+            self.usuarios_conectados[user] = nuevo_servicio
 
             self.event_bus.registrar_servicio("MENSAJE", nuevo_servicio)
             self.event_bus.registrar_servicio("LISTA_USUARIOS", nuevo_servicio)
@@ -103,8 +107,19 @@ class ReceptorLogicaServidor(IReceptor):
                     continue
                 self._enviar_paquete_seguro(servicio, "MENSAJE", paquete.contenido, origen=paquete.origen, destino="TODOS")
         else:
-            
-            pass
+            #aqui es el mensaje privado
+            servicio_destino = self.usuarios_conectados.get(destino)
+            if servicio_destino:
+                self._enviar_paquete_seguro(
+                    servicio_destino,
+                    "MENSAJE",
+                    paquete.contenido,
+                    origen=paquete.origen,
+                    destino=destino
+                )
+            else:
+                logging.warning(f"nose puedo enviar el mensaje privado a {destino} o no se encontro el usuario")
+
 
     def _broadcast_lista_usuarios(self):
         subcriptores = self.event_bus.servicios_por_evento.get("LISTA_USUARIOS", [])
