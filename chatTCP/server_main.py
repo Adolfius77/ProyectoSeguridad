@@ -34,7 +34,6 @@ class ReceptorLogicaServidor(IReceptor):
         self.ensamblador = ensamblador
         self.usuarios_conectados  = {}
 
-    #se usa para convertir un metodo de clase en un atributo estionado el property
     @property
     def cliente_tcp(self):
         return self.ensamblador._cliente_tcp
@@ -64,26 +63,31 @@ class ReceptorLogicaServidor(IReceptor):
         datos = paquete.contenido
         user = datos.get('usuario')
         pwd = datos.get('password')
+        
+        # OBTENER HOST CORRECTO
+        host_respuesta = datos.get('host_escucha', paquete.host)
 
         exito = repositorioUsuarios.guardar(user, pwd)
         tipo_resp = "REGISTRO_OK" if exito else "REGISTRO_FAIL"
         msj = "Usuario creado correctamente" if exito else "El usuario ya existe"
 
-
         logging.info(f"Intento registro {user}: {tipo_resp}")
-        self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], tipo_resp, msj)
+        self._enviar_respuesta_directa(host_respuesta, datos['puerto_escucha'], datos['public_key'], tipo_resp, msj)
 
     def _procesar_login(self, paquete):
         datos = paquete.contenido
         user = datos['usuario']
         
-        logging.info(f"Intento login {user}")
+        # OBTENER HOST CORRECTO
+        host_respuesta = datos.get('host_escucha', paquete.host)
+        
+        logging.info(f"Intento login {user} desde {host_respuesta}:{datos['puerto_escucha']}")
 
         if repositorioUsuarios.validar(user, datos['password']):
             llave_publica_user = datos['public_key'].encode('utf-8') if isinstance(datos['public_key'], str) else datos['public_key']
 
             nuevo_servicio = ServicioDTO(
-                host=paquete.host,
+                host=host_respuesta,
                 puerto=datos['puerto_escucha'],
                 llave_publica=llave_publica_user
             )
@@ -92,10 +96,10 @@ class ReceptorLogicaServidor(IReceptor):
             self.event_bus.registrar_servicio("MENSAJE", nuevo_servicio)
             self.event_bus.registrar_servicio("LISTA_USUARIOS", nuevo_servicio)
 
-            self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], "LOGIN_OK", user)
+            self._enviar_respuesta_directa(host_respuesta, datos['puerto_escucha'], datos['public_key'], "LOGIN_OK", user)
             self._broadcast_lista_usuarios()
         else:
-            self._enviar_respuesta_directa(paquete.host, datos['puerto_escucha'], datos['public_key'], "ERROR", "Credenciales Incorrectas")
+            self._enviar_respuesta_directa(host_respuesta, datos['puerto_escucha'], datos['public_key'], "ERROR", "Credenciales Incorrectas")
 
     def _procesar_mensaje(self, paquete):
         destino = paquete.destino
@@ -103,11 +107,11 @@ class ReceptorLogicaServidor(IReceptor):
 
         if destino == "TODOS":
             for servicio in subcriptores:
+                # No enviar al remitente original
                 if servicio.puerto == paquete.puerto_origen and servicio.host == paquete.host:
                     continue
                 self._enviar_paquete_seguro(servicio, "MENSAJE", paquete.contenido, origen=paquete.origen, destino="TODOS")
         else:
-            #aqui es el mensaje privado
             servicio_destino = self.usuarios_conectados.get(destino)
             if servicio_destino:
                 self._enviar_paquete_seguro(
@@ -118,12 +122,12 @@ class ReceptorLogicaServidor(IReceptor):
                     destino=destino
                 )
             else:
-                logging.warning(f"nose puedo enviar el mensaje privado a {destino} o no se encontro el usuario")
-
+                logging.warning(f"No se pudo enviar msj privado a {destino}")
 
     def _broadcast_lista_usuarios(self):
         subcriptores = self.event_bus.servicios_por_evento.get("LISTA_USUARIOS", [])
-        lista_nombres = ["Usuarios conectados..."] 
+        lista_nombres = list(self.usuarios_conectados.keys())
+        
         for servicio in subcriptores:
             self._enviar_paquete_seguro(servicio, "LISTA_USUARIOS", lista_nombres, origen="SERVIDOR", destino="TODOS")
 
@@ -148,24 +152,19 @@ class ReceptorLogicaServidor(IReceptor):
 
 class ServidorBusApp:
     def iniciar(self):
-        print("=== SERVIDOR EVENT BUS INICIADO (Puerto 5000) ===")
+        print("=== SERVIDOR EVENT BUS INICIADO (Puerto 5555) ===")
         print(f"Directorio base: {current_dir}")
 
         self.ensamblador = EnsambladorRed.obtener_instancia()
         self.event_bus = EventBus()
         self.seguridad = GestorSeguridad()
-
         
-        ruta_privada = os.path.join(current_dir, "server_private.pem")
         ruta_publica = os.path.join(current_dir, "server_public.pem")
-
-      
         
         with open(ruta_publica, "wb") as f:
             f.write(self.seguridad.obtener_publica_bytes())
         
         print(f"[Seguridad] Llave pública actualizada en: {ruta_publica}")
-      
 
         self.ensamblador._gestor_seguridad = self.seguridad
 

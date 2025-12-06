@@ -48,8 +48,8 @@ class LogicaCliente:
         # ------------------------------
 
         config = ConfigRed(
-            host_escucha="0.0.0.0",
-            puerto_escucha=0,
+            host_escucha="0.0.0.0", # Escuchar en todas las interfaces
+            puerto_escucha=0,       # Puerto aleatorio
             host_destino=self.host_servidor,
             puerto_destino=self.puerto_servidor,
             llave_publica_destino=llave_servidor
@@ -60,11 +60,15 @@ class LogicaCliente:
         try:
             print("[LogicaCliente] Ensamblando red...")
             self.emisor = self.ensamblador.ensamblar(self.receptor_interno, config)
-            time.sleep(0.5)
+            
+            # AUMENTADO: Tiempo de espera vital para que el socket se abra correctamente
+            time.sleep(1.0) 
 
             if self.ensamblador._servidor:
                 self.mi_puerto = self.ensamblador._servidor.get_puerto()
-                print(f"[LogicaCliente] Conectado. Mi puerto: {self.mi_puerto}")
+                # FORZADO: Usar 127.0.0.1 para evitar problemas de resolución de nombres en local
+                self.mi_host = "127.0.0.1"
+                print(f"[LogicaCliente] Conectado. Escuchando en {self.mi_host}:{self.mi_puerto}")
             else:
                 raise Exception("El servidor interno no se inició")
 
@@ -72,6 +76,7 @@ class LogicaCliente:
             print(f"[LogicaCliente] ERROR al ensamblar red: {e}")
             self.emisor = None
             self.mi_puerto = 0
+            self.mi_host = "127.0.0.1"
 
         self.usuario_actual = None
 
@@ -81,13 +86,13 @@ class LogicaCliente:
     def registrar(self, usuario, password):
         if not self._validar_conexion(): return
 
-        # Obtenemos nuestra llave pública del ensamblador
         public_key_pem = self.ensamblador.obtener_llave_publica().decode('utf-8')
 
         contenido = {
             "usuario": usuario,
             "password": password,
             "puerto_escucha": self.mi_puerto,
+            "host_escucha": self.mi_host, # ENVIAMOS LA IP CORRECTA
             "public_key": public_key_pem
         }
         self._enviar_paquete("REGISTRO", contenido)
@@ -102,6 +107,7 @@ class LogicaCliente:
             "usuario": usuario,
             "password": password,
             "puerto_escucha": self.mi_puerto,
+            "host_escucha": self.mi_host, # ENVIAMOS LA IP CORRECTA
             "public_key": public_key_pem,
         }
         self._enviar_paquete("LOGIN", contenido)
@@ -138,21 +144,16 @@ class LogicaCliente:
         return True
 
     def _cargar_llave_servidor(self):
-        """Busca server_public.pem en la raíz del proyecto chatTCP"""
         ruta_pem = os.path.join(chat_root, "server_public.pem")
-        print(f"[LogicaCliente] Buscando llave en: {ruta_pem}")
-        
         if os.path.exists(ruta_pem):
             try:
                 with open(ruta_pem, "rb") as f:
-                    print(f"[LogicaCliente] Llave servidor cargada ÉXITO.")
                     return self.gestor_seguridad.importar_publica(f.read())
             except Exception as e:
                 print(f"[LogicaCliente] Error leyendo llave: {e}")
                 return None
         else:
-            print(f"[LogicaCliente] NO SE ENCONTRÓ {ruta_pem}. Asegúrate de ejecutar el servidor primero.")
+            print(f"[LogicaCliente] NO SE ENCONTRÓ {ruta_pem}.")
             return None
 
-# Instancia global
 gestor_cliente = LogicaCliente()
