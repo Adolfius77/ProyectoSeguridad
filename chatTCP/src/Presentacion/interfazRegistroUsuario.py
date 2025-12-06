@@ -35,12 +35,12 @@ def accion_registro_exitoso():
 
 def volver_al_login(event=None):
     ventana_registro.destroy()
-    ruta_login = os.path.join(os.path.dirname(__file__), "interfazInicioSesion.py")
-    subprocess.Popen([sys.executable, ruta_login])
+    # Importar y ejecutar la interfaz de login
+    from src.Presentacion import interfazInicioSesion
 
 def solicitar_registro():
     # --- VALIDACIÓN DE CONEXIÓN ---
-    if gestor_cliente.emisor is None:
+    if gestor_cliente is None or gestor_cliente.emisor is None:
         messagebox.showerror(
             "Error de Conexión", 
             "El cliente no está conectado al servidor.\n\n"

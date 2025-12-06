@@ -21,6 +21,15 @@ class GestorSeguridad:
         with open(archivo, 'wb') as f:
             f.write(pem)
 
+    def guardar_publica(self, archivo):
+        """Guarda la llave pública en un archivo"""
+        pem = self.public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        )
+        with open(archivo, 'wb') as f:
+            f.write(pem)
+
     def cargar_privada_desde_archivo(self, archivo):
         """Carga una llave privada existente"""
         try:

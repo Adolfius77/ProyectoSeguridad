@@ -33,50 +33,38 @@ class ReceptorCliente(IReceptor):
 
 
 class LogicaCliente:
-    def __init__(self):
-        self.ensamblador = EnsambladorRed.obtener_instancia()
+    """
+    Lógica de negocio del cliente.
+    Recibe la configuración de red desde el main (ArranqueProyecto).
+    """
+    def __init__(self, ensamblador, emisor, mi_puerto, host_servidor, puerto_servidor):
+        """
+        Inicializa la lógica del cliente con configuración de red.
+
+        Args:
+            ensamblador: Instancia del EnsambladorRed ya configurado
+            emisor: Emisor de red ya inicializado
+            mi_puerto: Puerto donde este cliente escucha
+            host_servidor: Host del servidor destino
+            puerto_servidor: Puerto del servidor destino
+        """
+        self.ensamblador = ensamblador
+        self.emisor = emisor
+        self.mi_puerto = mi_puerto
+        self.host_servidor = host_servidor
+        self.puerto_servidor = puerto_servidor
         self.gestor_seguridad = GestorSeguridad()
 
-        self.host_servidor = "127.0.0.1"
-        self.puerto_servidor = 5555
-
-        # --- CARGA ROBUSTA DE LLAVE ---
-        llave_servidor = self._cargar_llave_servidor()
-
-        if not llave_servidor:
-            print("[ERROR CRÍTICO] No se pudo cargar la llave del servidor.")
-            self.emisor = None
-            return
-            # ------------------------------
-
-        config = ConfigRed(
-            host_escucha="0.0.0.0",
-            puerto_escucha=0,
-            host_destino=self.host_servidor,
-            puerto_destino=self.puerto_servidor,
-            llave_publica_destino=llave_servidor
-        )
-
+        # Crear receptor interno con callback
         self.receptor_interno = ReceptorCliente()
-        self.receptor_interno.set_callback(self._procesar_paquete)  # ← CALLBACK AL PROCESADOR
+        self.receptor_interno.set_callback(self._procesar_paquete)
 
-        try:
-            print("[LogicaCliente] Ensamblando red...")
-            self.emisor = self.ensamblador.ensamblar(self.receptor_interno, config)
-            time.sleep(0.5)
-
-            if self.ensamblador._servidor:
-                self.mi_puerto = self.ensamblador._servidor.get_puerto()
-                print(f"[LogicaCliente] Conectado. Mi puerto: {self.mi_puerto}")
-            else:
-                raise Exception("El servidor interno no se inició")
-
-        except Exception as e:
-            print(f"[LogicaCliente] ERROR al ensamblar red: {e}")
-            self.emisor = None
-            self.mi_puerto = 0
-
+        # Usuario actual (se llenará después del login)
         self.usuario_actual: UsuarioDTO | None = None
+
+        print(f"[LogicaCliente] Inicializado correctamente")
+        print(f"[LogicaCliente] Mi puerto: {self.mi_puerto}")
+        print(f"[LogicaCliente] Servidor destino: {self.host_servidor}:{self.puerto_servidor}")
 
     # PROCESADOR PRINCIPAL DEL CLIENTE
     def _procesar_paquete(self, paquete: PaqueteDTO):
@@ -187,5 +175,5 @@ class LogicaCliente:
             return None
 
 
-# Instancia global
-gestor_cliente = LogicaCliente()
+# Instancia global que se asigna desde usuario_main.py
+gestor_cliente = None

@@ -102,8 +102,8 @@ btn_login.pack(pady=(25, 10), ipadx=30)
 
 def abrir_registro(event):
     ventana.destroy()
-    ruta_registro = os.path.join(os.path.dirname(__file__), "interfazRegistroUsuario.py")
-    subprocess.Popen([sys.executable, ruta_registro])
+    # Importar y ejecutar la interfaz de registro
+    from src.Presentacion import interfazRegistroUsuario
 
 
 lbl_registro = tk.Label(panel_central, text="¿No tienes cuenta? Regístrate",

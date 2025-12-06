@@ -1,0 +1,72 @@
+2025-12-05 20:55:33,480 - USUARIO - Observador agregado a ColaEnvios: <src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x000001DBE7B5F290>
+2025-12-05 20:55:33,481 - USUARIO - Cola de recibos establecida en Receptor
+2025-12-05 20:55:33,481 - USUARIO - Receptor establecido: <src.ModeloChatTCP.ChatTCP.LogicaCliente.ReceptorCliente object at 0x000001DBE7B5F150>
+2025-12-05 20:55:33,481 - USUARIO - Observador agregado a ColaRecibos: <src.Red.Receptor.Receptor.Receptor object at 0x000001DBE7B5F550>
+2025-12-05 20:55:33,486 - USUARIO - Servidor TCP iniciado en localhost:8000
+2025-12-05 20:56:13,681 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:56:13,700 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:56:13,700 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:56:13,703 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 20:57:26,172 - USUARIO - Observador agregado a ColaEnvios: <src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x000001F407B35890>
+2025-12-05 20:57:26,174 - USUARIO - Cola de recibos establecida en Receptor
+2025-12-05 20:57:26,174 - USUARIO - Receptor establecido: <src.ModeloChatTCP.ChatTCP.LogicaCliente.ReceptorCliente object at 0x000001F407B35310>
+2025-12-05 20:57:26,174 - USUARIO - Observador agregado a ColaRecibos: <src.Red.Receptor.Receptor.Receptor object at 0x000001F407B36210>
+2025-12-05 20:57:26,180 - USUARIO - Servidor TCP iniciado en localhost:8000
+2025-12-05 20:57:40,722 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:57:40,722 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:57:40,723 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:57:40,725 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 20:57:42,592 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:57:42,592 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:57:42,593 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:57:42,594 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 20:57:53,885 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:57:53,886 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:57:53,886 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:57:53,887 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 20:58:06,625 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:06,625 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:06,625 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:58:06,626 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 20:58:06,774 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:06,774 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:06,774 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:58:06,775 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 20:58:06,990 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:06,990 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:06,990 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:58:07,014 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 20:58:08,025 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:08,025 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:08,025 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:58:08,026 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 20:58:08,189 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:08,190 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:08,190 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:58:08,191 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 20:58:23,639 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:23,640 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 20:58:23,640 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 20:58:23,641 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 21:07:47,177 - USUARIO - Observador agregado a ColaEnvios: <src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x0000025968936050>
+2025-12-05 21:07:47,178 - USUARIO - Cola de recibos establecida en Receptor
+2025-12-05 21:07:47,178 - USUARIO - Receptor establecido: <src.ModeloChatTCP.ChatTCP.LogicaCliente.ReceptorCliente object at 0x0000025968934D50>
+2025-12-05 21:07:47,178 - USUARIO - Observador agregado a ColaRecibos: <src.Red.Receptor.Receptor.Receptor object at 0x0000025968936310>
+2025-12-05 21:07:47,185 - USUARIO - Servidor TCP iniciado en localhost:8000
+2025-12-05 21:08:31,251 - USUARIO - Enviando paquete: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:08:31,252 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:08:31,252 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 21:08:31,256 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 21:14:55,385 - USUARIO - Observador agregado a ColaEnvios: <src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x0000012ACCF356D0>
+2025-12-05 21:14:55,386 - USUARIO - Cola de recibos establecida en Receptor
+2025-12-05 21:14:55,386 - USUARIO - Receptor establecido: <src.ModeloChatTCP.ChatTCP.LogicaCliente.ReceptorCliente object at 0x0000012ACCF35110>
+2025-12-05 21:14:55,386 - USUARIO - Observador agregado a ColaRecibos: <src.Red.Receptor.Receptor.Receptor object at 0x0000012ACCF36090>
+2025-12-05 21:14:55,394 - USUARIO - Servidor TCP iniciado en localhost:8000
+2025-12-05 21:15:25,143 - USUARIO - Enviando paquete: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:15:25,143 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:15:25,143 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 21:15:25,145 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000
+2025-12-05 21:15:43,379 - USUARIO - Enviando paquete: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:15:43,380 - USUARIO - Paquete encolado para envío: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:15:43,380 - USUARIO - Enviando paquete a localhost:6000
+2025-12-05 21:15:43,382 - USUARIO - Paquete enviado [HIBRIDO] a localhost:6000

@@ -5,6 +5,7 @@ import logging
 
 from src.ModeloChatTCP.DTOs.UsuarioDTO import UsuarioDTO
 from src.utils.generadorColor import GeneradorColor
+from src.ConfigProperties.ConfigReader import ConfigReader
 
 # --- Configuración de rutas ABSOLUTAS ---
 current_dir = os.path.dirname(os.path.abspath(__file__))  # Carpeta chatTCP
@@ -12,8 +13,7 @@ project_root = os.path.dirname(current_dir)  # Raíz del proyecto
 sys.path.insert(0, project_root)
 sys.path.insert(0, current_dir)
 
-from chatTCP.src.Bus.EventBus import EventBus
-from chatTCP.src.Bus.ServicioDTO import ServicioDTO
+
 from chatTCP.src.ComponenteReceptor.IReceptor import IReceptor
 from chatTCP.src.Red.EnsambladorRed import EnsambladorRed, ConfigRed
 from chatTCP.src.Red.Cifrado.seguridad import GestorSeguridad
@@ -39,13 +39,20 @@ generador_color = GeneradorColor()
 class ReceptorLogicaServidor(IReceptor):
     """
     Receptor principal del SERVIDOR MAIN que:
-      Procesa MENSAJES entre usuarios
-      Envía LISTA_USUARIOS al EventBus (ya no existen subscriptores internos)
-      Mantiene login y registro intactos
+      - Recibe conexiones de usuarios en puerto.entrada
+      - Envía respuestas a usuarios usando puerto.salida
+      - Envía eventos al EventBus (lista usuarios, mensajes, etc)
+      - Mantiene login y registro intactos
     """
-    def __init__(self, host_bus, puerto_bus, ensamblador):
+    def __init__(self, host_servidor, puerto_salida, host_bus, puerto_entrada_bus, ensamblador):
+        # Configuración propia del servidor
+        self.host_servidor = host_servidor
+        self.puerto_salida = puerto_salida
+
+        # Configuración del bus (para enviar eventos)
         self.host_bus = host_bus
-        self.puerto_bus = puerto_bus
+        self.puerto_entrada_bus = puerto_entrada_bus
+
         self.ensamblador = ensamblador
 
     @property
@@ -151,7 +158,7 @@ class ReceptorLogicaServidor(IReceptor):
                 origen=paquete.origen,
                 destino="EVENTBUS",
                 host=self.host_bus,
-                puerto_destino=self.puerto_bus
+                puerto_destino=self.puerto_entrada_bus
             )
 
             self.ensamblador.obtener_emisor().enviar_cambio(paquete_bus)
@@ -169,7 +176,7 @@ class ReceptorLogicaServidor(IReceptor):
                 origen="SERVIDOR",
                 destino="EVENTBUS",
                 host=self.host_bus,
-                puerto_destino=self.puerto_bus
+                puerto_destino=self.puerto_entrada_bus
             )
 
             self.ensamblador.obtener_emisor().enviar_cambio(paquete_bus)
@@ -198,32 +205,95 @@ class ReceptorLogicaServidor(IReceptor):
 
 
 #   SERVIDOR PRINCIPAL
-class ServidorBusApp:
+class ServidorMain:
     def iniciar(self):
         print("=== SERVIDOR MAIN INICIADO ===")
         print(f"Directorio base: {current_dir}")
 
         self.ensamblador = EnsambladorRed.obtener_instancia()
+
+        # Cargar o crear llaves persistentes del servidor
+        ruta_llave_privada = os.path.join(current_dir, "server_private.pem")
+        ruta_llave_publica = os.path.join(current_dir, "server_public.pem")
+
+        # Crear gestor de seguridad
         self.seguridad = GestorSeguridad()
+
+        if os.path.exists(ruta_llave_privada):
+            # Cargar llaves existentes (sobrescribe las generadas automáticamente)
+            if self.seguridad.cargar_privada_desde_archivo(ruta_llave_privada):
+                print(f"✅ Llaves del servidor cargadas desde archivos existentes")
+                # Verificar que se guardó la llave pública correspondiente
+                llave_publica_pem = self.seguridad.obtener_publica_bytes()
+                print(f"📍 Huella de llave pública: {llave_publica_pem[:50]}...")
+            else:
+                print(f"⚠️ Error al cargar llaves, usando llaves recién generadas y guardándolas...")
+                self.seguridad.guardar_privada(ruta_llave_privada)
+                self.seguridad.guardar_publica(ruta_llave_publica)
+                print(f"✅ Llaves del servidor guardadas")
+        else:
+            # Guardar las llaves recién generadas
+            self.seguridad.guardar_privada(ruta_llave_privada)
+            self.seguridad.guardar_publica(ruta_llave_publica)
+            print(f"✅ Llaves del servidor generadas y guardadas:")
+            print(f"   - Privada: {ruta_llave_privada}")
+            print(f"   - Pública: {ruta_llave_publica}")
+            llave_publica_pem = self.seguridad.obtener_publica_bytes()
+            print(f"📍 Huella de llave pública: {llave_publica_pem[:50]}...")
 
         self.ensamblador._gestor_seguridad = self.seguridad
 
-        # Cargar host/puerto del BUS desde archivo config
-        host_bus = "localhost"
-        puerto_bus = 5555
+        # Cargar configuración desde archivo .properties
+        config_path = os.path.join(current_dir, 'config', 'config_ServidorMain.properties')
+        try:
+            config_reader = ConfigReader(config_path)
 
-        # Configuración del servidor Main
+            # Configuración propia del servidor
+            host_servidor = config_reader.obtener_str('host', 'localhost')
+            puerto_entrada = config_reader.obtener_int('puerto.entrada', 6000)
+            puerto_salida = config_reader.obtener_int('puerto.salida', 6001)
+
+            # Configuración del bus (para enviarle eventos)
+            host_bus = config_reader.obtener_str('hostBus', 'localhost')
+            puerto_entrada_bus = config_reader.obtener_int('puerto.entradaBus', 5555)
+
+            print(f"Configuración cargada desde: {config_path}")
+            print(f"  Servidor Main:")
+            print(f"    - Host: {host_servidor}")
+            print(f"    - Puerto entrada (escucha usuarios): {puerto_entrada}")
+            print(f"    - Puerto salida (responde usuarios): {puerto_salida}")
+            print(f"  EventBus destino:")
+            print(f"    - Host: {host_bus}")
+            print(f"    - Puerto entrada: {puerto_entrada_bus}")
+        except FileNotFoundError as e:
+            print(f"Advertencia: {e}")
+            print("Usando valores por defecto...")
+            host_servidor = "localhost"
+            puerto_entrada = 6000
+            puerto_salida = 6001
+            host_bus = "localhost"
+            puerto_entrada_bus = 5555
+
+        # Configuración del ensamblador de red
+        # - Escucha en puerto_entrada para recibir de usuarios
+        # - Envía al bus en host_bus:puerto_entrada_bus
         config = ConfigRed(
-            host_escucha="0.0.0.0",
-            puerto_escucha=6000,
+            host_escucha=host_servidor,
+            puerto_escucha=puerto_entrada,
             host_destino=host_bus,
-            puerto_destino=puerto_bus,
+            puerto_destino=puerto_entrada_bus,
             llave_publica_destino=self.seguridad.public_key
         )
 
+        # Guardar puerto de salida para respuestas a usuarios
+        self.puerto_salida = puerto_salida
+        self.host_servidor = host_servidor
+
         self.receptor_logica = ReceptorLogicaServidor(
+            host_servidor,
+            puerto_salida,
             host_bus,
-            puerto_bus,
+            puerto_entrada_bus,
             self.ensamblador
         )
 
@@ -238,4 +308,5 @@ class ServidorBusApp:
 
 
 if __name__ == "__main__":
-    ServidorBusApp().iniciar()
+    ServidorMain().iniciar()
+
