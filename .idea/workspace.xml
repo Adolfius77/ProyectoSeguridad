@@ -62,7 +62,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.InfzMenuUsuarios">
+  <component name="RunManager" selected="Python.interfazInicioSesion">
     <configuration name="InfzMenuUsuarios" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ProyectoSeguridad" />
       <option name="ENV_FILES" value="" />
@@ -180,10 +180,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.InfzMenuUsuarios" />
         <item itemvalue="Python.interfazInicioSesion" />
         <item itemvalue="Python.interfazRegistroUsuario" />
         <item itemvalue="Python.server_main" />
+        <item itemvalue="Python.InfzMenuUsuarios" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>

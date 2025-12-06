@@ -1,233 +1,179 @@
 import tkinter as tk
-from tkinter import Frame, Label
+from tkinter import messagebox, Label, Frame
+import sys
+import os
+
+# Ajuste de imports para que funcione desde cualquier ruta
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.dirname(os.path.dirname(current_dir))
+sys.path.insert(0, root_dir)
+
 from chatTCP.src.Presentacion.ObjetosPresentacion.UsuarioOP import UsuariosOP
-from chatTCP.src.Presentacion.Observadores.INotificadorNuevoMensaje import INotificadorNuevoMensaje
+from chatTCP.src.Presentacion.chatindividual import VentanaChat
+from chatTCP.src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
 
-class VistaListaUsuarios(tk.Frame, INotificadorNuevoMensaje):
-    def __init__(self, parent, lista_usuarios, controlador):
-        super().__init__(parent)
-        self.parent = parent
-        self.lista_usuarios = lista_usuarios
-        self.controlador = controlador
 
-        self.config(bg="white")
+class MenuPrincipal(tk.Tk):
+    def __init__(self, usuario_actual):
+        super().__init__()
+        self.usuario_actual = usuario_actual
+        self.title(f"ChatTCP - Conectado como: {usuario_actual}")
+        self.geometry("450x700")
+        self.configure(bg="#f0f2f5")
 
-        # Guarda todos los labels de último mensaje para actualizarlos
-        self.labels_mensajes = []
+        # Diccionario para gestionar ventanas de chat abiertas
+        # Key: nombre_usuario, Value: instancia_VentanaChat
+        self.chats_abiertos = {}
 
-        # Guarda referencias a los widgets de cada usuario para poder actualizarlos
-        # Diccionario: {nombre_usuario: {"tarjeta": Frame, "ultimo_label": Label, "badge": Label, "badge_container": Frame}}
-        self.widgets_usuarios = {}
+        # Lista de objetos UsuarioOP
+        self.usuarios_op = []
 
-        # Detecta cuando la ventana cambia de tamaño
-        self.parent.bind("<Configure>", lambda e: self.actualizar_wrap())
+        # Configurar callback global
+        gestor_cliente.set_callback(self.procesar_paquete_red)
 
-        self.render()
+        self._init_ui()
 
-    def render(self):
-        header = Label(
-            self,
-            text="Usuarios conectados",
-            bg="#128C7E",
-            fg="white",
-            font=("Arial", 18),
-            anchor="w",
-            padx=20,
-            pady=10
-        )
+        # Solicitar lista inicial de usuarios
+        self.after(1000, gestor_cliente.obtener_usuarios)
+
+    def _init_ui(self):
+        # Header
+        header = tk.Frame(self, bg="#008069", height=80)
         header.pack(fill="x")
 
-        for usuario in self.lista_usuarios:
-            self.crear_tarjeta_usuario(usuario)
+        lbl_titulo = tk.Label(header, text="Usuarios Conectados", bg="#008069", fg="white",
+                              font=("Helvetica", 16, "bold"))
+        lbl_titulo.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-    def crear_tarjeta_usuario(self, usuario):
-        tarjeta = Frame(self, bg="white", cursor="hand2")
-        tarjeta.pack(fill="x", padx=15, pady=8)
+        btn_refresh = tk.Button(header, text="↻", command=gestor_cliente.obtener_usuarios, bg="#006d59", fg="white",
+                                bd=0)
+        btn_refresh.place(relx=0.9, rely=0.5, anchor=tk.CENTER)
 
-        # Crear el callback para esta tarjeta
-        click_callback = lambda e, u=usuario: self.controlador_callback(u)
+        # Contenedor scrollable para usuarios
+        self.canvas = tk.Canvas(self, bg="#f0f2f5", bd=0, highlightthickness=0)
+        self.scrollbar = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        self.scrollable_frame = tk.Frame(self.canvas, bg="#f0f2f5")
 
-        # Bind click a la tarjeta principal
-        tarjeta.bind("<Button-1>", click_callback)
-
-        # Avatar
-        avatar = Frame(
-            tarjeta, width=50, height=50, bg=usuario.color,
-            highlightthickness=0, bd=0, cursor="hand2"
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         )
-        avatar.pack(side="left", padx=10)
-        avatar.pack_propagate(False)
-        avatar.bind("<Button-1>", click_callback)
 
-        letra = Label(
-            avatar,
-            text=usuario.nombre[0].upper(),
-            fg="white",
-            bg=usuario.color,
-            font=("Arial", 18, "bold"),
-            cursor="hand2"
-        )
-        letra.pack(expand=True)
-        letra.bind("<Button-1>", click_callback)
+        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw", width=430)
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        # Texto
-        texto = Frame(tarjeta, bg="white", cursor="hand2")
-        texto.pack(side="left", fill="x", expand=True)
-        texto.bind("<Button-1>", click_callback)
+        self.canvas.pack(side="left", fill="both", expand=True, padx=5, pady=5)
+        self.scrollbar.pack(side="right", fill="y")
 
-        nombre_label = Label(
-            texto,
-            text=usuario.nombre,
-            bg="white",
-            anchor="w",
-            font=("Arial", 14, "bold"),
-            cursor="hand2"
-        )
-        nombre_label.pack(fill="x")
-        nombre_label.bind("<Button-1>", click_callback)
+    def renderizar_lista(self):
+        # Limpiar lista actual
+        for widget in self.scrollable_frame.winfo_children():
+            widget.destroy()
 
-        ultimo_label = Label(
-            texto,
-            text=usuario.ultimo_mensaje,
-            bg="white",
-            anchor="w",
-            font=("Arial", 11),
-            fg="#555",
-            justify="left",
-            cursor="hand2"
-        )
-        ultimo_label.pack(fill="x")
-        ultimo_label.bind("<Button-1>", click_callback)
+        for user in self.usuarios_op:
+            if user.nombre == self.usuario_actual:
+                continue  # No mostrarse a sí mismo
 
-        # Guardar referencia para hacer flex dinámico
-        self.labels_mensajes.append(ultimo_label)
+            # Tarjeta de Usuario
+            card = tk.Frame(self.scrollable_frame, bg="white", padx=10, pady=10)
+            card.pack(fill="x", pady=2, padx=2)
 
-        # Badge mensajes (solo se muestra si totalMsjNuevos > 0)
-        badge = None
-        if usuario.totalMsjNuevos > 0:
-            badge = Label(
-                tarjeta,
-                text=str(usuario.totalMsjNuevos),
-                bg="#25D366",
-                fg="white",
-                font=("Arial", 10, "bold"),
-                width=3,
-                cursor="hand2"
-            )
-            badge.pack(side="right", padx=10)
-            badge.bind("<Button-1>", click_callback)
+            # Evento click
+            card.bind("<Button-1>", lambda e, u=user: self.abrir_chat(u))
 
-        # Guardar referencias para poder actualizar dinámicamente
-        self.widgets_usuarios[usuario.nombre] = {
-            "tarjeta": tarjeta,
-            "ultimo_label": ultimo_label,
-            "badge": badge,
-            "usuario": usuario
-        }
+            # Avatar (Circulo simulado)
+            lbl_avatar = tk.Label(card, text=user.nombre[0].upper(), bg=user.color, fg="white", width=4, height=2,
+                                  font=("Arial", 10, "bold"))
+            lbl_avatar.pack(side="left", padx=(0, 10))
+            lbl_avatar.bind("<Button-1>", lambda e, u=user: self.abrir_chat(u))
 
-        separator = Frame(self, height=1, bg="#E0E0E0")
-        separator.pack(fill="x", padx=10)
+            # Info
+            info_frame = tk.Frame(card, bg="white")
+            info_frame.pack(side="left", fill="x", expand=True)
 
-    def actualizar_wrap(self):
-        nuevo_wrap = self.parent.winfo_width() - 120  # espacio para avatar + padding
+            lbl_name = tk.Label(info_frame, text=user.nombre, font=("Helvetica", 11, "bold"), bg="white", anchor="w")
+            lbl_name.pack(fill="x")
+            lbl_name.bind("<Button-1>", lambda e, u=user: self.abrir_chat(u))
 
-        if nuevo_wrap < 50:
-            nuevo_wrap = 50
+            # Badge de mensajes nuevos
+            if user.totalMsjNuevos > 0:
+                lbl_badge = tk.Label(card, text=str(user.totalMsjNuevos), bg="#25D366", fg="white",
+                                     font=("Arial", 9, "bold"), width=3)
+                lbl_badge.pack(side="right")
 
-        for lbl in self.labels_mensajes:
-            lbl.config(wraplength=nuevo_wrap)
+    def abrir_chat(self, usuario_op):
+        # Resetear contador de mensajes
+        usuario_op.totalMsjNuevos = 0
+        self.renderizar_lista()
 
-    def actualizar(self, usuario_op: UsuariosOP):
-        """
-        Implementación de INotificadorNuevoMensaje.
-        Actualiza la vista cuando hay un cambio en un usuario (nuevo mensaje).
+        # Si ya existe, traer al frente
+        if usuario_op.nombre in self.chats_abiertos:
+            ventana = self.chats_abiertos[usuario_op.nombre]
+            try:
+                ventana.lift()
+                return
+            except tk.TclError:
+                # La ventana fue cerrada manualmente
+                del self.chats_abiertos[usuario_op.nombre]
 
-        Args:
-            usuario_op: UsuarioOP con información actualizada
-        """
-        if usuario_op.nombre not in self.widgets_usuarios:
-            return
+        # Crear nueva ventana
+        ventana = VentanaChat(self, usuario_op, gestor_cliente)
+        self.chats_abiertos[usuario_op.nombre] = ventana
 
-        widgets = self.widgets_usuarios[usuario_op.nombre]
+    def procesar_paquete_red(self, paquete):
+        """Método central que recibe TODO lo que llega de la red"""
+        print(f"[MenuPrincipal] Paquete recibido: {paquete.tipo}")
 
-        # Actualizar el último mensaje
-        widgets["ultimo_label"].config(text=usuario_op.ultimo_mensaje)
+        if paquete.tipo == "LISTA_USUARIOS":
+            # Actualizar lista de usuarios
+            nombres_conectados = paquete.contenido
+            nuevos_ops = []
 
-        # Actualizar el objeto usuario guardado
-        widgets["usuario"].ultimo_mensaje = usuario_op.ultimo_mensaje
-        widgets["usuario"].totalMsjNuevos = usuario_op.totalMsjNuevos
+            # Mantener estado de usuarios existentes
+            mapa_existentes = {u.nombre: u for u in self.usuarios_op}
 
-        # Manejar el badge según el número de mensajes nuevos
-        if usuario_op.totalMsjNuevos > 0:
-            if widgets["badge"] is None:
-                # Crear badge si no existe
-                click_callback = lambda e, u=widgets["usuario"]: self.controlador_callback(u)
-                badge = Label(
-                    widgets["tarjeta"],
-                    text=str(usuario_op.totalMsjNuevos),
-                    bg="#25D366",
-                    fg="white",
-                    font=("Arial", 10, "bold"),
-                    width=3,
-                    cursor="hand2"
-                )
-                badge.pack(side="right", padx=10)
-                badge.bind("<Button-1>", click_callback)
-                widgets["badge"] = badge
-            else:
-                # Actualizar badge existente
-                widgets["badge"].config(text=str(usuario_op.totalMsjNuevos))
-        else:
-            # Ocultar badge si no hay mensajes nuevos
-            if widgets["badge"] is not None:
-                widgets["badge"].pack_forget()
-                widgets["badge"].destroy()
-                widgets["badge"] = None
+            for nombre in nombres_conectados:
+                if nombre == "Usuarios conectados...": continue  # Ignorar header del server
 
-    def controlador_callback(self, usuario):
-        """
-        Callback que se ejecuta cuando el usuario hace click en una tarjeta.
-        Resetea el contador de mensajes nuevos y llama al controlador.
-        """
-        # Resetear el contador de mensajes nuevos a 0
-        if usuario.nombre in self.widgets_usuarios:
-            widgets = self.widgets_usuarios[usuario.nombre]
+                if nombre in mapa_existentes:
+                    nuevos_ops.append(mapa_existentes[nombre])
+                else:
+                    # Nuevo usuario
+                    nuevos_ops.append(UsuariosOP(nombre, "¡Nuevo usuario!", "#3498db", 0))
 
-            # Actualizar el objeto usuario
-            usuario.totalMsjNuevos = 0
-            widgets["usuario"].totalMsjNuevos = 0
+            self.usuarios_op = nuevos_ops
+            self.after(0, self.renderizar_lista)
 
-            # Ocultar el badge
-            if widgets["badge"] is not None:
-                widgets["badge"].pack_forget()
-                widgets["badge"].destroy()
-                widgets["badge"] = None
+        elif paquete.tipo == "MENSAJE":
+            # Mensaje recibido
+            remitente = paquete.origen
+            contenido = paquete.contenido.get("mensaje", "")
 
-        # Llamar al controlador
-        if self.controlador:
-            self.controlador(usuario)
+            # Verificar si tenemos chat abierto con él
+            if remitente in self.chats_abiertos:
+                try:
+                    self.chats_abiertos[remitente].mostrar_mensaje(remitente, contenido)
+                except tk.TclError:
+                    del self.chats_abiertos[remitente]  # Ventana estaba cerrada
 
+            # Actualizar notificaciones en la lista principal
+            encontrado = False
+            for user in self.usuarios_op:
+                if user.nombre == remitente:
+                    if remitente not in self.chats_abiertos:
+                        user.totalMsjNuevos += 1
+                    user.ultimo_mensaje = contenido[:20] + "..."
+                    encontrado = True
+                    break
 
-# ------------------------ DEMO ------------------------
-def abrir_chat(usuario):
-    print(f"Abriendo chat con: {usuario.nombre}")
+            if not encontrado:
+                # El usuario no estaba en la lista (raro, pedir actualización)
+                gestor_cliente.obtener_usuarios()
+
+            self.after(0, self.renderizar_lista)
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("Lista de Usuarios")
-    root.geometry("750x850")
-
-    usuarios = [
-        UsuariosOP("Juan Pérez", "Mensaje MUY largo que debe ajustarse al ancho flexible de la ventana.", "#F54242", 3),
-        UsuariosOP("María López", "¿Estás conectado?", "#4287F5", 1),
-        UsuariosOP("Carlos Ruiz", "Último mensaje...", "#2ECC71", 0),
-        UsuariosOP("Lucía Gómez", "Imagen enviada", "#AF52DE", 5),
-        UsuariosOP("francis bevintong","abreme we","#AF52DE",10),
-        UsuariosOP("Alan ruiz (conde de la jungla)","no te voy a gankear","#AF52DE",2)
-    ]
-
-    vista = VistaListaUsuarios(root, usuarios, abrir_chat)
-    vista.pack(fill="both", expand=True)
-
-    root.mainloop()
+    # Testeo individual
+    app = MenuPrincipal("UsuarioTest")
+    app.mainloop()

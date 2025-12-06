@@ -1,85 +1,92 @@
 import tkinter as tk
-from tkinter import scrolledtext
-from tkinter import ttk
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-from ModeloChatTCP.ChatTCP.LogicaCliente import LogicaCliente
+from tkinter import scrolledtext, ttk
+import datetime
 
-# Instancia global de la lógica de cliente
-logica_cliente = LogicaCliente()
 
-# Callback para mostrar mensajes recibidos en la interfaz
-def callback_mensaje(paquete):
-    try:
-        remitente = getattr(paquete, 'origen', 'Desconocido')
-        texto = paquete.contenido.get('mensaje', str(paquete.contenido))
-        mostrar_mensaje(remitente, texto)
-    except Exception as e:
-        mostrar_mensaje('Sistema', f'Error mostrando mensaje: {e}')
+class VentanaChat(tk.Toplevel):
+    def __init__(self, parent, usuario_destino, logica_cliente):
+        super().__init__(parent)
+        self.usuario_destino = usuario_destino
+        self.logica_cliente = logica_cliente
+        self.title(f"Chat con {usuario_destino.nombre}")
+        self.geometry("600x500")
 
-logica_cliente.set_callback(callback_mensaje)
+        # Interceptar el evento de cierre para no destruir la app completa
+        self.protocol("WM_DELETE_WINDOW", self.cerrar_chat)
 
-def enviar_mensaje():
-    """Función que se llama al presionar el botón de enviar."""
-    mensaje = entrada_mensaje.get()
-    if mensaje.strip():  # Verifica que el mensaje no esté vacío o_o
-        logica_cliente.enviar_mensaje(mensaje)
-        mostrar_mensaje("Yo", mensaje)
-        
-        # Limpia el campo de entrada -_-
-        entrada_mensaje.delete(0, tk.END)
+        self._configurar_ui()
+        self.mostrar_mensaje("Sistema", f"Iniciando chat con {usuario_destino.nombre}...")
 
-def mostrar_mensaje(emisor, texto):
-    """Agrega un mensaje al área de historial de mensajes."""
-    historial_mensajes.config(state=tk.NORMAL)
-    historial_mensajes.insert(tk.END, f"[{emisor}]: {texto}\n")
-    historial_mensajes.config(state=tk.DISABLED)
-    historial_mensajes.see(tk.END)
+    def _configurar_ui(self):
+        # Estilos
+        style = ttk.Style()
+        style.configure("TFrame", background="#ECE5DD")
 
-# Configuración de la ventana uwu
-ventana = tk.Tk()
-ventana.title("Chat de Mensajes TCP")
-ventana.geometry("1200x600")
+        # Marco Principal
+        main_frame = ttk.Frame(self, style="TFrame")
+        main_frame.pack(expand=True, fill="both")
 
-# Estilo del chat 7u7
-style = ttk.Style()
-style.configure("TFrame", background="drkcyan")
-style.configure("TButton", padding=5, relief="flat", background="#128C7E", foreground="darkgreen")
-style.configure("Historial.TLabel", background="powderblue", padding=5, relief="raised") 
+        # Historial de Mensajes
+        self.historial = scrolledtext.ScrolledText(
+            main_frame,
+            wrap=tk.WORD,
+            state=tk.DISABLED,
+            font=("Helvetica", 11),
+            bg="#E5DDD5",
+            bd=0,
+            padx=10,
+            pady=10
+        )
+        self.historial.pack(expand=True, fill="both", padx=10, pady=10)
+        self.historial.tag_config("remitente", foreground="#075E54", font=("Helvetica", 11, "bold"))
+        self.historial.tag_config("yo", foreground="#128C7E", font=("Helvetica", 11, "bold"), justify="right")
 
-# Historial de la conversación ù.ú
-marco_historial = ttk.Frame(ventana, padding="5", style="TFrame")
-marco_historial.pack(expand=True, fill="both")
+        # Área de entrada
+        input_frame = tk.Frame(main_frame, bg="#ECE5DD")
+        input_frame.pack(fill="x", padx=10, pady=10)
 
-#Área de Historial de Mensajes O-O
-historial_mensajes = scrolledtext.ScrolledText( #se usa el scrolledtext para ver los mensajes anteriores u.u
-    marco_historial, 
-    wrap=tk.WORD, 
-    state=tk.DISABLED, 
-    height=20, 
-    font=("Arial", 12),
-    background="lightcyan", 
-    relief="flat"
-)
-historial_mensajes.pack(expand=True, fill="both", padx=5, pady=5)
+        self.entrada_mensaje = ttk.Entry(input_frame, font=("Helvetica", 12))
+        self.entrada_mensaje.pack(side=tk.LEFT, expand=True, fill="x", padx=(0, 10))
+        self.entrada_mensaje.bind("<Return>", lambda e: self.enviar_mensaje())
 
-marco_entrada = ttk.Frame(ventana, padding="5")
-marco_entrada.pack(fill="x")
+        btn_enviar = tk.Button(
+            input_frame,
+            text="Enviar ➤",
+            command=self.enviar_mensaje,
+            bg="#128C7E",
+            fg="white",
+            font=("Helvetica", 10, "bold"),
+            relief="flat",
+            padx=15
+        )
+        btn_enviar.pack(side=tk.RIGHT)
 
-#Campo de entrada de mensajes (╬▔皿▔)╯
-entrada_mensaje = ttk.Entry(marco_entrada, width=40, font=("Arial", 12))
-entrada_mensaje.pack(side=tk.LEFT, expand=True, fill="x", padx=(0, 5))
+    def enviar_mensaje(self):
+        texto = self.entrada_mensaje.get().strip()
+        if texto:
+            # Enviar a través de la lógica de red
+            self.logica_cliente.enviar_mensaje(texto, destino=self.usuario_destino.nombre)
 
-#Esto permite que al presionar Enter también se envía el mensaje :D
-entrada_mensaje.bind("<Return>", lambda event=None: enviar_mensaje())
+            # Mostrar en mi propia pantalla
+            self.mostrar_mensaje("Yo", texto, es_mio=True)
+            self.entrada_mensaje.delete(0, tk.END)
 
-# Botón de Enviar 🦎🔥
-boton_enviar = ttk.Button(marco_entrada, text="Enviar", command=enviar_mensaje)
-boton_enviar.pack(side=tk.RIGHT)
+    def mostrar_mensaje(self, emisor, texto, es_mio=False):
+        self.historial.config(state=tk.NORMAL)
 
-#Mensaje de bienvenida :C
-mostrar_mensaje("Sistema", "¡Bienvenido al Chat!")
+        timestamp = datetime.datetime.now().strftime("%H:%M")
+        tag = "yo" if es_mio else "remitente"
+        alineacion = "right" if es_mio else "left"
 
-#Iniciar el Loop Principal de Tkinter :v
-ventana.mainloop()
+        header = f"{emisor} [{timestamp}]\n"
+        body = f"{texto}\n\n"
+
+        # Insertar con formato
+        self.historial.insert(tk.END, header, tag)
+        self.historial.insert(tk.END, body, alineacion)
+
+        self.historial.config(state=tk.DISABLED)
+        self.historial.see(tk.END)
+
+    def cerrar_chat(self):
+        self.destroy()
