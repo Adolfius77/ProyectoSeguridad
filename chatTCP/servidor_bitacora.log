@@ -93,3 +93,21 @@
 2025-12-05 21:32:13,280 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
 2025-12-05 21:32:13,543 - SERVER - Conexión rechazada por 127.0.0.1:21810
 2025-12-05 21:32:13,543 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:33:05,104 - SERVER - Conexión aceptada de ('127.0.0.1', 65398)
+2025-12-05 21:33:05,104 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "kike",...
+2025-12-05 21:33:05,104 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "kike", "password": "adolfo123", "puerto_escucha": 21810,...
+2025-12-05 21:33:05,105 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=kike, destino=SERVIDOR)
+2025-12-05 21:33:05,105 - SERVER - Procesando paquete: LOGIN de kike
+2025-12-05 21:33:05,105 - SERVER - Intento login kike
+2025-12-05 21:33:05,117 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:33:05,117 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:33:05,117 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:33:06,129 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:33:06,129 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:33:06,129 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:33:06,129 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:33:06,129 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:33:07,148 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:33:07,148 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:33:30,283 - SERVER - Deteniendo servidor TCP...
+2025-12-05 21:33:30,284 - SERVER - Servidor TCP detenido

@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b0003296-c351-4cb5-a0fa-f6ae1887d0f8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatTCP/server_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatTCP/server_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,24 +43,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.InfzMenuUsuarios.executor&quot;: &quot;Run&quot;,
-    &quot;Python.interfazInicioSesion.executor&quot;: &quot;Run&quot;,
-    &quot;Python.interfazRegistroUsuario.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.server_main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;adolfoBranchMejorada&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.InfzMenuUsuarios.executor": "Run",
+    "Python.interfazInicioSesion.executor": "Run",
+    "Python.interfazRegistroUsuario.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.server_main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Python.interfazInicioSesion">
     <configuration name="InfzMenuUsuarios" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ProyectoSeguridad" />
@@ -207,6 +206,7 @@
       <workItem from="1764904110285" duration="7256000" />
       <workItem from="1764926093407" duration="5707000" />
       <workItem from="1764970380277" duration="1163000" />
+      <workItem from="1764995247923" duration="361000" />
     </task>
     <servers />
   </component>
@@ -225,10 +225,10 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazRegistroUsuario.coverage" NAME="interfazRegistroUsuario Coverage Results" MODIFIED="1764979218572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazRegistroUsuario.coverage" NAME="interfazRegistroUsuario Coverage Results" MODIFIED="1764995472818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
     <SUITE FILE_PATH="coverage/ProyectoSeguridad$InfzMenuUsuarios.coverage" NAME="InfzMenuUsuarios Coverage Results" MODIFIED="1764931819483" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$server_main.coverage" NAME="server_main Coverage Results" MODIFIED="1764979109171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$server_main.coverage" NAME="server_main Coverage Results" MODIFIED="1764995441181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP" />
     <SUITE FILE_PATH="coverage/ProyectoSeguridad$main.coverage" NAME="main Coverage Results" MODIFIED="1764904783178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src" />
-    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazInicioSesion.coverage" NAME="interfazInicioSesion Coverage Results" MODIFIED="1764931229241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
+    <SUITE FILE_PATH="coverage/ProyectoSeguridad$interfazInicioSesion.coverage" NAME="interfazInicioSesion Coverage Results" MODIFIED="1764995497145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chatTCP/src/Presentacion" />
   </component>
 </project>
