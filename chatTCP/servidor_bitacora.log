@@ -249,3 +249,34 @@
 2025-12-05 16:36:58,332 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:53114
 2025-12-05 16:37:25,294 - SERVER - Deteniendo servidor TCP...
 2025-12-05 16:37:25,294 - SERVER - Servidor TCP detenido
+2025-12-05 19:41:59,241 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x0000028D765EF0D0>
+2025-12-05 19:41:59,241 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 19:41:59,241 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x0000028D765EED50>
+2025-12-05 19:41:59,241 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x0000028D765EF350>
+2025-12-05 19:41:59,243 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 19:44:20,498 - SERVER - Conexión aceptada de ('127.0.0.1', 54546)
+2025-12-05 19:44:20,503 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "REGISTRO", "contenido": {"usuario": "Dan...
+2025-12-05 19:44:20,504 - SERVER - Paquete recibido encolado: {"tipo": "REGISTRO", "contenido": {"usuario": "Dana", "password": "Dana1805", "puerto_escucha": 5453...
+2025-12-05 19:44:20,505 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 19:44:20,505 - SERVER - Procesando paquete: REGISTRO de ANONIMO
+2025-12-05 19:44:20,560 - SERVER - Intento registro Dana: REGISTRO_OK
+2025-12-05 19:44:20,561 - SERVER - Enviando paquete: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 19:44:20,561 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 19:44:20,561 - SERVER - Enviando paquete a 127.0.0.1:54533
+2025-12-05 19:44:20,563 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:54533
+2025-12-05 19:44:35,348 - SERVER - Conexión aceptada de ('127.0.0.1', 54562)
+2025-12-05 19:44:35,353 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "Dana",...
+2025-12-05 19:44:35,353 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "Dana", "password": "Dana1805", "puerto_escucha": 54548, ...
+2025-12-05 19:44:35,354 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=Dana, destino=SERVIDOR)
+2025-12-05 19:44:35,354 - SERVER - Procesando paquete: LOGIN de Dana
+2025-12-05 19:44:35,354 - SERVER - Intento login Dana
+2025-12-05 19:44:35,440 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 19:44:35,440 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 19:44:35,441 - SERVER - Enviando paquete a 127.0.0.1:54548
+2025-12-05 19:44:35,455 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:54548
+2025-12-05 19:44:35,456 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 19:44:35,456 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 19:44:35,457 - SERVER - Enviando paquete a 127.0.0.1:54548
+2025-12-05 19:44:35,472 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:54548
+2025-12-05 19:46:31,961 - SERVER - Deteniendo servidor TCP...
+2025-12-05 19:46:31,962 - SERVER - Servidor TCP detenido
