@@ -8,10 +8,12 @@ import logging
 
 if TYPE_CHECKING:
     from ..ObserverReceptor.ObservadorRecibos import ObservadorRecibos
-    from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
+    # CAMBIO: Usar ruta relativa o desde src para evitar error de modulo
+    from src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
 from ..ObserverReceptor.ObservableRecibos import ObservableRecibos
-from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
+# CAMBIO: Corregido el import para que sea consistente
+from src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 
 
 class ColaRecibos(ObservableRecibos):

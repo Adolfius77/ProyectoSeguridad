@@ -111,3 +111,78 @@
 2025-12-05 21:33:07,148 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
 2025-12-05 21:33:30,283 - SERVER - Deteniendo servidor TCP...
 2025-12-05 21:33:30,284 - SERVER - Servidor TCP detenido
+2025-12-05 21:41:56,628 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000018B0830>
+2025-12-05 21:41:56,629 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 21:41:56,629 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000018B0620>
+2025-12-05 21:41:56,629 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000018B09E0>
+2025-12-05 21:41:56,630 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 21:43:04,049 - SERVER - Conexión aceptada de ('127.0.0.1', 35049)
+2025-12-05 21:43:04,052 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "REGISTRO", "contenido": {"usuario": "fil...
+2025-12-05 21:43:04,052 - SERVER - Paquete recibido encolado: {"tipo": "REGISTRO", "contenido": {"usuario": "filis", "password": "adolfo123", "puerto_escucha": 35...
+2025-12-05 21:43:04,052 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:43:04,052 - SERVER - Procesando paquete: REGISTRO de ANONIMO
+2025-12-05 21:43:04,074 - SERVER - Intento registro filis: REGISTRO_OK
+2025-12-05 21:43:04,074 - SERVER - Enviando paquete: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:43:04,074 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:43:04,075 - SERVER - Enviando paquete a 127.0.0.1:35037
+2025-12-05 21:43:04,076 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:35037
+2025-12-05 21:43:18,206 - SERVER - Conexión aceptada de ('127.0.0.1', 35060)
+2025-12-05 21:43:18,233 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "filis"...
+2025-12-05 21:43:18,233 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "filis", "password": "adolfo123", "puerto_escucha": 35052...
+2025-12-05 21:43:18,233 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=filis, destino=SERVIDOR)
+2025-12-05 21:43:18,234 - SERVER - Procesando paquete: LOGIN de filis
+2025-12-05 21:43:18,234 - SERVER - Intento login filis desde 127.0.0.1:35052
+2025-12-05 21:43:18,248 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:43:18,248 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:43:18,248 - SERVER - Enviando paquete a 127.0.0.1:35052
+2025-12-05 21:43:19,265 - SERVER - Conexión rechazada por 127.0.0.1:35052
+2025-12-05 21:43:19,265 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:43:19,265 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:43:19,265 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:43:19,266 - SERVER - Enviando paquete a 127.0.0.1:35052
+2025-12-05 21:43:20,284 - SERVER - Conexión rechazada por 127.0.0.1:35052
+2025-12-05 21:43:20,284 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:46:51,320 - SERVER - Deteniendo servidor TCP...
+2025-12-05 21:46:51,320 - SERVER - Servidor TCP detenido
+2025-12-05 21:46:53,935 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000017F9130>
+2025-12-05 21:46:53,935 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 21:46:53,935 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017F8F50>
+2025-12-05 21:46:53,935 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000017F9250>
+2025-12-05 21:46:53,936 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 21:46:57,329 - SERVER - Deteniendo servidor TCP...
+2025-12-05 21:46:57,330 - SERVER - Servidor TCP detenido
+2025-12-05 21:46:59,627 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x0000000001869160>
+2025-12-05 21:46:59,627 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 21:46:59,627 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x0000000001868F80>
+2025-12-05 21:46:59,628 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x0000000001868590>
+2025-12-05 21:46:59,629 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 21:47:12,785 - SERVER - Conexión aceptada de ('127.0.0.1', 34872)
+2025-12-05 21:47:12,808 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "filis"...
+2025-12-05 21:47:12,808 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "filis", "password": "adolfo123", "puerto_escucha": 34865...
+2025-12-05 21:47:12,808 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=filis, destino=SERVIDOR)
+2025-12-05 21:47:12,809 - SERVER - Procesando paquete: LOGIN de filis
+2025-12-05 21:47:12,809 - SERVER - Login filis desde 127.0.0.1:34865
+2025-12-05 21:47:12,845 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:47:12,846 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:47:12,846 - SERVER - Enviando paquete a 127.0.0.1:34865
+2025-12-05 21:47:13,871 - SERVER - Conexión rechazada por 127.0.0.1:34865
+2025-12-05 21:47:13,872 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:47:14,072 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:47:14,072 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:47:14,072 - SERVER - Enviando paquete a 127.0.0.1:34865
+2025-12-05 21:47:15,091 - SERVER - Conexión rechazada por 127.0.0.1:34865
+2025-12-05 21:47:15,091 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:49:53,843 - SERVER - Deteniendo servidor TCP...
+2025-12-05 21:49:53,844 - SERVER - Servidor TCP detenido
+2025-12-05 21:49:59,201 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000017E9070>
+2025-12-05 21:49:59,201 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 21:49:59,201 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017E8E60>
+2025-12-05 21:49:59,201 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000017E91C0>
+2025-12-05 21:49:59,202 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 21:52:41,056 - SERVER - Deteniendo servidor TCP...
+2025-12-05 21:52:41,056 - SERVER - Servidor TCP detenido
+2025-12-05 21:52:49,025 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000017E8B30>
+2025-12-05 21:52:49,025 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 21:52:49,025 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017E8920>
+2025-12-05 21:52:49,025 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000017E8D10>
+2025-12-05 21:52:49,026 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555

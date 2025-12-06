@@ -3,10 +3,12 @@ import time
 import os
 import sys
 
-# Ajuste de path para imports (subir 3 niveles desde este archivo)
+# --- CONFIGURACIÓN DE RUTAS ROBUSTA ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
+# Subir hasta encontrar la carpeta chatTCP
 chat_root = os.path.abspath(os.path.join(current_dir, '..', '..', '..'))
-sys.path.insert(0, chat_root)
+if chat_root not in sys.path:
+    sys.path.insert(0, chat_root)
 
 from src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 from src.Red.EnsambladorRed import EnsambladorRed, ConfigRed
@@ -38,18 +40,17 @@ class LogicaCliente:
         self.host_servidor = "127.0.0.1"
         self.puerto_servidor = 5555
 
-        # --- CARGA ROBUSTA DE LLAVE ---
         llave_servidor = self._cargar_llave_servidor()
         
         if not llave_servidor:
             print("[ERROR CRÍTICO] No se pudo cargar la llave del servidor.")
             self.emisor = None 
             return 
-        # ------------------------------
 
+        # Escuchar en 127.0.0.1 para evitar WinError 10061
         config = ConfigRed(
-            host_escucha="0.0.0.0", # Escuchar en todas las interfaces
-            puerto_escucha=0,       # Puerto aleatorio
+            host_escucha="127.0.0.1", 
+            puerto_escucha=0,       
             host_destino=self.host_servidor,
             puerto_destino=self.puerto_servidor,
             llave_publica_destino=llave_servidor
@@ -60,15 +61,12 @@ class LogicaCliente:
         try:
             print("[LogicaCliente] Ensamblando red...")
             self.emisor = self.ensamblador.ensamblar(self.receptor_interno, config)
-            
-            # AUMENTADO: Tiempo de espera vital para que el socket se abra correctamente
             time.sleep(1.0) 
 
             if self.ensamblador._servidor:
                 self.mi_puerto = self.ensamblador._servidor.get_puerto()
-                # FORZADO: Usar 127.0.0.1 para evitar problemas de resolución de nombres en local
                 self.mi_host = "127.0.0.1"
-                print(f"[LogicaCliente] Conectado. Escuchando en {self.mi_host}:{self.mi_puerto}")
+                print(f"[LogicaCliente] LISTO. Escuchando en {self.mi_host}:{self.mi_puerto}")
             else:
                 raise Exception("El servidor interno no se inició")
 
@@ -92,7 +90,7 @@ class LogicaCliente:
             "usuario": usuario,
             "password": password,
             "puerto_escucha": self.mi_puerto,
-            "host_escucha": self.mi_host, # ENVIAMOS LA IP CORRECTA
+            "host_escucha": self.mi_host,
             "public_key": public_key_pem
         }
         self._enviar_paquete("REGISTRO", contenido)
@@ -107,7 +105,7 @@ class LogicaCliente:
             "usuario": usuario,
             "password": password,
             "puerto_escucha": self.mi_puerto,
-            "host_escucha": self.mi_host, # ENVIAMOS LA IP CORRECTA
+            "host_escucha": self.mi_host,
             "public_key": public_key_pem,
         }
         self._enviar_paquete("LOGIN", contenido)
@@ -139,7 +137,7 @@ class LogicaCliente:
 
     def _validar_conexion(self):
         if self.emisor is None:
-            print("[ERROR] Intento de envío sin conexión válida (Falta llave o error de red)")
+            print("[ERROR] Intento de envío sin conexión válida")
             return False
         return True
 

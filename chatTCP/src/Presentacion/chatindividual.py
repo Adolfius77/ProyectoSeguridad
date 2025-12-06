@@ -14,15 +14,11 @@ class VentanaChat(tk.Toplevel):
         self._configurar_ui()
 
     def _configurar_ui(self):
-        # Frame historial
         self.historial = scrolledtext.ScrolledText(self, state='disabled', font=("Arial", 10), wrap=tk.WORD, padx=10, pady=10)
         self.historial.pack(expand=True, fill='both')
-        
         self.historial.tag_config('yo', foreground='#0000FF', justify='right')
         self.historial.tag_config('otro', foreground='#008000', justify='left')
-        self.historial.tag_config('meta', foreground='#888888', justify='center', font=("Arial", 8))
 
-        # Frame entrada
         frame_input = tk.Frame(self, bg="#eee", pady=5, padx=5)
         frame_input.pack(fill='x')
         
@@ -42,14 +38,11 @@ class VentanaChat(tk.Toplevel):
 
     def mostrar_mensaje(self, usuario, texto, es_mio=False):
         self.historial.config(state='normal')
-        
-        hora = datetime.datetime.now().strftime("%H:%M")
         tag = 'yo' if es_mio else 'otro'
+        header = f"{usuario} [{datetime.datetime.now().strftime('%H:%M')}]\n"
         
-        header = f"{usuario} [{hora}]\n"
         self.historial.insert(tk.END, header, (tag, 'bold'))
         self.historial.insert(tk.END, texto + "\n\n", tag)
-        
         self.historial.see(tk.END)
         self.historial.config(state='disabled')
 

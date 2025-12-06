@@ -4,14 +4,19 @@ import tkinter as tk
 from tkinter import messagebox
 import subprocess
 
-# --- Configuración de rutas ---
+# --- Configuración de rutas (CRÍTICO: HACER ESTO PRIMERO) ---
+# Obtener la ruta de la carpeta actual (Presentacion)
 current_dir = os.path.dirname(os.path.abspath(__file__))
-chat_root = os.path.dirname(os.path.dirname(current_dir))
-proyecto_root = os.path.dirname(chat_root)
+# Obtener la ruta de la carpeta 'src'
+src_dir = os.path.dirname(current_dir)
+# Obtener la ruta de la carpeta 'chatTCP'
+chat_root = os.path.dirname(src_dir)
 
-sys.path.insert(0, proyecto_root)
-sys.path.insert(0, chat_root)
+# Agregar chatTCP al path para poder hacer 'import src...'
+if chat_root not in sys.path:
+    sys.path.insert(0, chat_root)
 
+# Ahora sí podemos importar
 from src.ModeloChatTCP.ChatTCP.LogicaCliente import gestor_cliente
 from src.Presentacion.MVC_ChatTCP.Validaciones import ValidadorUsuario, ValidacionError, GestorIntentosLogin
 from src.Presentacion.InfzMenuUsuarios import MenuPrincipal
@@ -29,8 +34,6 @@ def manejar_respuesta_servidor(paquete):
 def accion_exito(usuario_nombre):
     messagebox.showinfo("Bienvenido", f"Hola {usuario_nombre}")
     ventana.destroy()
-    
-    # Iniciar la aplicación principal
     app = MenuPrincipal(usuario_nombre)
     app.mainloop()
 

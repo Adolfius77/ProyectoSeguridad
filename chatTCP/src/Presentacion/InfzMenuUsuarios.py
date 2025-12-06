@@ -3,7 +3,6 @@ from tkinter import messagebox
 import sys
 import os
 
-# Ajuste de imports para que funcione desde cualquier ruta
 current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0, root_dir)
@@ -16,40 +15,29 @@ class MenuPrincipal(tk.Tk):
     def __init__(self, usuario_actual):
         super().__init__()
         self.usuario_actual = usuario_actual
-        self.title(f"ChatTCP - Conectado como: {usuario_actual}")
+        self.title(f"ChatTCP - {usuario_actual}")
         self.geometry("450x650")
         self.configure(bg="#f0f2f5")
 
-        self.chats_abiertos = {} # {nombre_usuario: instancia_ventana}
+        self.chats_abiertos = {}
         self.usuarios_op = []
 
-        # Configurar callback global al iniciar
         gestor_cliente.set_callback(self.procesar_paquete_red)
-
         self._init_ui()
-        
-        # Solicitar lista inicial de usuarios
         self.after(1000, gestor_cliente.obtener_usuarios)
 
     def _init_ui(self):
-        # Header
         header = tk.Frame(self, bg="#008069", height=60)
         header.pack(fill="x")
-        tk.Label(header, text="Contactos en Línea", bg="#008069", fg="white", font=("Arial", 14, "bold")).place(relx=0.5, rely=0.5, anchor="center")
+        tk.Label(header, text="Usuarios en Línea", bg="#008069", fg="white", font=("Arial", 14, "bold")).place(relx=0.5, rely=0.5, anchor="center")
         
-        # Botón refrescar
-        tk.Button(header, text="⟳", command=gestor_cliente.obtener_usuarios, bg="#006d59", fg="white", bd=0, font=("Arial", 12)).place(relx=0.9, rely=0.5, anchor="center")
+        tk.Button(header, text="⟳", command=gestor_cliente.obtener_usuarios, bg="#006d59", fg="white", bd=0).place(relx=0.9, rely=0.5, anchor="center")
 
-        # Lista Scrollable
         self.canvas = tk.Canvas(self, bg="#f0f2f5", highlightthickness=0)
         self.scrollbar = tk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
         self.scrollable_frame = tk.Frame(self.canvas, bg="#f0f2f5")
 
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-        )
-
+        self.scrollable_frame.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
         self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw", width=430)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
@@ -61,7 +49,7 @@ class MenuPrincipal(tk.Tk):
             widget.destroy()
 
         if not self.usuarios_op:
-            tk.Label(self.scrollable_frame, text="No hay usuarios conectados", bg="#f0f2f5", fg="#888").pack(pady=20)
+            tk.Label(self.scrollable_frame, text="Sin usuarios conectados", bg="#f0f2f5").pack(pady=20)
             return
 
         for user in self.usuarios_op:
@@ -69,30 +57,23 @@ class MenuPrincipal(tk.Tk):
 
             card = tk.Frame(self.scrollable_frame, bg="white", padx=10, pady=10)
             card.pack(fill="x", pady=2, padx=5)
-            
-            # Evento click para abrir chat
             card.bind("<Button-1>", lambda e, u=user: self.abrir_chat(u))
             
-            # Icono Avatar
-            avatar = tk.Label(card, text=user.nombre[0].upper(), bg="#128C7E", fg="white", width=4, height=2, font=("Arial", 10, "bold"))
-            avatar.pack(side="left", padx=(0, 10))
-            avatar.bind("<Button-1>", lambda e, u=user: self.abrir_chat(u))
-
+            # Avatar
+            tk.Label(card, text=user.nombre[0].upper(), bg="#128C7E", fg="white", width=4, height=2, font=("Arial", 10, "bold")).pack(side="left", padx=(0, 10))
+            
             # Info
             info = tk.Frame(card, bg="white")
             info.pack(side="left", fill="x", expand=True)
-            
             tk.Label(info, text=user.nombre, font=("Arial", 11, "bold"), bg="white", anchor="w").pack(fill="x")
             
-            # Preview mensaje
             msg_preview = user.ultimo_mensaje[:25] + "..." if len(user.ultimo_mensaje) > 25 else user.ultimo_mensaje
             tk.Label(info, text=msg_preview, font=("Arial", 9), fg="#666", bg="white", anchor="w").pack(fill="x")
 
-            # Badge
             if user.totalMsjNuevos > 0:
                 tk.Label(card, text=str(user.totalMsjNuevos), bg="#25D366", fg="white", font=("Arial", 8, "bold"), width=3).pack(side="right")
 
-            # Bind click a los hijos también
+            # Bind children
             for child in info.winfo_children():
                 child.bind("<Button-1>", lambda e, u=user: self.abrir_chat(u))
 
@@ -120,7 +101,6 @@ class MenuPrincipal(tk.Tk):
             
             for nombre in nombres:
                 if nombre == "Usuarios conectados...": continue
-                
                 if nombre in mapa_actual:
                     nuevos_ops.append(mapa_actual[nombre])
                 else:
@@ -133,7 +113,6 @@ class MenuPrincipal(tk.Tk):
             remitente = paquete.origen
             contenido = paquete.contenido.get("mensaje", "")
             
-            # Si hay chat abierto, enviar directo
             if remitente in self.chats_abiertos:
                 try:
                     self.chats_abiertos[remitente].mostrar_mensaje(remitente, contenido)
@@ -141,7 +120,6 @@ class MenuPrincipal(tk.Tk):
                 except tk.TclError:
                     del self.chats_abiertos[remitente]
 
-            # Si no, notificar en lista
             encontrado = False
             for u in self.usuarios_op:
                 if u.nombre == remitente:
