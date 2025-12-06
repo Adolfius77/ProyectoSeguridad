@@ -1,0 +1,95 @@
+2025-12-05 21:30:42,102 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x000000001DD7CCE0>
+2025-12-05 21:30:42,102 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 21:30:42,102 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x000000001DD7C8C0>
+2025-12-05 21:30:42,102 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000001DD7CE60>
+2025-12-05 21:30:42,103 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 21:31:27,715 - SERVER - Conexión aceptada de ('127.0.0.1', 21803)
+2025-12-05 21:31:27,718 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "REGISTRO", "contenido": {"usuario": "kik...
+2025-12-05 21:31:27,718 - SERVER - Paquete recibido encolado: {"tipo": "REGISTRO", "contenido": {"usuario": "kike", "password": "adolfo123", "puerto_escucha": 217...
+2025-12-05 21:31:27,718 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:31:27,718 - SERVER - Procesando paquete: REGISTRO de ANONIMO
+2025-12-05 21:31:27,754 - SERVER - Intento registro kike: REGISTRO_OK
+2025-12-05 21:31:27,754 - SERVER - Enviando paquete: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:31:27,754 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:31:27,755 - SERVER - Enviando paquete a 127.0.0.1:21793
+2025-12-05 21:31:27,755 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:21793
+2025-12-05 21:32:00,363 - SERVER - Conexión aceptada de ('127.0.0.1', 29217)
+2025-12-05 21:32:00,364 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "kike",...
+2025-12-05 21:32:00,364 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "kike", "password": "adolfo123", "puerto_escucha": 21810,...
+2025-12-05 21:32:00,364 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=kike, destino=SERVIDOR)
+2025-12-05 21:32:00,364 - SERVER - Procesando paquete: LOGIN de kike
+2025-12-05 21:32:00,364 - SERVER - Intento login kike
+2025-12-05 21:32:00,384 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:00,384 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:00,384 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:01,396 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:01,396 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:32:01,396 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:01,396 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:01,396 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:02,118 - SERVER - Conexión aceptada de ('127.0.0.1', 29221)
+2025-12-05 21:32:02,120 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "kike",...
+2025-12-05 21:32:02,120 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "kike", "password": "adolfo123", "puerto_escucha": 21810,...
+2025-12-05 21:32:02,120 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=kike, destino=SERVIDOR)
+2025-12-05 21:32:02,120 - SERVER - Procesando paquete: LOGIN de kike
+2025-12-05 21:32:02,120 - SERVER - Intento login kike
+2025-12-05 21:32:02,180 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:02,180 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:02,180 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:02,414 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:02,414 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:32:03,202 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:03,202 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:32:03,202 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:03,202 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:03,202 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:04,221 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:04,221 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:32:10,309 - SERVER - Conexión aceptada de ('127.0.0.1', 29228)
+2025-12-05 21:32:10,333 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "kike",...
+2025-12-05 21:32:10,333 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "kike", "password": "adolfo123", "puerto_escucha": 21810,...
+2025-12-05 21:32:10,333 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=kike, destino=SERVIDOR)
+2025-12-05 21:32:10,333 - SERVER - Procesando paquete: LOGIN de kike
+2025-12-05 21:32:10,333 - SERVER - Intento login kike
+2025-12-05 21:32:10,428 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:10,428 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:10,428 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:11,178 - SERVER - Conexión aceptada de ('127.0.0.1', 29230)
+2025-12-05 21:32:11,196 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "kike",...
+2025-12-05 21:32:11,197 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "kike", "password": "adolfo123", "puerto_escucha": 21810,...
+2025-12-05 21:32:11,197 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=kike, destino=SERVIDOR)
+2025-12-05 21:32:11,197 - SERVER - Procesando paquete: LOGIN de kike
+2025-12-05 21:32:11,197 - SERVER - Intento login kike
+2025-12-05 21:32:11,246 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:11,246 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:11,246 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:11,370 - SERVER - Conexión aceptada de ('127.0.0.1', 29232)
+2025-12-05 21:32:11,370 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "kike",...
+2025-12-05 21:32:11,370 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "kike", "password": "adolfo123", "puerto_escucha": 21810,...
+2025-12-05 21:32:11,371 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=kike, destino=SERVIDOR)
+2025-12-05 21:32:11,371 - SERVER - Procesando paquete: LOGIN de kike
+2025-12-05 21:32:11,371 - SERVER - Intento login kike
+2025-12-05 21:32:11,503 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:11,503 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:32:11,503 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:11,503 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:11,503 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:11,503 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:11,504 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 21:32:11,504 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:12,261 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:12,261 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:32:12,262 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:12,262 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:12,262 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:12,524 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:12,524 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:12,524 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:32:12,524 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:32:12,524 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:12,524 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 21:32:12,524 - SERVER - Enviando paquete a 127.0.0.1:21810
+2025-12-05 21:32:13,280 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:13,280 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 21:32:13,543 - SERVER - Conexión rechazada por 127.0.0.1:21810
+2025-12-05 21:32:13,543 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
