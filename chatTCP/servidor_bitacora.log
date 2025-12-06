@@ -186,3 +186,84 @@
 2025-12-05 21:52:49,025 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017E8920>
 2025-12-05 21:52:49,025 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000017E8D10>
 2025-12-05 21:52:49,026 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 21:54:52,513 - SERVER - Conexión aceptada de ('127.0.0.1', 42286)
+2025-12-05 21:54:52,516 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "SOLICITAR_USUARIOS", "contenido": {}, "o...
+2025-12-05 21:54:52,516 - SERVER - Paquete recibido encolado: {"tipo": "SOLICITAR_USUARIOS", "contenido": {}, "origen": "ANONIMO", "destino": "SERVIDOR", "host": ...
+2025-12-05 21:54:52,516 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=SOLICITAR_USUARIOS, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:54:52,516 - SERVER - Procesando paquete: SOLICITAR_USUARIOS de ANONIMO
+2025-12-05 21:55:12,068 - SERVER - Conexión aceptada de ('127.0.0.1', 42296)
+2025-12-05 21:55:12,080 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "SOLICITAR_USUARIOS", "contenido": {}, "o...
+2025-12-05 21:55:12,080 - SERVER - Paquete recibido encolado: {"tipo": "SOLICITAR_USUARIOS", "contenido": {}, "origen": "ANONIMO", "destino": "SERVIDOR", "host": ...
+2025-12-05 21:55:12,080 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=SOLICITAR_USUARIOS, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 21:55:12,081 - SERVER - Procesando paquete: SOLICITAR_USUARIOS de ANONIMO
+2025-12-05 21:59:41,207 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x0000000001824BF0>
+2025-12-05 21:59:41,207 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 21:59:41,207 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x000000000171C2F0>
+2025-12-05 21:59:41,207 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x0000000001824DA0>
+2025-12-05 21:59:41,208 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 22:00:52,996 - SERVER - Conexión aceptada de ('127.0.0.1', 15530)
+2025-12-05 22:00:52,999 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "REGISTRO", "contenido": {"usuario": "jua...
+2025-12-05 22:00:52,999 - SERVER - Paquete recibido encolado: {"tipo": "REGISTRO", "contenido": {"usuario": "juan12", "password": "adolfo123", "puerto_escucha": 1...
+2025-12-05 22:00:52,999 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 22:00:52,999 - SERVER - Procesando paquete: REGISTRO de ANONIMO
+2025-12-05 22:00:53,030 - SERVER - Registro juan12: REGISTRO_OK
+2025-12-05 22:00:53,030 - SERVER - Enviando paquete: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 22:00:53,030 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 22:00:53,030 - SERVER - Enviando paquete a 127.0.0.1:15522
+2025-12-05 22:00:53,031 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:15522
+2025-12-05 22:01:04,581 - SERVER - Conexión aceptada de ('127.0.0.1', 15547)
+2025-12-05 22:01:04,582 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "juan12...
+2025-12-05 22:01:04,582 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "juan12", "password": "adolfo123", "puerto_escucha": 1553...
+2025-12-05 22:01:04,583 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=juan12, destino=SERVIDOR)
+2025-12-05 22:01:04,583 - SERVER - Procesando paquete: LOGIN de juan12
+2025-12-05 22:01:04,583 - SERVER - Login juan12 desde 127.0.0.1:15534
+2025-12-05 22:01:04,621 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 22:01:04,621 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 22:01:04,621 - SERVER - Enviando paquete a 127.0.0.1:15534
+2025-12-05 22:01:04,636 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:15534
+2025-12-05 22:01:04,837 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 22:01:04,837 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 22:01:04,837 - SERVER - Enviando paquete a 127.0.0.1:15534
+2025-12-05 22:01:05,871 - SERVER - Conexión rechazada por 127.0.0.1:15534
+2025-12-05 22:01:05,871 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 22:02:23,365 - SERVER - Deteniendo servidor TCP...
+2025-12-05 22:02:23,365 - SERVER - Servidor TCP detenido
+2025-12-05 22:02:25,465 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x0000000001844B00>
+2025-12-05 22:02:25,466 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 22:02:25,466 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000018442F0>
+2025-12-05 22:02:25,466 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x0000000001844C80>
+2025-12-05 22:02:25,467 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 22:02:35,869 - SERVER - Conexión aceptada de ('127.0.0.1', 1744)
+2025-12-05 22:02:35,871 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "LOGIN", "contenido": {"usuario": "juan12...
+2025-12-05 22:02:35,871 - SERVER - Paquete recibido encolado: {"tipo": "LOGIN", "contenido": {"usuario": "juan12", "password": "adolfo123", "puerto_escucha": 1738...
+2025-12-05 22:02:35,871 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=LOGIN, origen=juan12, destino=SERVIDOR)
+2025-12-05 22:02:35,871 - SERVER - Procesando paquete: LOGIN de juan12
+2025-12-05 22:02:35,871 - SERVER - Login juan12 desde 127.0.0.1:1738
+2025-12-05 22:02:35,893 - SERVER - Enviando paquete: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 22:02:35,893 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LOGIN_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 22:02:35,893 - SERVER - Enviando paquete a 127.0.0.1:1738
+2025-12-05 22:02:35,894 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:1738
+2025-12-05 22:02:36,094 - SERVER - Enviando paquete: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 22:02:36,095 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=LISTA_USUARIOS, origen=SERVIDOR, destino=TODOS)
+2025-12-05 22:02:36,095 - SERVER - Enviando paquete a 127.0.0.1:1738
+2025-12-05 22:02:37,104 - SERVER - Conexión rechazada por 127.0.0.1:1738
+2025-12-05 22:02:37,104 - SERVER - Error al enviar paquete: [WinError 10061] No connection could be made because the target machine actively refused it
+2025-12-05 22:03:21,435 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000017F4C50>
+2025-12-05 22:03:21,435 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 22:03:21,435 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017F4A40>
+2025-12-05 22:03:21,436 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000017F4DD0>
+2025-12-05 22:03:21,436 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 22:05:24,861 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x00000000017F4CB0>
+2025-12-05 22:05:24,861 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 22:05:24,861 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017F4A40>
+2025-12-05 22:05:24,861 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x00000000017F4E00>
+2025-12-05 22:05:24,862 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 22:05:45,801 - SERVER - Conexión aceptada de ('127.0.0.1', 2830)
+2025-12-05 22:05:45,801 - SERVER - Mensaje vacío recibido
+2025-12-05 22:12:54,065 - SERVER - Deteniendo servidor TCP...
+2025-12-05 22:12:54,066 - SERVER - Servidor TCP detenido
+2025-12-05 22:12:57,584 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x0000000001794B00>
+2025-12-05 22:12:57,585 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 22:12:57,585 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x00000000017942F0>
+2025-12-05 22:12:57,585 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x0000000001794C80>
+2025-12-05 22:12:57,586 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555

@@ -50,6 +50,15 @@ def solicitar_registro():
             "Por favor inicia el servidor y reinicia esta ventana."
         )
         return
+
+    # NUEVA VALIDACIÓN DE SOCKET
+    if not gestor_cliente.verificar_estado_servidor():
+        messagebox.showerror(
+            "Error de Conexión",
+            "No se puede conectar con el servidor (WinError 10061).\n\n"
+            "El servidor rechazó la conexión. Asegúrate de que 'server_main.py' esté ejecutándose."
+        )
+        return
     # ------------------------------
 
     nombre = entry_nombre.get().strip()
@@ -113,4 +122,5 @@ lbl_volver = tk.Label(panel_central, text="¿Ya tienes cuenta? Inicia Sesión", 
 lbl_volver.pack(side=tk.BOTTOM, pady=15)
 lbl_volver.bind("<Button-1>", volver_al_login)
 
-ventana_registro.mainloop()
+if __name__ == "__main__":
+    ventana_registro.mainloop()
