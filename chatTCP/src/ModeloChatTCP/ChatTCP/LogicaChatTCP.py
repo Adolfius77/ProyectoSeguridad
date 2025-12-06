@@ -9,7 +9,7 @@ from chatTCP.src.PaqueteDTO.PaqueteDTO import PaqueteDTO
 from chatTCP.src.ModeloChatTCP.DTOs.MensajeDTO import MensajeDTO
 from chatTCP.src.ModeloChatTCP.DTOs.UsuarioDTO import UsuarioDTO
 from chatTCP.src.ModeloChatTCP.Entidades.TipoEventos import TiposEvento
-from chatTCP.src.Presentacion.ObjetosPresentacion.UsuarioOP import UsuariosOP
+from chatTCP.src.Presentacion.ObjetosPresentacion.UsuarioOP import UsuarioOP
 
 
 class LogicaChatTCP:
@@ -66,7 +66,7 @@ class LogicaChatTCP:
 
     # ==================== ENVÍO DE MENSAJES ====================
 
-    def enviarMensajePrivado(self, usuarioDestino: UsuariosOP, contenidoMensaje: str) -> None:
+    def enviarMensajePrivado(self, usuarioDestino: UsuarioOP, contenidoMensaje: str) -> None:
         """
         Crea un MensajeDTO y lo envía como PaqueteDTO al EventBus para que lo distribuya.
 
@@ -228,7 +228,7 @@ class LogicaChatTCP:
         # Notificar a ModeloChatTCP que a su vez notifica a los observadores
         if self._modelo_chat_tcp:
             # Convertir MensajeDTO a UsuarioOP
-            usuario_op = UsuariosOP(
+            usuario_op = UsuarioOP(
                 nombre=mensaje_dto.nombreUsuario,
                 ip="",  # No necesario para notificación
                 puerto=0,  # No necesario para notificación
@@ -266,7 +266,7 @@ class LogicaChatTCP:
         # Notificar a ModeloChatTCP
         if self._modelo_chat_tcp:
             # Convertir MensajeDTO a UsuarioOP
-            usuario_op = UsuariosOP(
+            usuario_op = UsuarioOP(
                 nombre=mensaje_dto.nombreUsuario,
                 ip="",
                 puerto=0,
