@@ -249,3 +249,18 @@
 2025-12-05 16:36:58,332 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:53114
 2025-12-05 16:37:25,294 - SERVER - Deteniendo servidor TCP...
 2025-12-05 16:37:25,294 - SERVER - Servidor TCP detenido
+2025-12-05 16:58:30,140 - SERVER - Observador agregado a ColaEnvios: <chatTCP.src.Red.Emisor.ClienteTCP.ClienteTCP object at 0x000000001DD53E30>
+2025-12-05 16:58:30,140 - SERVER - Cola de recibos establecida en Receptor
+2025-12-05 16:58:30,140 - SERVER - Receptor establecido: <__main__.ReceptorLogicaServidor object at 0x000000001DD538C0>
+2025-12-05 16:58:30,140 - SERVER - Observador agregado a ColaRecibos: <chatTCP.src.Red.Receptor.Receptor.Receptor object at 0x000000001DD53F50>
+2025-12-05 16:58:30,141 - SERVER - Servidor TCP iniciado en 0.0.0.0:5555
+2025-12-05 17:00:37,176 - SERVER - Conexión aceptada de ('127.0.0.1', 47580)
+2025-12-05 17:00:37,178 - SERVER - Paquete recibido [HIBRIDO]: {"tipo": "REGISTRO", "contenido": {"usuario": "hol...
+2025-12-05 17:00:37,178 - SERVER - Paquete recibido encolado: {"tipo": "REGISTRO", "contenido": {"usuario": "hola", "password": "pepe123", "puerto_escucha": 14447...
+2025-12-05 17:00:37,178 - SERVER - Procesando paquete recibido: PaqueteDTO(tipo=REGISTRO, origen=ANONIMO, destino=SERVIDOR)
+2025-12-05 17:00:37,178 - SERVER - Procesando paquete: REGISTRO de ANONIMO
+2025-12-05 17:00:37,205 - SERVER - Intento registro hola: REGISTRO_OK
+2025-12-05 17:00:37,206 - SERVER - Enviando paquete: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 17:00:37,206 - SERVER - Paquete encolado para envío: PaqueteDTO(tipo=REGISTRO_OK, origen=SERVIDOR, destino=CLIENTE)
+2025-12-05 17:00:37,206 - SERVER - Enviando paquete a 127.0.0.1:14447
+2025-12-05 17:00:37,207 - SERVER - Paquete enviado [HIBRIDO] a 127.0.0.1:14447
